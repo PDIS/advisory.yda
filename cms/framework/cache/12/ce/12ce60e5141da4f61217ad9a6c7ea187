@@ -1,0 +1,48 @@
+1504683077a:1:{s:23:"users/happenxdesign.htm";a:11:{s:8:"fileName";s:23:"users/happenxdesign.htm";s:7:"content";s:1795:"title = "happenxdesign"
+url = "/happenxdesign"
+layout = "default"
+is_hidden = 0
+robot_index = "index"
+robot_follow = "follow"
+==
+<div class="container">
+<div class="col-md-4">
+<img src="{{ 'assets/images/users/06.jpg'|theme }}"  style="width:100%; height: 100%">
+</div>
+<div class="col-md-8">
+    <h4>張珮綺</h4>
+    <p>現職:好伴社計共同創辦人</p>
+    <p>E-mail:happenxdesign@gmail.com</p>
+    <p>FB帳號：不公開</p>
+    <p>個人網站：無</p>
+    <p>專長領域: 1.社會設計 2.社區設計 3.社會住宅 4.青年共生住宅 5.新創組織之財務治理 6.在地文化策展</p>
+    <p>感興趣之議題:1.多元住宅方案 2.社會住宅 3.青年住宅 4.住宅租賃法規研訂 5.有形文化資產再生 6.建構及推廣「地方學」 7.青年回鄉，堅實在地社區組織</p>     
+</div> 
+<div class="col-md-12">
+ <h4 class="headline"><span>個人簡介</span></h4>
+    <p>台中人，臺大財金系畢業，因為一門社會系的課，叛逃了商學院，卻意外⾛上創業之路。深信這個世代該創造以人為本的商業模式，回到故鄉、走⼊舊城區，成立好伴共同工作空間，打造社會議題的資訊平台與青年行動家的實作基地。邁入第四年之際，以舊城再造的創新搖籃為基礎，提供全台社會設計、社區設計的專案執行及策略研究服務。</p>
+    <p>從大學時期的專案計畫開始關注居住議題，目前一方面參與玖樓共生公寓的營運協力，在都市裡打造年輕的共居社群。同時好伴社計也致力於營造社會住宅的社區經濟，希望在住宅商品化的這個時代，可以建立一套回歸人與人之間共好本質的居住生活。</p>
+     {% partial 'track_partials' %}
+</div>
+
+</div>";s:5:"mtime";i:1504394873;s:6:"markup";s:1659:"<div class="container">
+<div class="col-md-4">
+<img src="{{ 'assets/images/users/06.jpg'|theme }}"  style="width:100%; height: 100%">
+</div>
+<div class="col-md-8">
+    <h4>張珮綺</h4>
+    <p>現職:好伴社計共同創辦人</p>
+    <p>E-mail:happenxdesign@gmail.com</p>
+    <p>FB帳號：不公開</p>
+    <p>個人網站：無</p>
+    <p>專長領域: 1.社會設計 2.社區設計 3.社會住宅 4.青年共生住宅 5.新創組織之財務治理 6.在地文化策展</p>
+    <p>感興趣之議題:1.多元住宅方案 2.社會住宅 3.青年住宅 4.住宅租賃法規研訂 5.有形文化資產再生 6.建構及推廣「地方學」 7.青年回鄉，堅實在地社區組織</p>     
+</div> 
+<div class="col-md-12">
+ <h4 class="headline"><span>個人簡介</span></h4>
+    <p>台中人，臺大財金系畢業，因為一門社會系的課，叛逃了商學院，卻意外⾛上創業之路。深信這個世代該創造以人為本的商業模式，回到故鄉、走⼊舊城區，成立好伴共同工作空間，打造社會議題的資訊平台與青年行動家的實作基地。邁入第四年之際，以舊城再造的創新搖籃為基礎，提供全台社會設計、社區設計的專案執行及策略研究服務。</p>
+    <p>從大學時期的專案計畫開始關注居住議題，目前一方面參與玖樓共生公寓的營運協力，在都市裡打造年輕的共居社群。同時好伴社計也致力於營造社會住宅的社區經濟，希望在住宅商品化的這個時代，可以建立一套回歸人與人之間共好本質的居住生活。</p>
+     {% partial 'track_partials' %}
+</div>
+
+</div>";s:4:"code";N;s:5:"title";s:13:"happenxdesign";s:3:"url";s:14:"/happenxdesign";s:6:"layout";s:7:"default";s:9:"is_hidden";s:1:"0";s:11:"robot_index";s:5:"index";s:12:"robot_follow";s:6:"follow";}}

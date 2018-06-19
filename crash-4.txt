@@ -1,0 +1,84 @@
+date/time         : 2018-04-19, 06:05:05, 764ms
+computer name     : DESKTOP-1VCV9DL
+wts client name   : DESKTOP-CLN6Q8P
+user name         : Tom
+registered owner  : Windows ¨Ï¥ÎªÌ
+operating system  : Windows NT New x64 build 9200
+system language   : Chinese (Traditional)
+system up time    : 6 days 13 hours
+program up time   : 3 minutes 41 seconds
+processors        : 4x Intel(R) Core(TM) i5-3550 CPU @ 3.30GHz
+physical memory   : 9490/16063 MB (free/total)
+free disk space   : (C:) 582.93 GB
+display mode      : 1920x1080, 32 bit
+process id        : $2590
+allocated memory  : 26.26 MB
+command line      : C:/xampp/sendmail/sendmail.exe -t -f"noreply@domain.tld"
+executable        : sendmail.exe
+exec. date/time   : 2012-04-17 01:30
+compiled with     : Delphi 2006/07
+madExcept version : 3.0l
+callstack crc     : $80cacb5a, $282fe54d, $282fe54d
+exception number  : 1
+exception class   : EInOutError
+exception message : I/O error 232.
+
+main thread ($20a0):
+004b2b35 +0129 sendmail.exe sendmail 275  +17 writeToLog
+004b2c40 +0018 sendmail.exe sendmail 294   +2 errorLog
+004b675f +18ab sendmail.exe sendmail 922 +440 initialization
+77460cb1 +0021 ntdll.dll                      KiUserExceptionDispatcher
+0040474d +001d sendmail.exe System   262   +0 @AfterConstruction
+75018652 +0022 KERNEL32.DLL                   BaseThreadInitThunk
+
+thread $18c0:
+75018652 +22 KERNEL32.DLL  BaseThreadInitThunk
+
+thread $3f24:
+75018652 +22 KERNEL32.DLL  BaseThreadInitThunk
+
+thread $754:
+75018652 +22 KERNEL32.DLL  BaseThreadInitThunk
+
+thread $33dc:
+75018652 +22 KERNEL32.DLL  BaseThreadInitThunk
+
+thread $2aec:
+75018652 +22 KERNEL32.DLL  BaseThreadInitThunk
+
+stack dump:
+0019eec8  35 2b 4b 00 de fa ed 0e - 01 00 00 00 07 00 00 00  5+K.............
+0019eed8  dc ee 19 00 35 2b 4b 00 - 18 cb 60 04 35 2b 4b 00  ....5+K...`.5+K.
+0019eee8  35 2b 4b 00 80 f5 19 00 - 84 f7 19 00 f8 ee 19 00  5+K.............
+0019eef8  00 00 00 00 64 30 40 00 - 00 00 00 00 f3 2a 4b 00  ....d0@......*K.
+0019ef08  35 2b 4b 00 94 f7 19 00 - a5 2a 4b 00 30 cb 60 04  5+K......*K.0.`.
+0019ef18  30 f0 19 00 44 ef 19 00 - 50 ef 19 00 00 00 00 00  0...D...P.......
+0019ef28  00 00 00 00 00 00 00 00 - f2 9d 47 77 30 f0 19 00  ..........Gw0...
+0019ef38  80 f5 19 00 80 f0 19 00 - bc ef 19 00 80 f5 19 00  ................
+0019ef48  10 9e 47 77 80 f5 19 00 - 18 f0 19 00 c4 9d 47 77  ..Gw..........Gw
+0019ef58  30 f0 19 00 80 f5 19 00 - 80 f0 19 00 bc ef 19 00  0...............
+0019ef68  ea 2a 4b 00 80 f5 19 00 - 30 f0 19 00 00 00 00 00  .*K.....0.......
+0019ef78  d3 12 45 77 30 f0 19 00 - 80 f5 19 00 80 f0 19 00  ..Ew0...........
+0019ef88  bc ef 19 00 ea 2a 4b 00 - 00 fe 19 00 a5 2a 4b 00  .....*K......*K.
+0019ef98  30 f0 19 00 84 51 2e 00 - 80 f0 19 00 80 f5 19 00  0....Q..........
+0019efa8  32 00 00 00 00 c0 19 00 - 00 00 1a 00 00 00 00 00  2...............
+0019efb8  00 00 00 00 00 00 00 00 - 00 00 00 00 00 00 00 00  ................
+0019efc8  58 f3 19 00 00 00 00 00 - 00 00 00 00 00 00 00 00  X...............
+0019efd8  0a 00 00 00 00 00 00 00 - 00 00 80 00 70 f0 19 00  ............p...
+0019efe8  00 00 00 00 00 00 00 00 - 12 00 00 00 05 00 00 00  ................
+0019eff8  05 00 80 00 17 00 00 00 - 9e 29 43 77 20 f2 87 02  .........)Cw....
+
+disassembling:
+[...]
+004b2b1b       mov     edx, [ebp-$1e0]
+004b2b21       mov     eax, [$4bd968]
+004b2b26       call    -$ad003 ($405b28)      ; System.@Write0LString
+004b2b2b       call    -$aed54 ($403ddc)      ; System.@WriteLn
+004b2b30       call    -$afa95 ($4030a0)      ; System.@_IOTest
+004b2b35     > call    -$addd2 ($404d68)      ; System.@DoneExcept
+004b2b3a 277   xor     eax, eax
+004b2b3c       pop     edx
+004b2b3d       pop     ecx
+004b2b3e       pop     ecx
+004b2b3f       mov     fs:[eax], edx
+[...]

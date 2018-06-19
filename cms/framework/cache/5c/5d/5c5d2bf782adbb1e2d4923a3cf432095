@@ -1,0 +1,52 @@
+1504683077a:1:{s:15:"users/nikes.htm";a:11:{s:8:"fileName";s:15:"users/nikes.htm";s:7:"content";s:1546:"title = "nikes"
+url = "/nikes"
+layout = "default"
+is_hidden = 0
+robot_index = "index"
+robot_follow = "follow"
+==
+<div class="container">
+<div class="col-md-4">
+<img src="{{ 'assets/images/users/advisor_1.png'|theme }}"  style="width:100%; height: 100%">
+</div>
+<div class="col-md-8">
+    <h4>黃敬峰</h4>
+    <p>現職:交點文化股份有公司負責人</p>
+    <p>E-mail:nikeshoxmiles@gmail.com</p>
+    <p>FB帳號：nikeshoxmiles</p>
+    <p>個人網站：www.crosspoint.tw</p>
+    <p>專長領域:1.青年創業 2.大學生激勵 3.創新思考 4.職涯 5.生涯規劃</p>
+    <p>感興趣之議題:1.中小型企業在台灣發展。2.微型企業（20人以下）在台灣發展。3.微型企業企業家教育4.青年旅館在都市的發展。5.民宿在台灣的發展6.青年創業家精神教育。7.社會型企業在校園的發展。</p>
+    
+  
+    
+</div> 
+<div class="col-md-12">
+ <h4 class="headline"><span>個人簡介</span></h4>
+    <p>黃敬峰，從高中開始就被人叫做阿峰，在工作兩年後，被Accupass創辦人與AVEDA台灣代理商負責人說服出來創業，與高中同學林宏諺兩人共同創辦了「共同創辦了「交點」，透過分享的方式，讓更多台灣的年輕人有舞台可以發揮，有麥克風可以分享出屬於自己的故事。從2012年5月至今，已經舉辦超過300場大大小小的聚會活動，透過交點，聽到了全台灣超過6000個故事，600個動人分享！</p>
+     {% partial 'track_partials' %}
+</div>
+
+</div>";s:5:"mtime";i:1504395041;s:6:"markup";s:1426:"<div class="container">
+<div class="col-md-4">
+<img src="{{ 'assets/images/users/advisor_1.png'|theme }}"  style="width:100%; height: 100%">
+</div>
+<div class="col-md-8">
+    <h4>黃敬峰</h4>
+    <p>現職:交點文化股份有公司負責人</p>
+    <p>E-mail:nikeshoxmiles@gmail.com</p>
+    <p>FB帳號：nikeshoxmiles</p>
+    <p>個人網站：www.crosspoint.tw</p>
+    <p>專長領域:1.青年創業 2.大學生激勵 3.創新思考 4.職涯 5.生涯規劃</p>
+    <p>感興趣之議題:1.中小型企業在台灣發展。2.微型企業（20人以下）在台灣發展。3.微型企業企業家教育4.青年旅館在都市的發展。5.民宿在台灣的發展6.青年創業家精神教育。7.社會型企業在校園的發展。</p>
+    
+  
+    
+</div> 
+<div class="col-md-12">
+ <h4 class="headline"><span>個人簡介</span></h4>
+    <p>黃敬峰，從高中開始就被人叫做阿峰，在工作兩年後，被Accupass創辦人與AVEDA台灣代理商負責人說服出來創業，與高中同學林宏諺兩人共同創辦了「共同創辦了「交點」，透過分享的方式，讓更多台灣的年輕人有舞台可以發揮，有麥克風可以分享出屬於自己的故事。從2012年5月至今，已經舉辦超過300場大大小小的聚會活動，透過交點，聽到了全台灣超過6000個故事，600個動人分享！</p>
+     {% partial 'track_partials' %}
+</div>
+
+</div>";s:4:"code";N;s:5:"title";s:5:"nikes";s:3:"url";s:6:"/nikes";s:6:"layout";s:7:"default";s:9:"is_hidden";s:1:"0";s:11:"robot_index";s:5:"index";s:12:"robot_follow";s:6:"follow";}}

@@ -1,0 +1,52 @@
+1504683077a:1:{s:15:"demo/cloud2.htm";a:11:{s:8:"fileName";s:15:"demo/cloud2.htm";s:7:"content";s:754:"title = "cloud2"
+url = "/cloud2"
+layout = "default"
+is_hidden = 0
+robot_index = "index"
+robot_follow = "follow"
+==
+<!-- 文字雲 -->
+    <div class="row">
+    {% for tag in blogTags.tags %}
+    
+ {% set tag_size = tag.posts|length %}
+ {% if tag_size < 2%}
+        {% set tag_size = 3 %}
+    {% elseif tag_size > 6%}
+    {% set tag_size = 6 %} 
+    {% else %}
+        
+    {% endif %}
+        <div class="col-md-{{tag_size}} portfolio-item nature people">
+            <div class="picture">
+                <div class="description">
+                    <a href="/tags/{{ tag.name }}" class="btn btn-info btn-block">{{ tag.name }}</a>
+                </div>
+            </div>
+        </div>
+        
+   {% endfor %}
+   </div>
+   <br>";s:5:"mtime";i:1504083490;s:6:"markup";s:639:"<!-- 文字雲 -->
+    <div class="row">
+    {% for tag in blogTags.tags %}
+    
+ {% set tag_size = tag.posts|length %}
+ {% if tag_size < 2%}
+        {% set tag_size = 3 %}
+    {% elseif tag_size > 6%}
+    {% set tag_size = 6 %} 
+    {% else %}
+        
+    {% endif %}
+        <div class="col-md-{{tag_size}} portfolio-item nature people">
+            <div class="picture">
+                <div class="description">
+                    <a href="/tags/{{ tag.name }}" class="btn btn-info btn-block">{{ tag.name }}</a>
+                </div>
+            </div>
+        </div>
+        
+   {% endfor %}
+   </div>
+   <br>";s:4:"code";N;s:5:"title";s:6:"cloud2";s:3:"url";s:7:"/cloud2";s:6:"layout";s:7:"default";s:9:"is_hidden";s:1:"0";s:11:"robot_index";s:5:"index";s:12:"robot_follow";s:6:"follow";}}

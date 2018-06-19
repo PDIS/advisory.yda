@@ -1,0 +1,52 @@
+1504683077a:1:{s:17:"users/7238708.htm";a:11:{s:8:"fileName";s:17:"users/7238708.htm";s:7:"content";s:1573:"title = 7238708
+url = "/7238708"
+layout = "default"
+is_hidden = 0
+robot_index = "index"
+robot_follow = "follow"
+==
+<div class="container">
+<div class="col-md-4">
+<img src="{{ 'assets/images/users/23.jpg'|theme }}"  style="width:100%; height: 100%">
+</div>
+<div class="col-md-8">
+    <h4>林彥孝</h4>
+    <p>現職:高雄市機車修理業職業工會秘書長</p>
+    <p>E-mail:7238708@gmail.com</p>
+    <p>FB帳號：7238708@gmail.com</p>
+    <p> 個人網站:無</p>
+    <p>專長領域:1.勞動教育2.環境保護3.職業安全4.勞保年金5.勞健保職業災害</p>
+    <p>感興趣之議題:1.勞保年金2.勞工職業災害3.勞工就業4.勞工教育5.勞動基準法相關6.健保醫療相關7.健保保費相關8.空氣污染相關9.稅務、關務相關10.港務相關</p>
+ </div> 
+<div class="col-md-12">
+ <h4 class="headline"><span>個人簡介</span></h4>
+    <p>擔任高雄市機車修理業職業工會秘書長之職務現仍在職，於民國94年4月至今接觸工會相關事務以12年之久，對於勞動相關議題很有興趣。</p>
+    <p>在學歷部份大學畢業於國立高雄應用科技大學電子工程系，研究所就讀國立高雄第一科技大學環境與安全衛生工程系工學碩士，研究所方面因對於環保及職業災害方面非常有興趣，所以才會選擇此系所就讀。</p>
+    <p>雖然現在對於工運相關的議題很少青年朋友關注，但希望有興趣的朋友我們可以共同參與討論。</p>
+     {% partial 'track_partials' %}
+    
+</div>
+
+</div>";s:5:"mtime";i:1504392822;s:6:"markup";s:1451:"<div class="container">
+<div class="col-md-4">
+<img src="{{ 'assets/images/users/23.jpg'|theme }}"  style="width:100%; height: 100%">
+</div>
+<div class="col-md-8">
+    <h4>林彥孝</h4>
+    <p>現職:高雄市機車修理業職業工會秘書長</p>
+    <p>E-mail:7238708@gmail.com</p>
+    <p>FB帳號：7238708@gmail.com</p>
+    <p> 個人網站:無</p>
+    <p>專長領域:1.勞動教育2.環境保護3.職業安全4.勞保年金5.勞健保職業災害</p>
+    <p>感興趣之議題:1.勞保年金2.勞工職業災害3.勞工就業4.勞工教育5.勞動基準法相關6.健保醫療相關7.健保保費相關8.空氣污染相關9.稅務、關務相關10.港務相關</p>
+ </div> 
+<div class="col-md-12">
+ <h4 class="headline"><span>個人簡介</span></h4>
+    <p>擔任高雄市機車修理業職業工會秘書長之職務現仍在職，於民國94年4月至今接觸工會相關事務以12年之久，對於勞動相關議題很有興趣。</p>
+    <p>在學歷部份大學畢業於國立高雄應用科技大學電子工程系，研究所就讀國立高雄第一科技大學環境與安全衛生工程系工學碩士，研究所方面因對於環保及職業災害方面非常有興趣，所以才會選擇此系所就讀。</p>
+    <p>雖然現在對於工運相關的議題很少青年朋友關注，但希望有興趣的朋友我們可以共同參與討論。</p>
+     {% partial 'track_partials' %}
+    
+</div>
+
+</div>";s:4:"code";N;s:5:"title";s:7:"7238708";s:3:"url";s:8:"/7238708";s:6:"layout";s:7:"default";s:9:"is_hidden";s:1:"0";s:11:"robot_index";s:5:"index";s:12:"robot_follow";s:6:"follow";}}

@@ -1,0 +1,107 @@
+title = "Blog"
+url = "/blog/:slug?"
+layout = "default"
+description = "Viewing a single blog post"
+is_hidden = 0
+robot_index = "index"
+robot_follow = "follow"
+
+[blogPosts]
+pageNumber = "{{ :page }}"
+postsPerPage = 50
+noPostsMessage = "No posts found"
+sortOrder = "published_at desc"
+categoryPage = "blog/category"
+postPage = "blog/post"
+
+[blogCategories]
+slug = "{{ :slug }}"
+displayEmpty = 0
+categoryPage = "blog/category"
+
+[searchForm]
+resultPage = 404
+categoryFilter = 0
+
+[blogTags]
+results = 0
+direction = "desc"
+==
+<?php
+function onStart()
+{   
+    $this->addCss('assets/css/tree.css');
+    
+}
+?>
+==
+{% put scripts %}
+    <script src="{{ [
+        'assets/vendor/isotope/jquery.isotope.js',
+        'assets/javascript/pages/portfolio.js',
+    ]|theme }}"></script>
+{% endput %}
+
+<!-- 文字雲JS end -->
+
+
+<div class="container">
+    <div class="row">
+   <!-- 文字雲2 -->
+   <div id="cloudtag"></div>
+
+  <!-- 搜詢 --> 
+      <div class="row">
+      <div  class="col-md-12">
+<form  method="GET" action="{{ Blog.resultPage|page }}">
+     <div class="input-group">
+        <input type="text"  name="search" class="form-control">
+    
+        {% if __SELF__.categoryFilter %}
+            <select name="cat[]" class="form-control">
+            {% for key,cat in Blog.categories %}
+                <option value="{{ key }}">{{ cat }}</option>
+            {% endfor %}
+            </select>
+        {% endif %}
+        <span class="input-group-btn">
+        <button class="btn" type="submit"><span class="fui-search">{{ ''|_ }}</span></button>
+        </span>    
+    </div>
+</form>
+</div>
+   </div>
+<!-- Blog呈現 -->
+ <section class="timeline">
+  
+
+  
+  <ul>
+  {% for post in posts  %}
+    {% for category in post.categories %}
+    {% if category.id != 1 %}
+    <li>
+      <div class="content">
+        <h1>
+          <time class="col-md-12"><a href="{{ post.url }}">{{ post.title }}</a></time>        
+        </h1>
+       <div align="right"> 
+           {% for tag in post.tags %}
+                        <a href="{{ 'blog/tag'|page }}/{{ tag.name }}" class="btn btn-success " > {{ tag.name }}  </a>
+            {% endfor %}
+       </div>
+        <div>
+        {% for user in post.getUsers %}
+             <a href="{{ 'test/userpost'|page({ id:user.id }) }}"> <img src="{{user.getAvatarThumb(60)}}" width="75" height="75" style="border-radius:50%;"></a>
+        {% endfor %}
+        </div>
+        
+      </div>
+    </li>
+     {% endif %}
+     {% endfor %}
+      {% endfor %}
+      
+  </ul>
+</section>
+{% partial 'cloud' %}

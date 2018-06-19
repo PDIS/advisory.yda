@@ -1,0 +1,26 @@
+title = "test_post"
+url = "/test_post/:slug/:page"
+layout = "default"
+is_hidden = 0
+robot_index = "index"
+robot_follow = "follow"
+
+[blogPosts]
+pageNumber = "{{ :page }}"
+categoryFilter = ":slug"
+postsPerPage = 10
+noPostsMessage = "No posts found"
+sortOrder = "published_at desc"
+categoryPage = 404
+postPage = "test/test_user"
+
+[staticMenu]
+code = "alluser"
+==
+{% for i in 0.. user_model.getOthersPost|length %}
+  {% for post in posts%}
+ {% set newid =  i %}
+ {{i}}
+ {% endfor %}
+ {{post.id}}
+     {% endfor %}

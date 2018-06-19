@@ -1,0 +1,167 @@
+title = "首頁-青年諮詢委員會"
+url = "/home"
+layout = "default"
+is_hidden = 0
+robot_index = "index"
+robot_follow = "follow"
+
+[blogTags]
+results = 0
+direction = "desc"
+
+[session]
+security = "all"
+==
+<?php
+use October\Rain\Auth\Models\User;
+function onInit()
+{    
+      $this['userpop'] =\System\Models\File::where("field", "=", "avatar")->get();
+       $user = Auth::getUser(true);
+    $this['activatedUsers'] = User::whereIsActivated(true)->get();
+   
+}
+function onStart()
+{
+   
+    $var = \System\Models\File::where("field", "=", "avatar")->get();
+   
+    
+  foreach ( $var as $vars) 
+  {
+       
+  $this->addCss('assets/css/user.css');
+
+   $this["attachment_id"] =$vars->attachment_id;
+    $this["path"] =$vars->path;
+
+
+   }
+   
+}
+?>
+==
+<section class="home-title">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4">
+ 
+  
+    
+                <a href="{{ '#'|page }}"><img src="{{ 'assets/images/logo.jpg'|theme }}"  style="width:70%; height: 70%"></a>
+                
+
+    <h3>行政院青年諮詢委員會首頁簡介</h3>
+    <p>行政院為強化青年公共參與及溝通機制，提供青年於政府政策形成中之參與管道，於105年11月1日成立青年諮詢委員會。委員共30人，由行政院院長兼任召集人；副召集人2人，1人由行政院院長指派唐政務委員鳳兼任，1人由青年代表相互推選黃委員敬峰擔任；執行長由教育部部長兼任之，其餘委員包含勞動部部長、經濟部部長及青年代表25人。</p>
+
+
+
+                <!--<div class="signup-form">
+                    <form>
+                        <div class="form-group">
+                            <input class="form-control" type="text" placeholder="Your E-mail">
+                        </div>
+                        <div class="form-group">
+                            <div>
+                                <input type="password" class="form-control" placeholder="Password">
+                            </div>
+                            <div>
+                                <input type="password" class="form-control" placeholder="Confirmation">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-block btn-info">Sign Up</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="additional-links">
+                    By signing up you agree to <a href="#">Terms of Use</a> and <a href="#">Privacy Policy</a>
+                </div>-->
+            </div>
+            <!--<div class="col-sm-7 col-sm-offset-1 player-wrapper">
+                <div class="player">
+                    <iframe src="http://player.vimeo.com/video/29568236?color=3498db" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+                </div>                
+            </div>-->
+            <div id="portfolioItems" class="row">
+            <div class="col-sm-7">
+          
+                {% partial 'sirs' %}
+
+                {% partial 'user' %}
+               
+               </div>
+        
+            </div>
+
+        </div> 
+    </div>
+</section>
+
+
+<br />
+
+<div class="container">
+
+    <!-- Services -->
+    <div class="row our-services">
+        <div class="col-sm-12">
+            <h4 class="headline"><span>我們關心的領域</span></h4>
+            <!--<p>He hasn't got a freckle my mad as a middy. Trent from punchy maccas no dramas shazza got us some ripper. As dry as a bradman flamin lets throw a cut lunch commando.</p>-->
+                  <div id="cloudtag"></div>
+            
+        </div>
+    </div>
+
+    <div class="recent-tweets">
+        <h4 class="headline"><span>認識青諮會</span></h4>
+ <div class="container">
+	<div class="row">
+	    <div class=" col-sm-6 col-md-4 card">
+    		<a href="{{ 'yda_open'|page }}">
+    		<div class="thumbnail">
+    	
+    			<div class="caption" style="text-align:center;">
+    				<h3>
+                        青諮會簡介
+
+    				</h3>
+    			
+    			</div>
+    		</div>
+    		</a>
+    	</div>
+     <div class=" col-sm-6 col-md-4 card">
+    		<a href="{{ 'yda_points'|page }}">
+    		<div class="thumbnail">
+    	
+    			<div class="caption" style="text-align:center;">
+    				<h3>
+                        設置要點
+    				</h3>
+    			
+    			</div>
+    		</div>
+    		</a>
+    	</div>
+	    <div class=" col-sm-6 col-md-4 card">
+    		<a href="{{ 'yda_types'|page }}">
+    		<div class="thumbnail">
+    	
+    			<div class="caption" style="text-align:center;">
+    				<h3>
+                        委員會名冊
+    				</h3>
+    			
+    			</div>
+    		</div>
+    		</a>
+    	</div>
+	</div>
+</div>
+    </div>
+
+</div>
+
+
+<br />{% partial 'cloud' %}

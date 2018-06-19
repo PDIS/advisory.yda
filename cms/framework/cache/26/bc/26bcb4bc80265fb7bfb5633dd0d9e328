@@ -1,0 +1,32 @@
+1504683078a:1:{s:12:"yda_open.htm";a:11:{s:8:"fileName";s:12:"yda_open.htm";s:7:"content";s:901:"title = "yda_open"
+url = "/yda_open"
+layout = "default"
+is_hidden = 0
+robot_index = "index"
+robot_follow = "follow"
+==
+<section class="home-title">
+    <div class="container">
+        <div class="row">
+        <h4 class="headline"><span>緣起</span></h4>
+        <p>蔡總統青年政策已揭示「提升青年諮詢委員會的層級，從教育部層級提升為行政院層級」之方向，行政院（以下簡稱本院）為強化青年公共參與及溝通機制，提供青年於政府政策形成中之參與管道，特設青年諮詢委員會（以下簡稱本會）。</p>
+        <h4 class="headline"><span>任務</span></h4>
+        <p>（一）蒐集及反映青年意見。</p>
+        <p>（二）針對青年關注之公共政策，積極提供策進建言。</p>
+        <p>（三）其他有關促進青年參與公共事務之事項。</p>
+
+
+        </div>
+   </div>";s:5:"mtime";i:1504083490;s:6:"markup";s:782:"<section class="home-title">
+    <div class="container">
+        <div class="row">
+        <h4 class="headline"><span>緣起</span></h4>
+        <p>蔡總統青年政策已揭示「提升青年諮詢委員會的層級，從教育部層級提升為行政院層級」之方向，行政院（以下簡稱本院）為強化青年公共參與及溝通機制，提供青年於政府政策形成中之參與管道，特設青年諮詢委員會（以下簡稱本會）。</p>
+        <h4 class="headline"><span>任務</span></h4>
+        <p>（一）蒐集及反映青年意見。</p>
+        <p>（二）針對青年關注之公共政策，積極提供策進建言。</p>
+        <p>（三）其他有關促進青年參與公共事務之事項。</p>
+
+
+        </div>
+   </div>";s:4:"code";N;s:5:"title";s:8:"yda_open";s:3:"url";s:9:"/yda_open";s:6:"layout";s:7:"default";s:9:"is_hidden";s:1:"0";s:11:"robot_index";s:5:"index";s:12:"robot_follow";s:6:"follow";}}

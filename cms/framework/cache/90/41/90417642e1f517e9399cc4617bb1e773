@@ -1,0 +1,560 @@
+1504683077a:1:{s:17:"demo/progress.htm";a:11:{s:8:"fileName";s:17:"demo/progress.htm";s:7:"content";s:9191:"title = "progress bar"
+url = "/progress-bar"
+layout = "default"
+is_hidden = 0
+robot_index = "index"
+robot_follow = "follow"
+==
+<link href="/themes/responsiv-flat/assets/css/card.css" rel="stylesheet" />
+
+<div align="center">
+    <h3>青諮提案</h3>
+    <h3>詳列青諮在大會中提出之具體提案</h3>
+    <br>
+
+<div class="container-fluid cards-row">
+<div class="container">
+<div class="row">
+
+  <div class="col-sm-6 col-md-4">
+    <div class="thumbnail">
+      <div class="caption">
+        <p class="card-description"><strong>新南向政策-爭取國際技能組織亞洲區賽主導、主辦權</strong></p>
+        <div class="prog">
+    <div class="progress progress-striped active">
+    <div class="progress-bar progress-bar-striped active" role="progressbar"
+  aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:0%">
+       </div>
+    </div>
+</div>
+
+<button type="button" onClick ="onClick()" id="push">贊成</button>
+
+<button type="button" onClick ="onClick2()" id="push">反對</button>
+
+      </div>
+    </div>
+  </div>
+  
+     <div class="col-sm-6 col-md-4">
+    <div class="thumbnail">
+      <div class="caption">
+        <p class="card-description"><strong>新南向政策-爭取國際技能組織亞洲區賽主導、主辦權</strong></p>
+        <div class="prog">
+    <div class="progress progress-striped active">
+    <div class="progress-bar progress-bar-striped active" role="progressbar"
+  aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:0%">
+       </div>
+    </div>
+</div>
+
+<button type="button" onClick ="onClick()" id="push">贊成</button>
+
+<button type="button" onClick ="onClick2()" id="push">反對</button>
+
+      </div>
+    </div>
+  </div>
+    <div class="col-sm-6 col-md-4">
+    <div class="thumbnail">
+      <div class="caption">
+        <p class="card-description"><strong>新南向政策-爭取國際技能組織亞洲區賽主導、主辦權</strong></p>
+        <div class="prog">
+    <div class="progress progress-striped active">
+    <div class="progress-bar progress-bar-striped active" role="progressbar"
+  aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:0%">
+       </div>
+    </div>
+</div>
+
+<button type="button" onClick ="onClick()" id="push">贊成</button>
+
+<button type="button" onClick ="onClick2()" id="push">反對</button>
+
+      </div>
+    </div>
+  </div>
+    <div class="col-sm-6 col-md-4">
+    <div class="thumbnail">
+      <div class="caption">
+        <p class="card-description"><strong>新南向政策-爭取國際技能組織亞洲區賽主導、主辦權</strong></p>
+        <div class="prog">
+    <div class="progress progress-striped active">
+    <div class="progress-bar progress-bar-striped active" role="progressbar"
+  aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:0%">
+       </div>
+    </div>
+</div>
+
+<button type="button" onClick ="onClick()" id="push">贊成</button>
+
+<button type="button" onClick ="onClick2()" id="push">反對</button>
+
+      </div>
+    </div>
+  </div>
+    <div class="col-sm-6 col-md-4">
+    <div class="thumbnail">
+      <div class="caption">
+        <p class="card-description"><strong>新南向政策-爭取國際技能組織亞洲區賽主導、主辦權</strong></p>
+        <div class="prog">
+    <div class="progress progress-striped active">
+    <div class="progress-bar progress-bar-striped active" role="progressbar"
+  aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:0%">
+       </div>
+    </div>
+</div>
+
+<button type="button" onClick ="onClick()" id="push">贊成</button>
+
+<button type="button" onClick ="onClick2()" id="push">反對</button>
+
+      </div>
+    </div>
+  </div>
+    <div class="col-sm-6 col-md-4">
+    <div class="thumbnail">
+      <div class="caption">
+        <p class="card-description"><strong>新南向政策-爭取國際技能組織亞洲區賽主導、主辦權</strong></p>
+        <div class="prog">
+    <div class="progress progress-striped active">
+    <div class="progress-bar progress-bar-striped active" role="progressbar"
+  aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:0%">
+       </div>
+    </div>
+</div>
+
+<button type="button" onClick ="onClick()" id="push">贊成</button>
+
+<button type="button" onClick ="onClick2()" id="push">反對</button>
+
+      </div>
+    </div>
+  </div>
+    <div class="col-sm-6 col-md-4">
+    <div class="thumbnail">
+      <div class="caption">
+        <p class="card-description"><strong>新南向政策-爭取國際技能組織亞洲區賽主導、主辦權</strong></p>
+        <div class="prog">
+    <div class="progress progress-striped active">
+    <div class="progress-bar progress-bar-striped active" role="progressbar"
+  aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:0%">
+       </div>
+    </div>
+</div>
+
+<button type="button" onClick ="onClick()" id="push">贊成</button>
+
+<button type="button" onClick ="onClick2()" id="push">反對</button>
+
+      </div>
+    </div>
+  </div>
+    <div class="col-sm-6 col-md-4">
+    <div class="thumbnail">
+      <div class="caption">
+        <p class="card-description"><strong>新南向政策-爭取國際技能組織亞洲區賽主導、主辦權</strong></p>
+        <div class="prog">
+    <div class="progress progress-striped active">
+    <div class="progress-bar progress-bar-striped active" role="progressbar"
+  aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:0%">
+       </div>
+    </div>
+</div>
+
+<button type="button" onClick ="onClick()" id="push">贊成</button>
+
+<button type="button" onClick ="onClick2()" id="push">反對</button>
+
+      </div>
+    </div>
+  </div>
+    <div class="col-sm-6 col-md-4">
+    <div class="thumbnail">
+      <div class="caption">
+        <p class="card-description"><strong>新南向政策-爭取國際技能組織亞洲區賽主導、主辦權</strong></p>
+        <div class="prog">
+    <div class="progress progress-striped active">
+    <div class="progress-bar progress-bar-striped active" role="progressbar"
+  aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:0%">
+       </div>
+    </div>
+</div>
+
+<button type="button" onClick ="onClick()" id="push">贊成</button>
+
+<button type="button" onClick ="onClick2()" id="push">反對</button>
+
+      </div>
+    </div>
+  </div>
+    <div class="col-sm-6 col-md-4">
+    <div class="thumbnail">
+      <div class="caption">
+        <p class="card-description"><strong>新南向政策-爭取國際技能組織亞洲區賽主導、主辦權</strong></p>
+        <div class="prog">
+    <div class="progress progress-striped active">
+    <div class="progress-bar progress-bar-striped active" role="progressbar"
+  aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:0%">
+       </div>
+    </div>
+</div>
+
+<button type="button" onClick ="onClick()" id="push">贊成</button>
+
+<button type="button" onClick ="onClick2()" id="push">反對</button>
+
+      </div>
+    </div>
+  </div>
+    <div class="col-sm-6 col-md-4">
+    <div class="thumbnail">
+      <div class="caption">
+        <p class="card-description"><strong>新南向政策-爭取國際技能組織亞洲區賽主導、主辦權</strong></p>
+        <div class="prog">
+    <div class="progress progress-striped active">
+    <div class="progress-bar progress-bar-striped active" role="progressbar"
+  aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:0%">
+       </div>
+    </div>
+</div>
+
+<button type="button" onClick ="onClick()" id="push">贊成</button>
+
+<button type="button" onClick ="onClick2()" id="push">反對</button>
+
+      </div>
+    </div>
+  </div>
+  
+    <div class="col-sm-6 col-md-4">
+    <div class="thumbnail">
+      <div class="caption">
+        <p class="card-description"><strong>新南向政策-爭取國際技能組織亞洲區賽主導、主辦權</strong></p>
+        <div class="prog">
+    <div class="progress progress-striped active">
+    <div class="progress-bar progress-bar-striped active" role="progressbar"
+  aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:0%">
+       </div>
+    </div>
+</div>
+
+<button type="button" onClick ="onClick()" id="push">贊成</button>
+
+<button type="button" onClick ="onClick2()" id="push">反對</button>
+
+      </div>
+    </div>
+  </div>
+  
+  
+</div>
+</div>
+</div>
+</div>
+
+<script type="text/javascript">
+var a= 0;
+function onClick(){a++;
+document.getElementById("a").innerHTML = a;
+return (a);
+}
+
+var b= 0;
+function onClick2(){b++;
+document.getElementById("b").innerHTML = b;
+return (b);
+}
+
+var progress = setInterval(function () {
+    var progress = $('.progress');
+var $bar = $('.progress-bar ');
+var progresswidth =progress.width();
+var all=a/(a+b);
+
+console.log(progresswidth);
+   
+        
+        $bar.width(all*progresswidth);
+        console.log('all'+$bar.width());
+        
+    
+    $bar.text(all*100+ "%");
+}, 800);
+</script>";s:5:"mtime";i:1504083490;s:6:"markup";s:9064:"<link href="/themes/responsiv-flat/assets/css/card.css" rel="stylesheet" />
+
+<div align="center">
+    <h3>青諮提案</h3>
+    <h3>詳列青諮在大會中提出之具體提案</h3>
+    <br>
+
+<div class="container-fluid cards-row">
+<div class="container">
+<div class="row">
+
+  <div class="col-sm-6 col-md-4">
+    <div class="thumbnail">
+      <div class="caption">
+        <p class="card-description"><strong>新南向政策-爭取國際技能組織亞洲區賽主導、主辦權</strong></p>
+        <div class="prog">
+    <div class="progress progress-striped active">
+    <div class="progress-bar progress-bar-striped active" role="progressbar"
+  aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:0%">
+       </div>
+    </div>
+</div>
+
+<button type="button" onClick ="onClick()" id="push">贊成</button>
+
+<button type="button" onClick ="onClick2()" id="push">反對</button>
+
+      </div>
+    </div>
+  </div>
+  
+     <div class="col-sm-6 col-md-4">
+    <div class="thumbnail">
+      <div class="caption">
+        <p class="card-description"><strong>新南向政策-爭取國際技能組織亞洲區賽主導、主辦權</strong></p>
+        <div class="prog">
+    <div class="progress progress-striped active">
+    <div class="progress-bar progress-bar-striped active" role="progressbar"
+  aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:0%">
+       </div>
+    </div>
+</div>
+
+<button type="button" onClick ="onClick()" id="push">贊成</button>
+
+<button type="button" onClick ="onClick2()" id="push">反對</button>
+
+      </div>
+    </div>
+  </div>
+    <div class="col-sm-6 col-md-4">
+    <div class="thumbnail">
+      <div class="caption">
+        <p class="card-description"><strong>新南向政策-爭取國際技能組織亞洲區賽主導、主辦權</strong></p>
+        <div class="prog">
+    <div class="progress progress-striped active">
+    <div class="progress-bar progress-bar-striped active" role="progressbar"
+  aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:0%">
+       </div>
+    </div>
+</div>
+
+<button type="button" onClick ="onClick()" id="push">贊成</button>
+
+<button type="button" onClick ="onClick2()" id="push">反對</button>
+
+      </div>
+    </div>
+  </div>
+    <div class="col-sm-6 col-md-4">
+    <div class="thumbnail">
+      <div class="caption">
+        <p class="card-description"><strong>新南向政策-爭取國際技能組織亞洲區賽主導、主辦權</strong></p>
+        <div class="prog">
+    <div class="progress progress-striped active">
+    <div class="progress-bar progress-bar-striped active" role="progressbar"
+  aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:0%">
+       </div>
+    </div>
+</div>
+
+<button type="button" onClick ="onClick()" id="push">贊成</button>
+
+<button type="button" onClick ="onClick2()" id="push">反對</button>
+
+      </div>
+    </div>
+  </div>
+    <div class="col-sm-6 col-md-4">
+    <div class="thumbnail">
+      <div class="caption">
+        <p class="card-description"><strong>新南向政策-爭取國際技能組織亞洲區賽主導、主辦權</strong></p>
+        <div class="prog">
+    <div class="progress progress-striped active">
+    <div class="progress-bar progress-bar-striped active" role="progressbar"
+  aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:0%">
+       </div>
+    </div>
+</div>
+
+<button type="button" onClick ="onClick()" id="push">贊成</button>
+
+<button type="button" onClick ="onClick2()" id="push">反對</button>
+
+      </div>
+    </div>
+  </div>
+    <div class="col-sm-6 col-md-4">
+    <div class="thumbnail">
+      <div class="caption">
+        <p class="card-description"><strong>新南向政策-爭取國際技能組織亞洲區賽主導、主辦權</strong></p>
+        <div class="prog">
+    <div class="progress progress-striped active">
+    <div class="progress-bar progress-bar-striped active" role="progressbar"
+  aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:0%">
+       </div>
+    </div>
+</div>
+
+<button type="button" onClick ="onClick()" id="push">贊成</button>
+
+<button type="button" onClick ="onClick2()" id="push">反對</button>
+
+      </div>
+    </div>
+  </div>
+    <div class="col-sm-6 col-md-4">
+    <div class="thumbnail">
+      <div class="caption">
+        <p class="card-description"><strong>新南向政策-爭取國際技能組織亞洲區賽主導、主辦權</strong></p>
+        <div class="prog">
+    <div class="progress progress-striped active">
+    <div class="progress-bar progress-bar-striped active" role="progressbar"
+  aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:0%">
+       </div>
+    </div>
+</div>
+
+<button type="button" onClick ="onClick()" id="push">贊成</button>
+
+<button type="button" onClick ="onClick2()" id="push">反對</button>
+
+      </div>
+    </div>
+  </div>
+    <div class="col-sm-6 col-md-4">
+    <div class="thumbnail">
+      <div class="caption">
+        <p class="card-description"><strong>新南向政策-爭取國際技能組織亞洲區賽主導、主辦權</strong></p>
+        <div class="prog">
+    <div class="progress progress-striped active">
+    <div class="progress-bar progress-bar-striped active" role="progressbar"
+  aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:0%">
+       </div>
+    </div>
+</div>
+
+<button type="button" onClick ="onClick()" id="push">贊成</button>
+
+<button type="button" onClick ="onClick2()" id="push">反對</button>
+
+      </div>
+    </div>
+  </div>
+    <div class="col-sm-6 col-md-4">
+    <div class="thumbnail">
+      <div class="caption">
+        <p class="card-description"><strong>新南向政策-爭取國際技能組織亞洲區賽主導、主辦權</strong></p>
+        <div class="prog">
+    <div class="progress progress-striped active">
+    <div class="progress-bar progress-bar-striped active" role="progressbar"
+  aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:0%">
+       </div>
+    </div>
+</div>
+
+<button type="button" onClick ="onClick()" id="push">贊成</button>
+
+<button type="button" onClick ="onClick2()" id="push">反對</button>
+
+      </div>
+    </div>
+  </div>
+    <div class="col-sm-6 col-md-4">
+    <div class="thumbnail">
+      <div class="caption">
+        <p class="card-description"><strong>新南向政策-爭取國際技能組織亞洲區賽主導、主辦權</strong></p>
+        <div class="prog">
+    <div class="progress progress-striped active">
+    <div class="progress-bar progress-bar-striped active" role="progressbar"
+  aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:0%">
+       </div>
+    </div>
+</div>
+
+<button type="button" onClick ="onClick()" id="push">贊成</button>
+
+<button type="button" onClick ="onClick2()" id="push">反對</button>
+
+      </div>
+    </div>
+  </div>
+    <div class="col-sm-6 col-md-4">
+    <div class="thumbnail">
+      <div class="caption">
+        <p class="card-description"><strong>新南向政策-爭取國際技能組織亞洲區賽主導、主辦權</strong></p>
+        <div class="prog">
+    <div class="progress progress-striped active">
+    <div class="progress-bar progress-bar-striped active" role="progressbar"
+  aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:0%">
+       </div>
+    </div>
+</div>
+
+<button type="button" onClick ="onClick()" id="push">贊成</button>
+
+<button type="button" onClick ="onClick2()" id="push">反對</button>
+
+      </div>
+    </div>
+  </div>
+  
+    <div class="col-sm-6 col-md-4">
+    <div class="thumbnail">
+      <div class="caption">
+        <p class="card-description"><strong>新南向政策-爭取國際技能組織亞洲區賽主導、主辦權</strong></p>
+        <div class="prog">
+    <div class="progress progress-striped active">
+    <div class="progress-bar progress-bar-striped active" role="progressbar"
+  aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:0%">
+       </div>
+    </div>
+</div>
+
+<button type="button" onClick ="onClick()" id="push">贊成</button>
+
+<button type="button" onClick ="onClick2()" id="push">反對</button>
+
+      </div>
+    </div>
+  </div>
+  
+  
+</div>
+</div>
+</div>
+</div>
+
+<script type="text/javascript">
+var a= 0;
+function onClick(){a++;
+document.getElementById("a").innerHTML = a;
+return (a);
+}
+
+var b= 0;
+function onClick2(){b++;
+document.getElementById("b").innerHTML = b;
+return (b);
+}
+
+var progress = setInterval(function () {
+    var progress = $('.progress');
+var $bar = $('.progress-bar ');
+var progresswidth =progress.width();
+var all=a/(a+b);
+
+console.log(progresswidth);
+   
+        
+        $bar.width(all*progresswidth);
+        console.log('all'+$bar.width());
+        
+    
+    $bar.text(all*100+ "%");
+}, 800);
+</script>";s:4:"code";N;s:5:"title";s:12:"progress bar";s:3:"url";s:13:"/progress-bar";s:6:"layout";s:7:"default";s:9:"is_hidden";s:1:"0";s:11:"robot_index";s:5:"index";s:12:"robot_follow";s:6:"follow";}}

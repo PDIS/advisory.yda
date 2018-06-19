@@ -1,0 +1,50 @@
+[viewBag]
+==
+<!DOCTYPE html>
+<html>
+  <head>
+  
+    <link href="{{ 'assets/css/jQCloud.css'|theme }}" rel="stylesheet">
+    <link href="{{ 'assets/css/jqcloud.min.css'|theme }}" rel="stylesheet">
+    <script type="text/javascript" src={{'assets/javascript/jquery1_4_4.min.js'|theme}}></script>
+    <script type="text/javascript" src={{'assets/javascript/jqcloud.min.js'|theme}}></script>
+    
+
+  </head>
+
+    <script type="text/javascript">
+
+      $(document).ready(function($) {
+            var words = [
+            {% for tag in blogTags.tags %}
+                { text: "{{tag.name}}",weight : {{tag.posts|length}}, link : "{{ 'blog/tag'|page }}/{{tag.name}}"},
+            {% endfor %}
+            ];
+           
+            $("#jqcloud").jQCloud(words, {
+                
+               classPattern: null,
+                colors: ["rgb(181, 207, 107)", "rgb(99, 121, 57)", "rgb(140, 162, 82)", "rgb(206, 219, 156)","#79ffcb", "rgb(189, 158, 57)", "rgb(231, 186, 82)", "rgb(231, 203, 148)"],
+                delay: 50,
+               width:350,
+                height: 250,
+                steps : 50,
+                        
+              fontSize: {
+                from: 0.15,
+                to: 0.02
+              }
+            });
+        
+        });
+        
+    </script>
+      
+  <body>
+
+    <!-- You should explicitly specify the dimensions of the container element -->
+     <div class="row">
+    <div id="jqcloud" class="container"style="width:auto;font-family:Microsoft JhengHei; autoResize: true;"></div>
+    </div>
+  </body>
+</html>

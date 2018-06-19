@@ -1,0 +1,48 @@
+1504683078a:1:{s:28:"users/valagas-gadeljeman.htm";a:11:{s:8:"fileName";s:28:"users/valagas-gadeljeman.htm";s:7:"content";s:1894:"title = "Valagas Gadeljeman"
+url = "/valagas-gadeljeman"
+layout = "default"
+is_hidden = 0
+robot_index = "index"
+robot_follow = "follow"
+==
+<div class="container">
+<div class="col-md-4">
+<img src="{{ 'assets/images/users/24.jpg'|theme }}"  style="width:100%; height: 100%">
+</div>
+<div class="col-md-8">
+    <h4>胡哲豪</h4>
+    <p>現職:國立臺灣大學建築與城鄉研究所博士生、臺灣排灣族發富樂安文化發展協會副秘書長</p>
+    <p>E-mail:akasi0127@gmail.com</p>
+    <p>FB帳號：https://www.facebook.com/hujhehao</p>
+    <p> 個人網站：https://www.facebook.com/penny324/</p>
+    <p>專長領域:1.災害與性別2.社區規劃及青年培力3.原住民文化資產4.原住民自治與土地權</p>
+    <p>感興趣之議題:1.	原住民族歷史正義與轉型正義2.	氣候變遷與災害防救3.	原住民傳統災害知識與原住民傳統領域4.	文化資產保存與活化5.	國土規劃、原住民自治與土地發展6.	婚姻平權7.	原住民女性與同志社群（LGPTQ）</p>
+ </div> 
+<div class="col-md-12">
+ <h4 class="headline"><span>個人簡介</span></h4>
+    <p>我1987年出生，此年代正逢台灣解嚴與原住民族權利運動最為風起雲湧的年代，但直至2015年才有勇氣回復自己的傳統族語名字 ValagasGadeljeman。我來自屏東瑪家，為排灣族人，幫我命名傳統族語名字的是我的外婆，同時也是部落與北排灣族重要的傳統領袖。外婆告訴我，Valagas是繼承祖先的名字，這個名字的意涵為「整合、協調」的能
+力，因此期勉我對於公共事務與族群事務的投入，也要秉持祖先的精神。我喜歡認識人，若對我感興趣之議題的共同朋友，希望我們能聯繫彼此，共同關心與參與議題，並讓這些課題力量更大。</p>
+ {% partial 'track_partials' %}
+</div>
+
+</div>";s:5:"mtime";i:1504395114;s:6:"markup";s:1748:"<div class="container">
+<div class="col-md-4">
+<img src="{{ 'assets/images/users/24.jpg'|theme }}"  style="width:100%; height: 100%">
+</div>
+<div class="col-md-8">
+    <h4>胡哲豪</h4>
+    <p>現職:國立臺灣大學建築與城鄉研究所博士生、臺灣排灣族發富樂安文化發展協會副秘書長</p>
+    <p>E-mail:akasi0127@gmail.com</p>
+    <p>FB帳號：https://www.facebook.com/hujhehao</p>
+    <p> 個人網站：https://www.facebook.com/penny324/</p>
+    <p>專長領域:1.災害與性別2.社區規劃及青年培力3.原住民文化資產4.原住民自治與土地權</p>
+    <p>感興趣之議題:1.	原住民族歷史正義與轉型正義2.	氣候變遷與災害防救3.	原住民傳統災害知識與原住民傳統領域4.	文化資產保存與活化5.	國土規劃、原住民自治與土地發展6.	婚姻平權7.	原住民女性與同志社群（LGPTQ）</p>
+ </div> 
+<div class="col-md-12">
+ <h4 class="headline"><span>個人簡介</span></h4>
+    <p>我1987年出生，此年代正逢台灣解嚴與原住民族權利運動最為風起雲湧的年代，但直至2015年才有勇氣回復自己的傳統族語名字 ValagasGadeljeman。我來自屏東瑪家，為排灣族人，幫我命名傳統族語名字的是我的外婆，同時也是部落與北排灣族重要的傳統領袖。外婆告訴我，Valagas是繼承祖先的名字，這個名字的意涵為「整合、協調」的能
+力，因此期勉我對於公共事務與族群事務的投入，也要秉持祖先的精神。我喜歡認識人，若對我感興趣之議題的共同朋友，希望我們能聯繫彼此，共同關心與參與議題，並讓這些課題力量更大。</p>
+ {% partial 'track_partials' %}
+</div>
+
+</div>";s:4:"code";N;s:5:"title";s:18:"Valagas Gadeljeman";s:3:"url";s:19:"/valagas-gadeljeman";s:6:"layout";s:7:"default";s:9:"is_hidden";s:1:"0";s:11:"robot_index";s:5:"index";s:12:"robot_follow";s:6:"follow";}}

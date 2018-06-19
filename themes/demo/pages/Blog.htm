@@ -1,0 +1,77 @@
+title = "Blog"
+url = "/blog"
+layout = "default"
+is_hidden = 0
+robot_index = "index"
+robot_follow = "follow"
+
+[blogPosts]
+pageNumber = "{{ :page }}"
+postsPerPage = 10
+noPostsMessage = "No posts found"
+sortOrder = "published_at desc"
+categoryPage = "blog/category"
+postPage = "blog/post"
+
+[blogCategories]
+slug = "{{ :slug }}"
+displayEmpty = 0
+categoryPage = "blog/category"
+
+[searchForm]
+resultPage = "blog/search"
+categoryFilter = 0
+
+[blogTags]
+results = 5
+direction = "desc"
+==
+<div class="container">
+<div class="row">
+
+
+<ul>
+{% for tag in blogTags.tags %}
+
+    {% set tag_size = 5 * tag.posts|length %}
+    
+    {% if tag_size < 3 %}
+        {% set tag_size = 3 %}
+    {% elseif tag_size > 30 %}
+    {% set tag_size = 30 %} 
+    {% else %}
+        
+    {% endif %}
+    
+        <a title="{{'Posts found'|_}}: {{ tag.posts|length }}" style="white-space:nowrap; font-size: {{ tag_size }}px" href="/tags/{{ tag.name }}">{{ tag.name }}</a>
+{% endfor %}
+
+</ul>
+
+
+{% component 'searchForm' %}
+
+
+
+<div class"col-sm-8">
+
+{% component 'blogPosts'%}
+
+
+
+    {% for post in blogPosts.posts %}
+    {%for tag in post.tags %}
+      {{ tag.name}}
+    {% endfor %}
+    <br>
+    {% endfor %}
+
+
+</div>
+<div class="col-sm-4">
+
+{% component 'blogCategories' %}
+
+<div>
+<div>
+<div>

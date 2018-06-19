@@ -1,0 +1,71 @@
+title = "Sign in test"
+url = "/sign-test"
+layout = "default"
+is_hidden = 0
+robot_index = "index"
+robot_follow = "follow"
+
+[account]
+paramCode = "code"
+forceSecure = 0
+==
+{% if not user %}
+
+<div class="signin-container">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="signin">
+                    <div class="signin-screen">
+                        <div class="signin-icon">
+                            <h4> <small>Welcome</small></h4>
+                        </div>
+
+                        <div class="signin-form">
+
+                        <form  data-request="onSignin">
+                            <div class="form-group">
+                         
+                                <input
+                                    name="login"
+                                    type="text"
+                                    class="form-control"
+                                    id="userSigninLogin"
+                                    placeholder="Enter your {{ loginAttributeLabel|lower }}" />
+                            </div>
+                        
+                            <div class="form-group">
+                        
+                                <input
+                                    name="password"
+                                    type="password"
+                                    class="form-control"
+                                    id="userSigninPassword"
+                                    placeholder="Enter your password" />
+                            </div>
+
+                           <button type="submit" class="btn btn-primary btn-lg btn-block">Sign in</button>
+                             <a class="signin-link" href="#">Lost your password?</a>
+                            <a class="signin-link" href="{{ 'sign/register-test'|page }}">Create an account</a>
+                    </form>
+                    </div>
+                                               
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+{% else %}
+
+{%partial account~ '::activation_check'%}
+
+{%partial account~ '::update'%}
+
+{%partial account~ '::deactivate_link'%}
+
+
+{% endif%}

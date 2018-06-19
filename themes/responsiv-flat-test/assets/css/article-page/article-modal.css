@@ -1,0 +1,35 @@
+#article-Modal .modal-content {
+  border-radius: 0px;
+  padding: 30px; }
+#article-Modal p {
+  margin: 20px 0 10px;
+  line-height: 25px; }
+#article-Modal .modal-lg {
+  width: 800px; }
+#article-Modal .author-info {
+  margin: 30px; }
+  #article-Modal .author-info .avatar {
+    width: 150px;
+    height: 150px;
+    background-position: center !important;
+    background-size: cover !important;
+    border-radius: 50%;
+    display: inline-block; }
+  #article-Modal .author-info h3 {
+    color: black;
+    font-weight: 400; }
+  #article-Modal .author-info .contact svg {
+    color: #5e5e5e; }
+#article-Modal .well {
+  border-radius: 0px; }
+  #article-Modal .well p {
+    margin-left: 10px; }
+  #article-Modal .well h3 {
+    margin-bottom: 30px;
+    line-height: inherit; }
+
+@media (max-width: 767px) {
+  #article-Modal .modal-content {
+    padding: 0px; }
+  #article-Modal .modal-lg {
+    width: auto; } }

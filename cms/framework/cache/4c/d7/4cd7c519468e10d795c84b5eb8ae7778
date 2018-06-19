@@ -1,0 +1,46 @@
+1504683078a:1:{s:12:"users/yu.htm";a:11:{s:8:"fileName";s:12:"users/yu.htm";s:7:"content";s:1565:"title = "yu"
+url = "/yu"
+layout = "default"
+is_hidden = 0
+robot_index = "index"
+robot_follow = "follow"
+==
+<div class="container">
+<div class="col-md-4">
+<img src="{{ 'assets/images/users/nopicture.jpg'|theme }}"  style="width:100%; height: 100%">
+</div>
+<div class="col-md-8">
+    <h4>游適任</h4>
+    <p>現職:Plan b 創辦人</p>
+    <p>E-mail:yu@theplanb.cc</p>
+    <p>FB帳號：www.facebook.com/justinandyu</p>
+    <p> 個人網站：www.theplanb.cc</p>
+    <p>專長領域:1.永續發展與社會創新2.科技創新與資訊科技3.藝文與設計4.空間再造與都市規劃5.再生能源</p>
+    <p>1.SDGs 相關政策2.影視音樂、設計藝文、劇團舞團相關推動文化政策與青年補助配套3.本國與國外產業的連結策略4.創新創業產業以及資訊科技產業政策5.合理可負擔住宅6.再生能源相關政策</p>
+ </div> 
+<div class="col-md-12">
+ <h4 class="headline"><span>個人簡介</span></h4>
+    <p>台北人，東吳大學法律系畢，沒想被定義在哪個領域過。曾創立設計公司與校園共享單車公司，前者已於2014年被併入跨國大型設計公司，後者仍為共同創辦人。目前為 Plan b 共同創辦人，主張社會議題與商業行為是一體兩面，兩者間應互為彼此的競爭優勢，因此將永續發展(SD)視為新的做事工具，透過重新定義各類領域議題，提供實質解決方案。個人支持任何形式的平等，包含性別、勞動、教育等。</p>
+    {% partial 'track_partials' %}
+</div>
+
+</div>";s:5:"mtime";i:1504395143;s:6:"markup";s:1451:"<div class="container">
+<div class="col-md-4">
+<img src="{{ 'assets/images/users/nopicture.jpg'|theme }}"  style="width:100%; height: 100%">
+</div>
+<div class="col-md-8">
+    <h4>游適任</h4>
+    <p>現職:Plan b 創辦人</p>
+    <p>E-mail:yu@theplanb.cc</p>
+    <p>FB帳號：www.facebook.com/justinandyu</p>
+    <p> 個人網站：www.theplanb.cc</p>
+    <p>專長領域:1.永續發展與社會創新2.科技創新與資訊科技3.藝文與設計4.空間再造與都市規劃5.再生能源</p>
+    <p>1.SDGs 相關政策2.影視音樂、設計藝文、劇團舞團相關推動文化政策與青年補助配套3.本國與國外產業的連結策略4.創新創業產業以及資訊科技產業政策5.合理可負擔住宅6.再生能源相關政策</p>
+ </div> 
+<div class="col-md-12">
+ <h4 class="headline"><span>個人簡介</span></h4>
+    <p>台北人，東吳大學法律系畢，沒想被定義在哪個領域過。曾創立設計公司與校園共享單車公司，前者已於2014年被併入跨國大型設計公司，後者仍為共同創辦人。目前為 Plan b 共同創辦人，主張社會議題與商業行為是一體兩面，兩者間應互為彼此的競爭優勢，因此將永續發展(SD)視為新的做事工具，透過重新定義各類領域議題，提供實質解決方案。個人支持任何形式的平等，包含性別、勞動、教育等。</p>
+    {% partial 'track_partials' %}
+</div>
+
+</div>";s:4:"code";N;s:5:"title";s:2:"yu";s:3:"url";s:3:"/yu";s:6:"layout";s:7:"default";s:9:"is_hidden";s:1:"0";s:11:"robot_index";s:5:"index";s:12:"robot_follow";s:6:"follow";}}

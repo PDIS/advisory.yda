@@ -1,0 +1,101 @@
+[viewBag]
+
+[session]
+security = "all"
+
+[blogTags]
+results = 0
+direction = "desc"
+==
+{{ form_ajax('onUpdate', { model: user }) }}
+<link href="{{ ['assets/tags/jquery.tagit.css']|theme }}" rel="stylesheet">
+<link href="{{ ['assets/tags/tagit.ui-zendesk.css']|theme }}" rel="stylesheet">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script type="text/javascript" src="{{ [
+    'assets/tags/jqusery.js',
+    'assets/tags/jquery-ui.js',
+    'assets/tags/tag-it.min.js',
+    ]|theme }}.js">
+</script>
+
+<div class="form-group col-sm-6">
+    <label for="accountName">姓名</label>
+    <input name="name" type="text" class="form-control" id="accountName" value="{{ form_value('name') }}">
+</div>
+
+<div class="form-group col-sm-6">
+    <label for="accountEmail">Email</label>
+    <input name="email" type="email" class="form-control" id="accountEmail" value="{{ form_value('email') }}">
+</div>
+
+    <div class="form-group col-sm-6">
+        <label for="accountPasswordConfirm">現職</label>
+        <input name="headline" type="text" class="form-control" value="{{ form_value('headline') }}">
+    </div>
+
+     <div class="form-group col-sm-6">
+        <label>Facebook</label>
+        <input name="facebook" type="text" class="form-control" value="{{ form_value('facebook') }}" >
+    </div>
+    
+     <div class="form-group col-sm-6">
+        <label>Instagram</label>
+        <input name="instagram" type="text" class="form-control" value="{{ form_value('instagram') }}" >
+    </div>
+
+    <div class="form-group col-sm-6">
+        <label>Twitter</label>
+        <input name="twitter" type="text" class="form-control" value="{{ form_value('twitter') }}" >
+    </div>
+
+    <div class="form-group col-sm-6">
+        <label>個人網站</label>
+        <input name="website" type="text" class="form-control" value="{{ form_value('website') }}" >
+    </div>
+    <div class="form-group col-sm-12"><br>
+        <label for="Form-field-blog-title">{{ "tags"}}</label>
+        <input name="user_tag" id="Form-field-user-tags"  class="form-control">
+    </div>
+
+    <div class="form-group col-sm-12">
+        <label>專長領域</label>
+        <textarea name="expertises" type="text" style="resize: none ;width: 100%;height: 100px;" class="form-control ckeditor"  >{{ form_value('expertises') }}</textarea>
+    </div>
+
+
+    <div class="form-group col-sm-12">
+        <label>感興趣之議題</label>
+        <textarea name="interested_topics" type="text"  style="resize: none ;width: 100%;height: 100px;"class="form-control ckeditor" >{{ form_value('interested_topics') }}</textarea>
+    </div>
+    
+
+
+    <div style="text-align:center;" class="form-group col-sm-12">
+        <label>個人簡介</label>
+        <textarea  name="about_me" type="text" style="resize: none ;width: 100%;height: 150px; "class="form-control ckeditor" >{{ form_value('about_me') }}</textarea>
+    </div>
+
+
+
+<script>
+    var userTags = [];
+    var tags = [];
+    {%for tag in user.tags %}
+        userTags.push("{{ tag.name}}");
+    {% endfor %}
+    {% for tag in blogTags.tags %}
+        tags.push("{{ tag.name }}");
+    {% endfor %}
+    
+
+    $('#Form-field-user-tags').val(userTags).tagit({
+        availableTags: tags
+    });
+</script>
+    <div class="form-group col-sm-12">
+    <button type="submit" class="btn btn-default">Save</button>
+    </div>
+
+
+ 
+{{ form_close() }}

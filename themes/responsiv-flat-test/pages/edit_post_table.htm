@@ -1,0 +1,52 @@
+title = "edit_post_table"
+url = "/edit_post_table"
+layout = "default"
+is_hidden = 0
+robot_index = "index"
+robot_follow = "follow"
+
+[PostList]
+use_authors = 1
+restrict_owner = 1
+backUser = 1
+formPage = "test456"
+==
+<!-- Start partial-list.htm -->
+<div class="container">
+            <table class="table">
+                <tr>
+                    <th class="">標題</th>
+                    <th class="">發布時間</th>
+                    <th class="">編輯/刪除</th>
+                </tr>
+{% for post in PostList.posts  %}
+                <tr>
+                    <td class="">{{ post.title }}</td>
+                    
+                    <td class="">{{ post.published?post.published_at|date('m/d/Y'):'--/--/----' }}</td>
+                    
+                    <td class="">
+                     {% if PostList.isAjax %}
+                            <a href="#" class="btn btn-default" title="{{PostList.trans('general.btn_edit')}}" data-request="{{ PostList }}::onPostForm"
+                                data-request-data="id: {{ post.id }}" data-request-update="'{{ PostList }}::form': '#bloginfo'">
+                                {% else %}
+                                    <a href="{{ post.url }}" class="btn btn-default" title="{{ PostList.trans('general.btn_edit') }}">
+                                {% endif %}
+                                        <i class="fa fa-file"></i>
+                                    </a>
+                                    
+                            <button 
+                                class="btn btn-default" 
+                                title="{{ PostList.trans('general.btn_delete') }}" 
+                                data-request="{{PostList}}::onDelete"
+                                data-request-data="id: {{ post.id }}" 
+                                data-request-confirm="{{ PostList.trans('general.delete_conf') }}"
+                                data-request-update="'{{ PostList }}::list': '#bloginfo'">
+                                    <i class="fa fa-trash"></i>
+                            </button>
+                    </td>
+                </tr>
+{% endfor %}
+            </table>
+<!-- End partial-list.htm -->
+</div>

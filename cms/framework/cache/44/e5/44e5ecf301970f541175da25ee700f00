@@ -1,0 +1,56 @@
+1504683077a:1:{s:22:"users/17happygreen.htm";a:11:{s:8:"fileName";s:22:"users/17happygreen.htm";s:7:"content";s:1393:"title = "17happygreen"
+url = "/17happygreen"
+layout = "default"
+is_hidden = 0
+robot_index = "index"
+robot_follow = "follow"
+==
+<div class="container">
+<div class="col-md-4">
+<img src="{{ 'assets/images/users/16.jpg'|theme }}"  style="width:100%; height: 100%">
+</div>
+<div class="col-md-8">
+    <h4>邱嘉緣</h4>
+    <p>現職:好伴駐創股份有限公司共同創辦人</p>
+    
+    <p>E-mail:17happygreen@gmail.com</p>
+    <p>FB帳號：不公開</p>
+    <p>個人網站：不公開</p>
+    <p>專長領域: 1.社會設計2.社區設計3.田野調查4.社群經營</p>
+    <p>感興趣之議題:1.社區營造2.文化街區3.青年返鄉文化行動4.公共托育/照顧</p>     
+</div> 
+<div class="col-md-12">
+ <h4 class="headline"><span>個人簡介</span></h4>
+   <p>台大社會系畢業</p>
+     <p>好伴駐創 / 好伴社計共同創辦人</p>
+    <p>因為一堂大學畢業前的課而意外地踏上創業之路，回到家鄉台中，落腳舊城區，和夥伴珮綺一起創立了好伴，以社會創新的行動方式，致力於青年實踐與舊城再生。提供共享的共同工作空間，成為社會議題的資訊平台，與支持青年行動家的實作基地；同時串連社區在地團體，推動舊城再生，讓各種好的改變在這裡發生。</p>
+     {% partial 'track_partials' %}
+  
+    
+</div>
+
+</div>javascript:;";s:5:"mtime";i:1504679900;s:6:"markup";s:1259:"<div class="container">
+<div class="col-md-4">
+<img src="{{ 'assets/images/users/16.jpg'|theme }}"  style="width:100%; height: 100%">
+</div>
+<div class="col-md-8">
+    <h4>邱嘉緣</h4>
+    <p>現職:好伴駐創股份有限公司共同創辦人</p>
+    
+    <p>E-mail:17happygreen@gmail.com</p>
+    <p>FB帳號：不公開</p>
+    <p>個人網站：不公開</p>
+    <p>專長領域: 1.社會設計2.社區設計3.田野調查4.社群經營</p>
+    <p>感興趣之議題:1.社區營造2.文化街區3.青年返鄉文化行動4.公共托育/照顧</p>     
+</div> 
+<div class="col-md-12">
+ <h4 class="headline"><span>個人簡介</span></h4>
+   <p>台大社會系畢業</p>
+     <p>好伴駐創 / 好伴社計共同創辦人</p>
+    <p>因為一堂大學畢業前的課而意外地踏上創業之路，回到家鄉台中，落腳舊城區，和夥伴珮綺一起創立了好伴，以社會創新的行動方式，致力於青年實踐與舊城再生。提供共享的共同工作空間，成為社會議題的資訊平台，與支持青年行動家的實作基地；同時串連社區在地團體，推動舊城再生，讓各種好的改變在這裡發生。</p>
+     {% partial 'track_partials' %}
+  
+    
+</div>
+
+</div>javascript:;";s:4:"code";N;s:5:"title";s:12:"17happygreen";s:3:"url";s:13:"/17happygreen";s:6:"layout";s:7:"default";s:9:"is_hidden";s:1:"0";s:11:"robot_index";s:5:"index";s:12:"robot_follow";s:6:"follow";}}

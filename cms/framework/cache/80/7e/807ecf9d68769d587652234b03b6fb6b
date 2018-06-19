@@ -1,0 +1,46 @@
+1504683077a:1:{s:17:"users/johnson.htm";a:11:{s:8:"fileName";s:17:"users/johnson.htm";s:7:"content";s:1485:"title = "johnson"
+url = "/johnson"
+layout = "default"
+is_hidden = 0
+robot_index = "index"
+robot_follow = "follow"
+==
+<div class="container">
+<div class="col-md-4">
+<img src="{{ 'assets/images/users/14.jpg'|theme }}"  style="width:100%; height: 100%">
+</div>
+<div class="col-md-8">
+    <h4>謝宗震</h4>
+    <p>現職:DSP智庫驅動股份有限公司 共同創辦人</p>
+    <p>E-mail:johnson@dsp.im</p>
+    <p>FB帳號：不公開</p>
+    <p> 個人網站：readata.org</p>
+    <p>專長領域:1.產官學資料科學人才培育2.公務員應具備之資料素養3.資料科學產品標案審查標準</p>
+    <p>感興趣之議題:1.SDGs 相關政策2.影視音樂、設計藝文、劇團舞團相關推動文化政策與青年補助配套3.本國與國外產業的連結策略4.創新創業產業以及資訊科技產業政策5.合理可負擔住宅6.再生能源相關政策</p>
+ </div> 
+<div class="col-md-12">
+ <h4 class="headline"><span>個人簡介</span></h4>
+    <p>清華統計博士，身為DSP智庫驅動的共同創辦人對於統計方法與工具的推廣具有極大的熱忱，期望利用統計思維及分析工具幫助各個領域解決問題。致力於資料科學顧問服務，輔導超 500 位政府、企業、非營利組織人士成為資料分析人才。 Data for Social Good（D4SG）計畫主持人，打造一個「資料力，做公益」的交流與媒合平台。</p>
+     {% partial 'track_partials' %}
+</div>
+
+</div>";s:5:"mtime";i:1504394930;s:6:"markup";s:1361:"<div class="container">
+<div class="col-md-4">
+<img src="{{ 'assets/images/users/14.jpg'|theme }}"  style="width:100%; height: 100%">
+</div>
+<div class="col-md-8">
+    <h4>謝宗震</h4>
+    <p>現職:DSP智庫驅動股份有限公司 共同創辦人</p>
+    <p>E-mail:johnson@dsp.im</p>
+    <p>FB帳號：不公開</p>
+    <p> 個人網站：readata.org</p>
+    <p>專長領域:1.產官學資料科學人才培育2.公務員應具備之資料素養3.資料科學產品標案審查標準</p>
+    <p>感興趣之議題:1.SDGs 相關政策2.影視音樂、設計藝文、劇團舞團相關推動文化政策與青年補助配套3.本國與國外產業的連結策略4.創新創業產業以及資訊科技產業政策5.合理可負擔住宅6.再生能源相關政策</p>
+ </div> 
+<div class="col-md-12">
+ <h4 class="headline"><span>個人簡介</span></h4>
+    <p>清華統計博士，身為DSP智庫驅動的共同創辦人對於統計方法與工具的推廣具有極大的熱忱，期望利用統計思維及分析工具幫助各個領域解決問題。致力於資料科學顧問服務，輔導超 500 位政府、企業、非營利組織人士成為資料分析人才。 Data for Social Good（D4SG）計畫主持人，打造一個「資料力，做公益」的交流與媒合平台。</p>
+     {% partial 'track_partials' %}
+</div>
+
+</div>";s:4:"code";N;s:5:"title";s:7:"johnson";s:3:"url";s:8:"/johnson";s:6:"layout";s:7:"default";s:9:"is_hidden";s:1:"0";s:11:"robot_index";s:5:"index";s:12:"robot_follow";s:6:"follow";}}

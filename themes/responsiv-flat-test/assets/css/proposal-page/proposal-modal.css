@@ -1,0 +1,10 @@
+.modal-content {
+  border-radius: 0px;
+  padding: 30px; }
+
+.modal-lg {
+  width: 85vw; }
+
+@media (max-width: 767px) {
+  .modal-lg {
+    width: auto; } }

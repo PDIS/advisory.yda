@@ -1,0 +1,85 @@
+title = "test123"
+url = "/test123"
+layout = "default"
+is_hidden = 0
+robot_index = "index"
+robot_follow = "follow"
+
+[blogPosts]
+pageNumber = "{{ :page }}"
+postsPerPage = 10
+noPostsMessage = "No posts found"
+sortOrder = "published_at desc"
+categoryPage = "blog/category"
+postPage = "blog/post"
+
+[blogCategories]
+slug = "{{ :slug }}"
+displayEmpty = 0
+categoryPage = "blog/category"
+
+[blogPosts blogPosts2]
+pageNumber = "{{ :page }}"
+postsPerPage = 10
+noPostsMessage = "No posts found"
+sortOrder = "published_at desc"
+categoryPage = "blog/category"
+postPage = "blog/post"
+==
+<?php
+function onStart()
+{   
+    $this->addCss('assets/css/tree.css');
+    
+}
+?>
+==
+<section class="timeline">
+  
+
+  
+  <ul>
+  {% for post in posts  if  post.author_id!=NULL%}
+    <li>
+      <div class="content">
+        <h1>
+          <time class="col-md-12"><a href="{{ post.url }}">{{ post.title }}</a></time>
+        </h1>
+        <p>    Posted
+                {% if post.categories.count %} in {% endif %}
+
+                on {{ post.published_at|date('M d, Y') }}</p>
+      </div>
+    </li>
+      {% endfor %}
+      
+  </ul>
+</section>
+
+
+       
+        <ul style=" display: table; margin: 0 auto;">
+                  <li align="center" class="list-group-item col-md-3">
+                        提案</br> 
+                    <span  class="icon-play" align="left" style="font-size:20px;color:#BBFF66"></span> </br>
+                  </li> 
+                 <li align="center" class="list-group-item col-md-3">
+                        進行中</br> 
+                    <span  class="icon-play" align="left" style="font-size:20px;color:#77FF00"></span> </br>
+                  </li>
+                  <li align="center" class="list-group-item col-md-3">
+                        部分落實
+                    <span  class="icon-circle" align="left" style="font-size:20px;color:#66DD00"></span> </br>
+                  </li>
+                  <li align="center" class="list-group-item col-md-3">
+                        全部落實</br> 
+                    <span  class="icon-circle" align="left" style="font-size:20px;color:#55AA00"></span> </br>
+                  </li>
+                   <li align="center" class="list-group-item col-md-3">
+                        暫不採用</br> 
+                    <span  class="icon-circle" align="left" style="font-size:20px;color:#FF5511"></span> </br>
+                  </li>
+         </ul>
+         
+         
+         {% component 'blogPosts2' %}

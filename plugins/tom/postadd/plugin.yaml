@@ -1,0 +1,6 @@
+plugin:
+    name: 'tom.postadd::lang.plugin.name'
+    description: 'tom.postadd::lang.plugin.description'
+    author: tom
+    icon: oc-icon-adjust
+    homepage: ''

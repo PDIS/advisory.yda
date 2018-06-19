@@ -1,0 +1,27 @@
+[blogPosts]
+pageNumber = "{{ :page }}"
+postsPerPage = 10
+noPostsMessage = "No posts found"
+sortOrder = "published_at desc"
+categoryPage = "blog/category"
+postPage = "blog/post"
+
+[blogCategories]
+slug = "{{ :slug }}"
+displayEmpty = 0
+categoryPage = "blog/category"
+
+[blogTags]
+results = 5
+direction = "desc"
+
+[viewBag]
+==
+<div class="blog">
+               <!--  <img src="{{ 'assets/images/team/aleksey.png'|theme }}" alt=""> -->
+                <div class="blog-desc">
+                    {% component 'blogPosts' %}
+    
+                   
+                </div>
+            </div>

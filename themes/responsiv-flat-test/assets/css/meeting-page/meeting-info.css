@@ -1,0 +1,7 @@
+#meeting-info .info-box {
+  padding: 10px 20px;
+  background-color: #d8d8d8;
+  margin-bottom: 20px; }
+  #meeting-info .info-box p {
+    font-weight: 300;
+    margin-left: 20px; }

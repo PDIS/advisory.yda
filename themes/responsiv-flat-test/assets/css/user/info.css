@@ -1,0 +1,16 @@
+#info img {
+  margin-bottom: 20px; }
+#info > .row {
+  margin-bottom: 50px; }
+#info h2 {
+  margin-top: 0px; }
+#info div {
+  line-height: 25px; }
+#info svg {
+  color: #5e5e5e; }
+#info .position {
+  color: #82deb0; }
+#info .contact {
+  margin-top: 30px; }
+#info .content {
+  text-align: justify; }

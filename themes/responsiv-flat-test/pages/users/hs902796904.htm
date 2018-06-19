@@ -1,0 +1,44 @@
+title = "hs902796904"
+url = "/hs902796904"
+layout = "default"
+is_hidden = 0
+robot_index = "index"
+robot_follow = "follow"
+
+[blogPosts]
+pageNumber = "{{ :page }}"
+postsPerPage = 10
+noPostsMessage = "No posts found"
+sortOrder = "published_at desc"
+categoryPage = "blog/category"
+postPage = "blog/post"
+
+[blogCategories]
+slug = "{{ :slug }}"
+displayEmpty = 0
+categoryPage = "blog/category"
+
+[session]
+security = "all"
+==
+<?php
+use October\Rain\Auth\Models\User;
+function onInit()
+{
+    $user = Auth::getUser();
+    $this['activatedUsers'] = User::whereIsActivated(true)->get();
+    if($user){
+        $component = $this->addComponent(
+            'NetSTI\Uploader\Components\ImageUploader',
+            'imageUploader',
+            ['modelClass'=>'RainLab\User\Models\User','modelKeyColumn'=>'avatar', 'deferredBinding' => false]
+        );
+
+        $component->bindModel('avatar', $user);
+    }
+}
+function onRun() {
+   $name = $this->param('name');
+  }
+?>
+==

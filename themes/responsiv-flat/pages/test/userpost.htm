@@ -1,0 +1,220 @@
+title = "userpost"
+url = "/userpost/:id"
+layout = "default"
+is_hidden = 0
+robot_index = "index"
+robot_follow = "follow"
+
+[session]
+security = "all"
+
+[RainLab\User\Components\Account account]
+paramCode = "code"
+forceSecure = 0
+
+[blogPosts]
+pageNumber = "{{ :page }}"
+postsPerPage = 10
+noPostsMessage = "No posts found"
+sortOrder = "published_at desc"
+categoryPage = "blog/category"
+postPage = "blog/post"
+
+[blogCategories]
+slug = "{{ :slug }}"
+displayEmpty = 0
+categoryPage = "blog/category"
+
+[PostList]
+use_authors = 1
+restrict_owner = 1
+backUser = 1
+formPage = "test456"
+==
+<?php
+use October\Rain\Auth\Models\User;
+use RainLab\User\Models\User as UserModel;
+
+function onInit()
+{
+    $user = Auth::getUser(true);
+    if($user){
+        $component = $this->addComponent(
+            'NetSTI\Uploader\Components\ImageUploader',
+            'imageUploader',
+            ['modelClass'=>'RainLab\User\Models\User','modelKeyColumn'=>'avatar', 'deferredBinding' => false]
+        );
+
+        $component->bindModel('avatar', $user);
+    }
+}
+
+function onStart()
+{
+    $this->addCss('assets/css/tree.css');
+    $avatar_id= $this->param('id');
+    $var = \System\Models\File::select('disk_name')->where('attachment_id', $avatar_id)->first();           
+     
+    $this["avatar_id"] = $var->path;
+    $this["user_model"] = UserModel::find($this->param('id'));
+    $this->addCss('https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css');
+    
+}
+?>
+==
+{% set id = 'id' %}
+
+
+<div class="container">
+    {% if user.id == this.param[id] %}
+        <div align="left">
+            <a href="{{ 'sign/sign-test'|page }}"><i class="icon-cog"></i> 編輯</a>
+        </div>
+    {% endif %}
+    <div class="col-md-4">
+        <img src="{{avatar_id}}" alt="{{ file_name }}" style="width:100%; height: 100%" />
+        <a href="{{ user_model.facebook}}"><img src="{{ 'assets/images/logo-facebook.png'|theme }}"  width="65" height="65"></a>
+        <a href="{{ user_model.instagram}}"><img src="{{ 'assets/images/logo-ig.png'|theme }}" width="65" height="65"></a>
+        <a href="{{ user_model.twitter}}"><img src="{{ 'assets/images/logo-twi.png'|theme }}"  width="65" height="65" ></a>
+        <a href="{{ user_model.website}}"><img src="{{ 'assets/images/logo-ww.png'|theme }}" width="65" height="65"></a>
+        <a href="mailto:{{user_model.email}}"><img src="{{'assets/images/email.png'|theme}}"width="60" height="60"></a>
+    </div>
+    <div class="col-md-8">
+        <h4>{{user_model.name}}</h4>
+        <p>現職:{{user_model.headline}}</p>
+        
+        <div class="content">專長領域:{{ user_model.expertises|raw }}</div>
+       
+        <div class="content">關心議題:{{ user_model.interested_topics|raw }}</div>
+        <p>
+            {% for tag in user_model.tags %}
+            <a href="../tag/{{tag.name}}">#{{tag.name}}#</a> {% endfor %}
+        </p>
+    </div>
+    <div class="col-md-12">
+        <h4 class="headline"><span>個人簡介</span></h4>
+        <div class="content">{{ user_model.about_me|raw }}</div>
+    </div>
+    <div class="col-md-12">
+        <h4 class="headline"><span>提案</span></h4>
+                             
+                         
+        {% for post in user_model.getPosts %}
+    <div class="col-sm-6 col-md-4">
+        <div class="thumbnail">
+          <div class="caption">
+            <p class="card-description"><a href="../blog/post/{{ post.slug }}">{{ post.title }}</a></p>
+      </div>
+        {% if post.level == 1 %}
+                       
+         
+            <span  class="icon-play" align="left" style="font-size:20px;color:#BBFF66"></span>
+            <span  class="icon-play" align="left" style="font-size:20px;color:#d9d9d9"></span>
+            <span  class="icon-circle" align="left" style="font-size:20px;color:#d9d9d9"></span>
+            <span  class="icon-circle" align="left" style="font-size:20px;color:#d9d9d9"></span>
+            <span  class="icon-circle" align="left" style="font-size:20px;color:#d9d9d9"></span>
+            </br>
+         
+      
+       {%elseif  post.level==2%}
+         
+              <span  class="icon-play" align="left" style="font-size:20px;color:#BBFF66"></span>
+              <span  class="icon-play" align="left" style="font-size:20px;color:#77FF00"></span> 
+              <span  class="icon-circle" align="left" style="font-size:20px;color:#d9d9d9"></span>
+              <span  class="icon-circle" align="left" style="font-size:20px;color:#d9d9d9"></span>
+              <span  class="icon-circle" align="left" style="font-size:20px;color:#d9d9d9"></span>
+              </br>
+           
+         
+        {%elseif  post.level==3%}
+        
+              <span  class="icon-play" align="left" style="font-size:20px;color:#BBFF66"></span>
+              <span  class="icon-play" align="left" style="font-size:20px;color:#77FF00"></span>
+              <span  class="icon-circle" align="left" style="font-size:20px;color:#66DD00"></span> 
+            <span  class="icon-circle" align="left" style="font-size:20px;color:#d9d9d9"></span>
+            <span  class="icon-circle" align="left" style="font-size:20px;color:#d9d9d9"></span>
+               </br>
+           
+          
+        {%elseif  post.level==4%}
+            
+              
+              <span  class="icon-play" align="left" style="font-size:20px;color:#BBFF66"></span>
+              <span  class="icon-play" align="left" style="font-size:20px;color:#77FF00"></span>
+               <span  class="icon-circle" align="left" style="font-size:20px;color:#d9d9d9"></span>
+              <span  class="icon-circle" align="left" style="font-size:20px;color:#55AA00"></span>
+               <span  class="icon-circle" align="left" style="font-size:20px;color:#d9d9d9"></span>
+               </br>
+        
+        {%elseif  post.level==5%}
+           
+             
+              <span  class="icon-play" align="left" style="font-size:20px;color:#BBFF66"></span>
+              <span  class="icon-play" align="left" style="font-size:20px;color:#77FF00"></span>
+               <span  class="icon-circle" align="left" style="font-size:20px;color:#d9d9d9"></span>
+                <span  class="icon-circle" align="left" style="font-size:20px;color:#d9d9d9"></span>
+              <span  class="icon-circle" align="left" style="font-size:20px;color:#FF5511"></span> 
+              </br>
+            
+         
+    {% endif %}
+
+
+    </div>
+  </div>
+                                
+   {% endfor %}
+               
+                     
+    </div>
+    <div class="col-md-12">
+        <h4 class="headline"><span>委員 track</span></h4>
+        <section class="timeline">
+            {% if user.id==this.param[id]%}
+            <ul>
+                {% for post in PostList.posts %}
+                <li>
+                    <div class="content">
+                        <h1>
+                            <time class="col-md-12">{{ post.title }}</time>
+                        </h1>
+                        <div>
+                            {% if PostList.isAjax %}
+                            <a href="#" class="btn btn-default" title="{{PostList.trans('general.btn_edit')}}" data-request="{{ PostList }}::onPostForm"
+                                data-request-data="id: {{ post.id }}" data-request-update="'{{ PostList }}::form': '#bloginfo'">
+                                {% else %}
+                                    <a href="{{ post.url }}" class="btn btn-default" title="{{ PostList.trans('general.btn_edit') }}">
+                                {% endif %}
+                                        <i class="icon-pencil btn-icon danger"></i>
+                                    </a>
+                                    
+                            <button 
+                                class="btn btn-default" 
+                                title="{{ PostList.trans('general.btn_delete') }}" 
+                                data-request="{{PostList}}::onDelete"
+                                data-request-data="id: {{ post.id }}" 
+                                data-request-confirm="{{ PostList.trans('general.delete_conf') }}"
+                                data-request-update="'{{ PostList }}::list': '#bloginfo'">
+                                    <i class="icon-trash btn-icon danger"></i>
+                            </button>
+                        </div>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <ul>
+                {% for post in posts if post.author_id==this.param[id]%}
+                <li>
+                    <div class="content">
+                        <h1>
+                            <time class="col-md-12"><a href="{{ post.url }}">{{ post.title }}</a></time>
+                        </h1>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </section>
+    </div>
+</div>

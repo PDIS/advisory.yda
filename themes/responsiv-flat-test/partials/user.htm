@@ -1,0 +1,28 @@
+[viewBag]
+==
+{% for users in activatedUsers if users.id%}
+        {% if users.sort_num !=0%}
+        {% if users.sort_num !=Null%}
+
+           
+           <div class=" col-md-2 col-sm-3 col-xs-4 avatar-back">
+                       
+                            <a href="{{ 'test/userpost'|page({ id:users.id }) }}">
+                            {% if  users.avatar.path|length!=0%}
+                            <div class="avatar" style="width:100%; background:url({{users.avatar.path}});padding-bottom:100%">
+                            {%else%}
+                                <div class="avatar" style="width:100%; background:url({{'assets/images/users/nopicture.jpg'|theme }});padding-bottom:100%">
+                                 {% endif %} 
+                            <div class="text">{{users.name}}</div>
+                            
+                            </div>
+                              </div>
+                              </a>
+
+
+                   
+           {% endif %} 
+ 
+ 
+{% endif %}               
+    {% endfor %}

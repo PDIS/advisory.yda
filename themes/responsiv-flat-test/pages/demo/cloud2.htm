@@ -1,0 +1,30 @@
+title = "cloud2"
+url = "/cloud2"
+layout = "default"
+is_hidden = 0
+robot_index = "index"
+robot_follow = "follow"
+==
+<!-- 文字雲 -->
+    <div class="row">
+    {% for tag in blogTags.tags %}
+    
+ {% set tag_size = tag.posts|length %}
+ {% if tag_size < 2%}
+        {% set tag_size = 3 %}
+    {% elseif tag_size > 6%}
+    {% set tag_size = 6 %} 
+    {% else %}
+        
+    {% endif %}
+        <div class="col-md-{{tag_size}} portfolio-item nature people">
+            <div class="picture">
+                <div class="description">
+                    <a href="/tags/{{ tag.name }}" class="btn btn-info btn-block">{{ tag.name }}</a>
+                </div>
+            </div>
+        </div>
+        
+   {% endfor %}
+   </div>
+   <br>
