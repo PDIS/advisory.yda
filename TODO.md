@@ -1,0 +1,1 @@
+add rainlab_blog_user_post table

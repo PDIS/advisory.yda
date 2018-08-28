@@ -81,9 +81,18 @@
             self.$popupForm = self.$popupContainer.find('form')
             self.itemSaved = false
 
-            $('input[name=title]', self.$popupContainer).focus().select()
-            $('select[name=type]', self.$popupContainer).change(function(){
+            var $titleField = $('input[name=title]', self.$popupContainer).focus().select()
+            var $typeField = $('select[name=type]', self.$popupContainer).change(function(){
                 self.loadTypeInfo(false, true)
+            })
+
+            $('select[name=reference]', self.$popupContainer).change(function() {
+                var selectedTitle = $(this).find('option:selected').text();
+                // If the saved title is the default new item title, use reference title,
+                // removing CMS page [base file name] suffix
+                if (selectedTitle && self.properties.title === self.$popupForm.attr('data-new-item-title')) {
+                    $titleField.val(selectedTitle.replace(/\s*\[.*\]$/, ''))
+                }
             })
 
             self.$popupContainer.on('keydown', function(e) {
@@ -107,6 +116,25 @@
                     self.loadTypeInfo(true)
                     return false
                 }
+            })
+
+            self.$popupContainer.on('change', 'select[name="referenceSearch"]', function() {
+                var $select = $(this),
+                    val = $select.val(),
+                    parts
+
+                if (!val) return
+
+                // type::reference ID
+                parts = val.split('::', 2)
+
+                self.referenceSearchOverride = parts[1];
+
+                $select.empty().trigger('change.select2');
+
+                $typeField
+                    .val(parts[0])
+                    .triggerHandler('change')
             })
 
             var $updateCmsPagesBtn = $updateTypeOptionsBtn.clone(true)
@@ -161,6 +189,51 @@
                     var $input = $('[name="viewBag['+vbProperty+']"]', $popupContainer).not('[type=hidden]')
                     setPropertyOnElement($input, vbVal)
                 })
+
+                /**
+                 * Mediafinder support
+                 */
+                var mediafinderElements = $('[data-control="mediafinder"]');
+                var storageMediaPath = $('[data-storage-media-path]').data('storage-media-path');
+
+                $.each(mediafinderElements, function() {
+
+                      var input = $(this).find('>input');
+                      var propertyName = input.attr('name');
+
+                      if( propertyName.length ) {
+                          var propertyNameSimple = propertyName.substr(8).slice(0,-1);
+                      }
+
+                      var propertyValue = '';
+
+                      $.each(val, function(vbProperty, vbVal) {
+                          if( vbProperty == propertyNameSimple ) {
+                              propertyValue = vbVal;
+                          }
+                      });
+
+                      if( propertyValue != '' ) {
+
+                          $(this).toggleClass('is-populated');
+                          input.attr('value', propertyValue);
+
+                          var image = $(this).find('[data-find-image]');
+
+                          if( image.length ) {
+                              image.attr('src', storageMediaPath + propertyValue );
+                          }
+
+                          var file = $(this).find('[data-find-file-name]');
+
+                          if( file.length ) {
+                              file.text( propertyValue.substr(1) );
+                          }
+
+                      }
+
+                });
+
             }
             else {
                 var $input = $('[name="'+property+'"]', $popupContainer).not('[type=hidden]')
@@ -201,6 +274,12 @@
             prevSelectedReference = $optionSelector.val(),
             prevSelectedPage = $cmsPageSelector.val()
 
+        // Search selection
+        if (this.referenceSearchOverride) {
+            prevSelectedReference = this.referenceSearchOverride;
+            this.referenceSearchOverride = null;
+        }
+        
         if (typeInfo.references) {
             $optionSelector.find('option').remove()
             $referenceFormGroup.show()
