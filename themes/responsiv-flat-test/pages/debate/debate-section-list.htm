@@ -1,0 +1,27 @@
+title = "Debate Section List"
+url = "/debate/:debate_id"
+layout = "default"
+is_hidden = 0
+robot_index = "index"
+robot_follow = "follow"
+==
+<?php
+use MarkDai\SayitPlugin\Models\DebateSection;
+
+function onStart()
+{
+    $debate_id = $this->param('debate_id');
+    $this['debate_id'] = $debate_id;
+    $this['sections'] = DebateSection::get()->where('debate_id', $debate_id);
+}
+?>
+==
+<ul class="record-list">
+    {% for section in sections %}
+        <li>
+            <a href="/debate/{{debate_id}}/{{section.id}}">{{ section.heading }}</a>
+        </li>
+    {% else %}
+        <li class="no-data">No Debate Section Found !</li>
+    {% endfor %}
+</ul>

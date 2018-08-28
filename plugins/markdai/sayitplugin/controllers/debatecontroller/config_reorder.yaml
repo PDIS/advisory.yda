@@ -1,0 +1,4 @@
+title: DebateController
+modelClass: MarkDai\SayitPlugin\Models\Debate
+toolbar:
+    buttons: reorder_toolbar

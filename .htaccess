@@ -15,7 +15,7 @@
     ##
     ## Uncomment following lines to force HTTPS.
     ##
-    # RewriteCond %{HTTPS} On
+    # RewriteCond %{HTTPS} off
     # RewriteRule (.*) https://%{SERVER_NAME}/$1 [R,L]
 
     ##

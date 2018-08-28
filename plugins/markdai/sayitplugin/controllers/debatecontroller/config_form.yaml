@@ -1,0 +1,10 @@
+name: DebateController
+form: $/markdai/sayitplugin/models/debate/fields.yaml
+modelClass: MarkDai\SayitPlugin\Models\Debate
+defaultRedirect: markdai/sayitplugin/debatecontroller
+create:
+    redirect: 'markdai/sayitplugin/debatecontroller/update/:id'
+    redirectClose: markdai/sayitplugin/debatecontroller
+update:
+    redirect: markdai/sayitplugin/debatecontroller
+    redirectClose: markdai/sayitplugin/debatecontroller

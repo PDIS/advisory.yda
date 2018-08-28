@@ -30,6 +30,16 @@ function onStart()
 }
 ?>
 ==
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-123352956-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-123352956-1');
+</script>
+
 <link href="{{ 'assets/css/meeting-page/meeting-modal.css'|theme }}" rel="stylesheet">
 <link href="{{ 'assets/css/meeting-page/meeting-info.css'|theme }}" rel="stylesheet">
 <link href="{{ 'assets/css/proposal-page/proposal-page.css'|theme }}" rel="stylesheet">

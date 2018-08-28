@@ -1,0 +1,25 @@
+title = "Debate List"
+url = "/"
+is_hidden = 0
+
+
+==
+<?
+use MarkDai\SayitPlugin\Models\Debate;
+
+function onStart()
+{
+    $this['debates'] = Debate::get();
+}
+?>
+==
+
+<ul class="record-list">
+    {% for debate in debates %}
+        <li>
+            <a href="/debate/{{debate.id}}">{{ debate.heading }}</a>
+        </li>
+    {% else %}
+        <li class="no-data">No Debate Found !</li>
+    {% endfor %}
+</ul>

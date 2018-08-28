@@ -1,0 +1,11 @@
+plugin:
+    name: 'markdai.sayitplugin::lang.plugin.name'
+    description: 'markdai.sayitplugin::lang.plugin.description'
+    author: 'Mark Dai'
+    icon: oc-icon-file-text-o
+    homepage: ''
+navigation:
+    speeches:
+        label: 逐字稿管理
+        url: markdai/sayitplugin/debatecontroller
+        icon: icon-file-text

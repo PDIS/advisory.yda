@@ -1,0 +1,26 @@
+fields:
+    heading:
+        label: 會議名稱
+        span: full
+        placeholder: '2016-01-01 青年諮詢委員會第 0 次會議'
+        required: 1
+        type: text
+    slug:
+        label: 'slug ( 自動產生 )'
+        span: auto
+        disabled: 0
+        hidden: 0
+        required: 1
+        defaultFrom: heading
+        trigger:
+            action: ''
+            field: heading
+        preset:
+            field: heading
+            type: slug
+        type: text
+    anurl:
+        label: 逐字稿連結
+        span: auto
+        required: 1
+        type: text

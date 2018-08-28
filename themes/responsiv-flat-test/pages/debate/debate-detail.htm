@@ -1,0 +1,30 @@
+title = "Debate Detail"
+url = "/debate/:debate_id/:debate_section_id"
+layout = "default"
+is_hidden = 0
+robot_index = "index"
+robot_follow = "follow"
+==
+<?php
+use MarkDai\SayitPlugin\Models\DebateSectionSpeech;
+use MarkDai\SayitPlugin\Models\DebateSection;
+
+function onStart()
+{
+    $debate_id = $this->param('debate_id');
+    $debate_section_id = $this->param('debate_section_id');
+    $this['section'] = DebateSection::find($debate_section_id);
+    $this['speeches'] = DebateSectionSpeech::get()->where('debate_section_id', $debate_section_id);
+}
+?>
+==
+<h2>{{section.heading}}</h2>
+<ul class="record-list">
+    {% for speech in speeches %}
+    <li>
+        {{speech.speaker}} : {{speech.speech}}
+    </li>
+    {% else %}
+    <li class="no-data">No Debate Section Found !</li>
+    {% endfor %}
+</ul>

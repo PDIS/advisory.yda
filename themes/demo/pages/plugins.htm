@@ -1,10 +1,9 @@
 title = "Plugin components"
 url = "/demo/plugins"
 layout = "default"
-is_hidden = 0
 
 [demoTodo]
-max = 10
+max = 3
 ==
 <div class="jumbotron title-js">
     <div class="container">
@@ -18,7 +17,7 @@ max = 10
 </div>
 
 <div class="container">
-    
+    {% component 'demoTodo' %}
 </div>
 
 <!-- Page Explanation -->

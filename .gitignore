@@ -1,4 +1,3 @@
-/config/database.php
 /bootstrap/compiled.php
 /vendor
 composer.phar
@@ -17,5 +16,9 @@ sftp-config.json
 selenium.php
 composer.lock
 
+/cms/framework/cache
+/cms/storage/cache
+
 # for netbeans
 nbproject
+.vscode/launch.json

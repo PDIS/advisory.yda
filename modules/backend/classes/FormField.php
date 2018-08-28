@@ -93,7 +93,7 @@ class FormField
     /**
      * @var bool Specifies if this field is mandatory.
      */
-    public $required = false;
+    public $required = null;
 
     /**
      * @var bool Specify if the field is read-only or not.
@@ -362,8 +362,7 @@ class FormField
         if ($this->value === null) {
             return false;
         }
-        ///2017/12/14 value->array post to post
-        $this->value = is_array($this->value) ? $this->value[0] : $this->value;
+
         return (string) $value === (string) $this->value;
     }
 

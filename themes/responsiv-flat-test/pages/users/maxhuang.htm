@@ -44,13 +44,24 @@ function onRun() {
 ==
 <html>
     <head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-123352956-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'UA-123352956-1');
+    </script>
+    
+
     </head>
 <body bgcolor="black" text="white" link="#00ffff" vlink="green" alink="yellow">
 <script>
     
-var clientId = ; //choose web app client Id, redirect URI and Javascript origin set to http://localhost
-var apiKey = ; //choose public apiKey, any IP allowed (leave blank the allowed IP boxes in Google Dev Console)
-var userEmail = ; //your calendar Id
+var clientId = '14448337952-cfil8u4aksd7q3rb7jfcsikunopib82a.apps.googleusercontent.com'; //choose web app client Id, redirect URI and Javascript origin set to http://localhost
+var apiKey = 'AIzaSyDHgQ_aOsEpzlZQONQ20EpdtYC5bKGAqYU'; //choose public apiKey, any IP allowed (leave blank the allowed IP boxes in Google Dev Console)
+var userEmail = "s89206x@gmail.com"; //your calendar Id
 var userTimeZone = "Taipei"; //example "Rome" "Los_Angeles" ecc...
 var maxRows = 10; //events to shown
 var calName = "YOUR CALENDAR NAME"; //name of calendar (write what you want, doesn't matter)

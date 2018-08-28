@@ -44,269 +44,367 @@ formPage = "blog/post"
 function onStart()
 {   
     $this->addCss('assets/css/tree.css');
+    $tmpQTag = $_ENV["GOOGLE_CALENDAR_TAG"];
+    if ( !empty($tmpQTag) ){
+        $this["GOOGLE_CALENDAR_TAG"] = $tmpQTag;
+    }else{
+        $this["GOOGLE_CALENDAR_TAG"] = "";
+    }
     
 }
 ?>
 ==
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-123352956-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-123352956-1');
+</script>
+
 <link href="{{ 'assets/css/home/fields.css'|theme }}" rel="stylesheet">
 {% put scripts %}
     <script src="{{ [
         'assets/vendor/isotope/jquery.isotope.js',
         'assets/javascript/pages/portfolio.js',
-    ]|theme }}"></script>
+    ]|theme }}">
+    </script>
 {% endput %}
 
 <!-- 文字雲JS end -->
+<div class="row" style="margin-right:0;margin-left:0;">
+    <!-- 文字雲2 -->
+    <section class="fields">
+        <div class="row" style="margin-right:0px;">
+            <div class="col-sm-12">
+                <h2 class="headline">
+                    <span>我們關心的領域</span>
+                </h2>
+                {% partial 'tagcloud' %}
+            </div>
+        </div>
+    </section>
 
-
-
-    <div class="row"style="margin-right:0;margin-left:0;">
-   <!-- 文字雲2 -->
-
-            <section class="fields">
-                  <div class="row"style="margin-right:0px;">
-                 <div class="col-sm-12">
-                 
-                        <h2 class="headline">
-                            <span>我們關心的領域</span>
-                        </h2>
-                       
-                       {% partial 'tagcloud' %} 
-                     
-                        </div>
-                    
-                       
-              </div>
-            </section>
-
-
-
- <link href="{{ 'assets/css/user/track.css'|theme }}" rel="stylesheet">
+    <link href="{{ 'assets/css/user/track.css'|theme }}" rel="stylesheet">
     <section id="track" class="container">
-    <div class="row">
-        <h4 class="headline">
-            <span>委員 Tracks</span>
-        </h4>
-    </div>
-    
-      <div class="row"> 
-        <!-- 搜詢 --> 
-      <div  class="container">
-      <div class="row">
+        <div class="row">
+            <h4 class="headline">
+                <span>委員 Tracks</span>
+            </h4>
+        </div>
 
-      <div class="col-sm-6 col-sm-offset-3">
-<form  method="GET" action="{{ Blog.resultPage|page }}">
-     <div class="input-group stylish-input-group">
-        <input type="text" class="form-control" name="search" class="form-control" placeholder="輸入關鍵字搜尋">
-    
-        {% if __SELF__.categoryFilter %}
-            <select name="cat[]" class="form-control">
-            {% for key,cat in Blog.categories %}
-                <option value="{{ key }}">{{ cat }}</option>
-            {% endfor %}
-            </select>
-        {% endif %}
-        <span class="input-group-addon">
-        <button  type="submit"><span class="glyphicon glyphicon-search">{{ ''|_ }}</span></button>
-        </span>    
-    </div>
-</form>
-</div>
-</div>
-</div>
-</div>
-      </br>
-      <body bgcolor="black" text="white" link="#00ffff" vlink="green" alink="yellow">
-<!-- Blog呈現 -->
-    <div class="row">
-        <div class="container">
+        <div class="row">
+            <!-- 搜詢 -->
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-6 col-sm-offset-3">
+                        <form method="GET" action="{{ Blog.resultPage|page }}">
+                            <div class="input-group stylish-input-group">
+                                <input type="text" class="form-control" name="search" class="form-control" placeholder="輸入關鍵字搜尋"> {% if __SELF__.categoryFilter %}
+                                <select name="cat[]" class="form-control">
+                                    {% for key,cat in Blog.categories %}
+                                    <option value="{{ key }}">{{ cat }}</option>
+                                    {% endfor %}
+                                </select>
+                                {% endif %}
+                                <span class="input-group-addon">
+                                    <button type="submit">
+                                        <span class="glyphicon glyphicon-search">{{ ''|_ }}</span>
+                                    </button>
+                                </span>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </br>
+        <body bgcolor="black" text="white" link="#00ffff" vlink="green" alink="yellow">
+        <!-- Blog呈現 -->
+        <div class="row">
             <div class="col-md-12">
                 <ul class="timeline" id="timeline_head"></ul>
             </div>
-<script>
-    var newpost = [];
-    var ul = document.getElementById('timeline_head');
-    var li;
-    var date;
-    
-    var timeline_i = 0;    
-    var clientId = ; //choose web app client Id, redirect URI and Javascript origin set to http://localhost
-    var apiKey = ; //choose public apiKey, any IP allowed (leave blank the allowed IP boxes in Google Dev Console)
-    var userEmail = ; //your calendar Id
-    var userTimeZone = "Taipei"; //example "Rome" "Los_Angeles" ecc...
-    var maxRows = 10; //events to shown
-    var calName = "YOUR CALENDAR NAME"; //name of calendar (write what you want, doesn't matter)
-    var scopes = 'https://www.googleapis.com/auth/calendar';  
-    
-    //--------------------- num Month to String
-    function monthString(num) {
-             if (num === "01") { return "1"; } 
-        else if (num === "02") { return "2"; } 
-        else if (num === "03") { return "3"; } 
-        else if (num === "04") { return "4"; } 
-        else if (num === "05") { return "5"; } 
-        else if (num === "06") { return "6"; } 
-        else if (num === "07") { return "7"; } 
-        else if (num === "08") { return "8"; } 
-        else if (num === "09") { return "9"; } 
-        else if (num === "10") { return "10"; } 
-        else if (num === "11") { return "11"; } 
-        else if (num === "12") { return "12"; }
-    }
-    //--------------------- end
-    
-    //--------------------- client CALL
-    function handleClientLoad() {
-        gapi.client.setApiKey(apiKey);
-        checkAuth();
-    }
-    //--------------------- end
-    
-    //--------------------- check Auth
-    function checkAuth() {
-        gapi.auth.authorize({client_id: clientId, scope: scopes, immediate: true}, handleAuthResult);
-    }
-    //--------------------- end
-    
-    //--------------------- handle result and make CALL
-    function handleAuthResult(authResult) {
-        if (authResult) {
-            makeApiCall();
-        }
-    }
-    //--------------------- end
-    
-    //--------------------- API CALL itself
-    function makeApiCall() {
-        var today = new Date(); //today date
-        gapi.client.load('calendar', 'v3', function () {
-            var request = gapi.client.calendar.events.list({
-                'calendarId' : userEmail,
-                'timeZone' : userTimeZone, 
-                'singleEvents': true, 
-                'timeMin': today.toISOString(), //gathers only events not happened yet
-                'maxResults': maxRows, 
-                'q': '#青諮會網站',
-                'orderBy': 'startTime'});
             
-            request.execute(function (resp) {
-                for (var i = resp.items.length - 1; i >= 0; i--) {
-                    var item = resp.items[i];
-                    var allDay = item.start.date? true : false;
-                    var startDT = allDay ? item.start.date : item.start.dateTime;
-                    var dateTime = startDT.split("T"); //split date from time
-                    var date = dateTime[0].split("-"); //split yyyy mm dd
-                    var startYear = date[0];
-                    var startMonth = monthString(date[1]);
-                    var startDay = date[2];
+            <script>
+            
+            var timelineHead = document.getElementById('timeline_head');
+            var leftOrRight = true; //left=true ; right=false
+            var existTags = [];
+            {% for tag in blogTags.tags %}
+                existTags.push('{{tag.name}}')
+            {% endfor %}
+            
+            function handleClientLoad() {
+                var API_KEY = 'AIzaSyCohFxIG6E7gPRFzkxaawVJHNvufRFSJuo';
+                // var API_KEY = 'AIzaSyCohFxIG6E7gPRFzkxaawVJHNvufRFSJuo111';
+                var DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"];
+                var userEmail = "youyhaw@gmail.com"; //your calendar Id
+                var userTimeZone = "Taipei"; //example "Rome" "Los_Angeles" ecc...
+                // var maxRows = 10; //events to shown
+                var qTag = '{{ GOOGLE_CALENDAR_TAG }}'; //Get param from php function onStart()
+
+                gapi.client.init({
+                    apiKey: API_KEY,
+                    discoveryDocs: DISCOVERY_DOCS,
+                }).then(function(){
+                    return gapi.client.calendar.events.list({
+                            'calendarId' : userEmail,
+                            'timeZone' : userTimeZone, 
+                            'singleEvents': true, 
+                            'timeMin': (new Date()).toISOString(), //gathers only events not happened yet
+                            // 'maxResults': maxRows, 
+                            'q': qTag,
+                            'orderBy': 'startTime'});
+                }).then(function (response) {
+                    console.log('Success');
+
+                    var events = response.result.items;
                     
-                    li = document.createElement('li');
-                    if(i % 2 == 0)
-                        li.classList.add("timeline-inverted");
-                    li.innerHTML =
-                        '<div class="timeline-panel" data-toggle="modal" data-target="#meeting-Modal">'
-                            + '<div class="timeline-body">'
-                                + '<h4>' + item.summary + '</h4>'
-                            + '</div>'
-                        + '</div>'
-                        + '<div class="avatars">'
-                            + '<div class="col-md-12">'
-                                + '<div class="timeline-date">'
-                                    + startYear+'/' + startMonth + '/' + startDay
-                                + '</div>'
-                             + '</div>'
-                        + '</div>';
-                    ul.appendChild(li);
-                }
-                timeline_i = resp.items.length;
-                renderPost();
-            });
-        });
-    }
-    //--------------------- end
-        
-    function renderPost() {
-        {% for post in posts if post.categories[0].id != 1 %}
-            var postObject = {};
-            postObject.id = "{{post.id}}";
-            postObject.url = "{{post.url}}";
-            postObject.title = "{{post.title}}";
-            postObject.tagNames = [];
-            {% for tag in post.tags %}
-                postObject.tagNames.push("{{tag.name}}");
-            {% endfor %}
-            postObject.getUsers = [];
-            {% for user in post.getUsers %}
-                var user = {};
-                user.avatar = {};
-                user.avatar.path = "{{user.avatar.path}}";
-                user.id = "{{user.id}}";
-                postObject.getUsers.push(user);
-            {% endfor %}
-            postObject.published_at = "{{post.published_at}}";
-            newpost.push(postObject);
-        {% endfor %}
-        
-        for(var i=timeline_i; i < newpost.length; ++i){
-            var post = newpost[i];
-            var tagString = "";
-            var avatarString = "";
-            for(var j = 0; j < post.tagNames.length; ++j) {
-                var tagName = post.tagNames[j];
-                tagString += 
-                        '<a href="{{ 'blog/tag'|page }}/' + tagName + '" class="pull-right">'
-                            + '<span class="label label-success">' + tagName + '</span>'
-                        + '</a>';
+                    for (var i = events.length - 1; i >= 0; i--) {
+                        var item = events[i];
+                        
+                        descSplitNewLines = item.description.split('\n');
+
+                        var tags = [];
+                        descSplitNewLines.forEach(function(descSplitNewLine){
+                            descSplitSpaces = descSplitNewLine.split(' ');
+                            descSplitSpaces.forEach(function(str){
+                                reg = str.match(/^#[\u4e00-\u9fa5]+/)
+                                if (reg){
+                                    formalStr = reg[0].replace(/^#/, ''); //Harry: remove prefix '#'
+                                    if (formalStr != qTag){
+                                        var existFlag = false; //Harry: Can delete
+                                        for (var i=0; i<existTags.length; i++) {
+                                            existTag = existTags[i];
+                                            if (formalStr == existTag){
+                                                tags.push(formalStr);
+                                                existFlag = true;
+                                                break;        
+                                            }
+                                        }
+                                        if (!existFlag){
+                                            console.log('Tag \'' + formalStr + '\'' + ' do not exist !');
+                                        }
+                                    }
+                                }
+                            })
+                        });
+                        
+                        
+                        var tagString = '';
+                        // var avatarString = '';
+
+                        tags.forEach(function(tag){
+                            tagString += '<a href="{{ 'blog/tag'|page }}/' + tag + '" class="pull-right">';
+                            tagString += '<span class="label label-success">' + tag + '</span>';
+                            tagString += '</a>';
+                        });
+
+                        // {% for user in post.getUsers %}
+                        //     avatarString += '<a href="{{ 'test/userpost'|page({ id:user.id }) }}">';
+                        //     avatarString += '<div class="avatar" style="background:url(\'{{user.getAvatarThumb(60)}}\');">';
+                        //     avatarString += '</div>';
+                        //     avatarString += '</a>';
+                        // {% endfor %}
+
+                        var allDay = item.start.date? true : false;
+                        var startDT = allDay ? item.start.date : item.start.dateTime;
+                        var dateTime = startDT.split("T"); //split date from time
+                        var date = dateTime[0].split("-"); //split yyyy mm dd
+                        var startYear = date[0];
+                        var startMonth = date[1];
+                        var startDay = date[2];
+
+                        //timeline-panel            
+                        postTitle = document.createElement('h4');
+                        postTitle.textContent += item.summary;
+
+                        postTitleLink = document.createElement('a');  
+                        postTitleLink.appendChild(postTitle);
+
+                        timeLineBody = document.createElement('div');
+                        timeLineBody.classList.add('timeline-body');
+                        timeLineBody.appendChild(postTitleLink);
+
+                        timeLineFooter = document.createElement('div');
+                        timeLineFooter.classList.add('timeline-footer');
+                        timeLineFooter.innerHTML= tagString; //tagString need to use js DOM
+
+                        timeLinePanel = document.createElement('div');
+                        timeLinePanel.classList.add('timeline-panel');
+                        timeLinePanel.appendChild(timeLineBody);
+                        timeLinePanel.appendChild(timeLineFooter);
+
+                        //avatars
+                        profilePicture = document.createElement('div');
+                        profilePicture.className = 'profile-picture col-lg-10 col-md-9 col-sm-8 col-xs-12';
+                        // profilePicture.innerHTML += avatarString; //avatarString is profile picture
+
+                        timeLineDate = document.createElement('div');
+                        timeLineDate.classList.add('timeline-date');
+                        timeLineDate.textContent += startYear + '-' + startMonth + '-' + startDay
+
+                        timeLineDateBox = document.createElement('div');
+                        timeLineDateBox.className = 'col-lg-2 col-md-3 col-sm-4 col-xs-12';
+                        timeLineDateBox.appendChild(timeLineDate);
+
+                        colTimeLineDate = document.createElement('div');
+                        colTimeLineDate.className = 'col-md-12';
+                        colTimeLineDate.appendChild(profilePicture);
+                        colTimeLineDate.appendChild(timeLineDateBox);
+                        // colTimeLineDate.innerHTML += profilePicture;
+
+                        avatars = document.createElement('div');
+                        avatars.classList.add('avatars');
+                        avatars.appendChild(colTimeLineDate);
+
+                        //li.timeline
+                        timelineLi = document.createElement('li');
+                        if(!leftOrRight){
+                            timelineLi.classList.add("timeline-inverted");
+                        }
+
+                        timelineLi.appendChild(timeLinePanel);
+                        timelineLi.appendChild(avatars);
+
+                        timelineHead.appendChild(timelineLi);
+
+                        leftOrRight ^= true; //toggle to left or right
+                    }
+                    renderPost();
+                }, function (reason) {
+                    console.log('Fail');
+                    renderPost();
+                });
             }
-            {% for post in posts if post.categories[0].id != 1 %}
-                if(post.id == {{post.id}}) {
+
+            function renderPost(){
+                console.log('renderPost');
+                timelineLiCount = 0;
+                profilePictureHeight = 0;
+
+                {% for post in posts if post.categories[0].id != 1 %}
+
+                    var tagString = '';
+                    var avatarString = '';
+
+                    {% for tag in post.tags %}
+                        tagName = '{{tag.name}}'
+                        tagString += '<a href="{{ 'blog/tag'|page }}/' + tagName + '" class="pull-right">';
+                        tagString += '<span class="label label-success">' + tagName + '</span>';
+                        tagString += '</a>';
+                    {% endfor %}
+
                     {% for user in post.getUsers %}
                         avatarString += '<a href="{{ 'test/userpost'|page({ id:user.id }) }}">';
-                        {% if  user.avatar.path|length!=0%}
-                            avatarString += '<div class="avatar" style="background:url(\'{{user.avatar.path}}\');">';
-                        {%else%}
-                            avatarString += '<div class="avatar" style="background:url(\'{{'assets/images/users/nopicture.jpg'|theme}}\');">';
-                        {% endif %}
-                            avatarString += '</div>';
+                        avatarString += '<div class="avatar" style="background:url(\'{{user.getAvatarThumb(60)}}\');">';
+                        avatarString += '</div>';
                         avatarString += '</a>';
                     {% endfor %}
-                }
-            {% endfor %}
-            date=new Date(post.published_at.replace(/-/g,'/'));
-            li = document.createElement('li');
-            if(i % 2 == 0)
-                li.classList.add("timeline-inverted");
-            li.innerHTML =
-                '<div class="timeline-panel" data-toggle="modal" data-target="#meeting-Modal" onclick="window.location=\'' + post.url + '\';">'
-                    + '<div class="timeline-body">'
-                        + '<h4><a href="' + post.url + '">' + post.title + '</a></h4>'
-                    + '</div>'
-                    + '<div class="timeline-footer">'
-                        + tagString
-                    + '</div>'
-                + '</div>';
-            // li.innerHTML += '<div class="avatars" style="margin-right: 50px">'
-            li.innerHTML += '<div class="avatars">'
-                 +'<div class="col-md-12">'
-                        // + '<div class="timeline-date" style="margin-right: 10%;">'
-                        + '<div class="timeline-date">'
-                        + date.getFullYear()+'/' + (date.getMonth()+1)+ '/'+date.getDate()
-                        
-                    + '</div>'
-                    + avatarString
+
+                    //timeline-panel            
+                    postTitle = document.createElement('h4');
+                    postTitle.textContent += '{{post.title}}';
+
+                    postTitleLink = document.createElement('a');
+                    postTitleLink.href = '{{post.url}}';          
+                    postTitleLink.appendChild(postTitle);
+
+                    timeLineBody = document.createElement('div');
+                    timeLineBody.classList.add('timeline-body');
+                    timeLineBody.appendChild(postTitleLink);
+
+                    timeLineFooter = document.createElement('div');
+                    timeLineFooter.classList.add('timeline-footer');
+                    timeLineFooter.innerHTML= tagString; //tagString need to use js DOM
+
+                    timeLinePanel = document.createElement('div');
+                    timeLinePanel.classList.add('timeline-panel');
+                    timeLinePanel.appendChild(timeLineBody);
+                    timeLinePanel.appendChild(timeLineFooter);
+
+                    //avatars
+                    profilePicture = document.createElement('div');
+                    profilePicture.className = 'profile-picture col-lg-10 col-md-9 col-sm-8 col-xs-12';
+                    profilePicture.innerHTML += avatarString;
+
+                    timeLineDate = document.createElement('div');
+                    timeLineDate.classList.add('timeline-date');
+                    timeLineDate.textContent += '{{post.published_at|date("Y-m-d")}}'
+
+                    timeLineDateBox = document.createElement('div');
+                    timeLineDateBox.className = 'col-lg-2 col-md-3 col-sm-4 col-xs-12';
+                    timeLineDateBox.appendChild(timeLineDate);
+
+                    colTimeLineDate = document.createElement('div');
+                    colTimeLineDate.className = 'col-md-12';
+                    colTimeLineDate.appendChild(profilePicture);
+                    colTimeLineDate.appendChild(timeLineDateBox);
+
+                    avatars = document.createElement('div');
+                    avatars.classList.add('avatars');
+                    avatars.appendChild(colTimeLineDate);
                     
-                 + '</div>'
-            
-                + '</div>';
-            ul.appendChild(li);
-        }
-        li = document.createElement('li');
-        li.classList.add('clearfix');
-        li.style.float = 'none';
-        ul.appendChild(li);
-    }
-</script>
-<script src='https://apis.google.com/js/client.js?onload=handleClientLoad'></script>
+                    //li.timeline
+                    timelineLi = document.createElement('li');
+                    if(!leftOrRight){
+                        timelineLi.classList.add("timeline-inverted");
+                    }
+                    
+                    timelineLi.appendChild(timeLinePanel);
+                    timelineLi.appendChild(avatars);
+
+                    timelineHead.appendChild(timelineLi);
+
+                    leftOrRight ^= true; //toggle to left or right
+                {% endfor %}
+
+                clearfix = document.createElement('li');
+                clearfix.classList.add('clearfix');
+                clearfix.style.float = 'none';
+                timelineHead.appendChild(clearfix);
+            }
+            </script>
+            <script src='https://apis.google.com/js/client.js?onload=handleClientLoad'></script>
+            <!-- Hao -->
+            <!-- <script src="https://apis.google.com/js/api.js?"></script>
+            <script>
+            /**
+            * Sample JavaScript code for calendar.events.list
+            * See instructions for running APIs Explorer code samples locally:
+            * https://developers.google.com/explorer-help/guides/code_samples#javascript
+            */
+            const YOUR_API_KEY = 'AIzaSyCohFxIG6E7gPRFzkxaawVJHNvufRFSJuo';
+            function loadClient() {
+                console.log('loadClient');
+                gapi.client.setApiKey(YOUR_API_KEY);
+                return gapi.client.load("https://content.googleapis.com/discovery/v1/apis/calendar/v3/rest")
+                    .then(function() { 
+                            console.log("GAPI client loaded for API"); 
+                            execute();
+                        },function(err) { 
+                            console.error("Error loading GAPI client for API", err); 
+                        });
+            }
+            // Make sure the client is loaded before calling this method.
+            function execute() {
+                console.log('execute');
+                var userEmail = "youyhaw@gmail.com"; //your calendar Id
+                return gapi.client.calendar.events.list({
+                "calendarId": userEmail
+                })
+                    .then(function(response) {
+                            // Handle the results here (response.result has the parsed body).
+                            console.log("Response", response);
+                        },
+                        function(err) { console.error("Execute error", err); });
+            }
+            gapi.load("client");
+            </script>
+            <script src='https://apis.google.com/js/client.js?onload=loadClient'></script> -->
+
         </div>
-    </div>
 </section>

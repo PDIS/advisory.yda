@@ -1,0 +1,11 @@
+plugin:
+    name: 'kilfedder.calendar::lang.plugin.name'
+    description: 'kilfedder.calendar::lang.plugin.description'
+    author: ice
+    icon: oc-icon-calendar
+    homepage: ''
+navigation:
+    main-menu-item:
+        label: 'Menu Item'
+        url: /
+        icon: icon-calendar

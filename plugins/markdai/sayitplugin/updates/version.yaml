@@ -1,0 +1,29 @@
+1.0.1:
+    - 'Initialize plugin.'
+1.0.2:
+    - 'Created table markdai_sayitplugin_debate'
+    - builder_table_create_markdai_sayitplugin_debate.php
+1.0.3:
+    - 'Created table markdai_sayitplugin_debate_section'
+    - builder_table_create_markdai_sayitplugin_debate_section.php
+1.0.4:
+    - 'Drop table markdai_sayitplugin_debate_section'
+    - builder_table_delete_markdai_sayitplugin_debate_section.php
+1.0.5:
+    - 'Created table markdai_sayitplugin_debate_section'
+    - builder_table_create_markdai_sayitplugin_debate_section_2.php
+1.0.6:
+    - 'Created table markdai_sayitplugin_debate_section_speech'
+    - builder_table_create_markdai_sayitplugin_debate_section_speech.php
+1.0.7:
+    - 'Updated table markdai_sayitplugin_debate'
+    - builder_table_update_markdai_sayitplugin_debate.php
+1.0.8:
+    - 'Updated table markdai_sayitplugin_debate'
+    - builder_table_update_markdai_sayitplugin_debate_2.php
+1.0.9:
+    - 'Updated table markdai_sayitplugin_debate_section'
+    - builder_table_update_markdai_sayitplugin_debate_section.php
+1.0.10:
+    - 'Updated table markdai_sayitplugin_debate_section_speech'
+    - builder_table_update_markdai_sayitplugin_debate_section_speech.php
