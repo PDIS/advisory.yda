@@ -1,4 +1,4 @@
-# Run youth-concil web by docker
+# Run youth-council web by docker
 
 docker run -p 80:80 --rm --name youth-concil \
 -v $(pwd)/plugins:/var/www/html/plugins \
