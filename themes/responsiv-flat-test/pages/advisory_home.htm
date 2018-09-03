@@ -27,7 +27,7 @@ function onInit()
     $this['userpop'] =\System\Models\File::where("field", "=", "avatar")->get();
     $user = Auth::getUser(true);
     $this['activatedUsers'] = User::whereIsActivated(true)->orderByRaw($rand)->get();
-   
+    var_dump(User::whereIsActivated(true)->orderByRaw($rand)->get());
 }
 function onStart()
 {
