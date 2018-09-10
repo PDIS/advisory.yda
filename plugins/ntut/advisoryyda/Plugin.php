@@ -4,7 +4,7 @@ use System\Classes\PluginBase;
 
 class Plugin extends PluginBase
 {
-    public $require = ['RainLab.Blog'];
+    public $require = ['RainLab.Blog','FireUnion.BlogFront'];
 	
     public function registerComponents()
     {

@@ -1,0 +1,27 @@
+version: '2.2'
+services:
+  web:
+    image: aspendigital/octobercms:php7.0-apache
+    ports:
+      - 80:80
+    volumes:
+      - ./plugins:/var/www/html/plugins
+      - ./themes:/var/www/html/themes
+      - ./env:/var/www/html/.env
+    environment:
+      - DB_TYPE=mysql
+      - DB_HOST=mysql 
+      - DB_DATABASE=octobercmsdb
+      - DB_USERNAME=root
+      - DB_PASSWORD=root
+
+  mysql:
+    image: mysql:latest
+    command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - ./sql:/docker-entrypoint-initdb.d
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=octobercmsdb

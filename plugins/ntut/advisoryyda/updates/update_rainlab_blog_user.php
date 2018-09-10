@@ -3,7 +3,7 @@
 use Schema;
 use October\Rain\Database\Updates\Migration;
 
-class BuilderTableUpdateRainlabBlogPosts extends Migration
+class BuilderTableUpdateRainlabBlogUsers extends Migration
 {
     public function up()
     {
