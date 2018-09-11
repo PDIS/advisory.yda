@@ -100,6 +100,10 @@ class Post extends Model
         ]
     ];
 
+    public $hasOne = [
+        'transcript' => ['MarkDai\SayitPlugin\Models\Debate']
+    ];
+
     public $attachMany = [
         'featured_images' => ['System\Models\File', 'order' => 'sort_order'],
         'content_images' => ['System\Models\File']
