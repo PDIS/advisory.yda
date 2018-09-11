@@ -9,7 +9,7 @@ class BuilderTableUpdateMarkdaiSayitpluginDebate3 extends Migration
     {
         Schema::table('markdai_sayitplugin_debate', function($table)
         {
-            $table->integer('post_id')->nullable()->change();
+            $table->integer('post_id')->nullable();
         });
     }
     
@@ -17,7 +17,7 @@ class BuilderTableUpdateMarkdaiSayitpluginDebate3 extends Migration
     {
         Schema::table('markdai_sayitplugin_debate', function($table)
         {
-            $table->integer('post_id')->nullable(false)->change();
+            $table->dropColumn('post_id');
         });
     }
 }
