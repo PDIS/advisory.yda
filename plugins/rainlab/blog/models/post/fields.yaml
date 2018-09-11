@@ -37,7 +37,18 @@ secondaryTabs:
             type: relation
             commentAbove: rainlab.blog::lang.post.categories_comment
             placeholder: rainlab.blog::lang.post.categories_placeholder
-
+        
+        transcript:
+            label: 相關逐字稿
+            oc.commentPosition: ''
+            nameFrom: heading
+            descriptionFrom: heading
+            list: ~/plugins/markdai/sayitplugin/models/debate/columns.yaml
+            span: full
+            prompt: '請點擊 %s 選擇逐字稿'
+            type: recordfinder
+            tab: 'rainlab.blog::lang.post.tab_categories'
+        
         published:
             tab: rainlab.blog::lang.post.tab_manage
             label: rainlab.blog::lang.post.published
