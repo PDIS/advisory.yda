@@ -8,6 +8,7 @@ use RainLab\Blog\Models\Category;
 use FireUnion\BlogFront\Models\Author;
 use Backend\Models\User as Admin;
 use RainLab\Blog\Models\Post;
+use Db;
 
 class SeedAllTables extends Seeder
 {
@@ -151,10 +152,15 @@ class SeedAllTables extends Seeder
             ',
             'content_html' => '<p><strong>壹、主席致詞</strong></p> <p><strong>貳、頒發聘書</strong></p> <p><strong>參、委員自我介紹</strong></p> <p><strong>肆、提案與討論</strong></p> <p><strong>伍、主席回應與結論</strong></p> <p>一、「行政院青年諮詢委員會」（以下簡稱青諮會）為行政團隊與青年朋友溝通、交換意見的平臺，並非邀請委員為公共政策背書，而是讓不同領域中有見解與想法的年輕人，大膽嘗試從各種觀點提出建言，讓政府瞭解政策需要加強與改善之處。</p> <p>二、有關青年代表擔任之委員（以下簡稱青年委員）相互推選第2位「副召集人」票選結果，由黃委員敬峰當選（獲12票）。</p> <p>三、有關政府計畫公開部分，本院未來將規劃串接「KMPublic」及「公共政策網路參與平臺」的功能，讓大家有機會針對各項子計畫或議題進行實質的討論與分享。</p> <p>四、有關94年以來「青年發展法」草案的3個不同版本之委託研究成果，請教育部綜合盤點後提供委員參考。</p> <p>五、對某項議題感興趣的委員，可以連署（至少3人）後自行組成一個分組，並邀相關部會代表參與，以產出至少一份施政建議文件為目標。</p> <p>六、請幕僚單位協助於會後函請各部會盤點哪些會議可讓青年委員出席參加，以利青年委員瞭解政策議題。</p> <p>陸、散會(下午5時30分) 行政院青年諮詢委員會第1次會議紀錄</p> <p>逐字稿連結</p>',
             'categories' => [5],
-            'level' => 1,
-            'users' => [1,2,3]
+            'level' => 1
         ]);
         
+        Db::table('rainlab_blog_user_post')->insert([
+            ['user_id' => 1,'post_id' => 3],
+            ['user_id' => 2,'post_id' => 3],
+            ['user_id' => 3,'post_id' => 3]
+        ]);
+
         $settings = Settings::instance();
         $settings->value = json_decode('{"profile_field":[{"name":"headline","type":"text","label":"headline","comment":"","tab":"Profile","span":"left","required":"0"},{"name":"facebook","type":"text","label":"facebook","comment":"","tab":"Profile","span":"right","required":"0"},{"name":"instagram","type":"text","label":"Instagram","comment":"","tab":"Profile","span":"right","required":"0"},{"name":"twitter","type":"text","label":"twitter","comment":"","tab":"Profile","span":"left","required":"0"},{"name":"website","type":"text","label":"website","comment":"","tab":"Profile","span":"left","required":"0"},{"name":"expertises","type":"text","label":"expertises","comment":"","tab":"Profile","span":"right","required":"0"},{"name":"interested_topics","type":"textarea","label":"interested_topics","comment":"","tab":"Profile","span":"full","required":"0"},{"name":"about_me","type":"textarea","label":"about_me","comment":"","tab":"Profile","span":"full","required":"0"}]}',true);
         $settings->save();
