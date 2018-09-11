@@ -88,7 +88,7 @@ class Post extends Model
             'order' => 'tag_id desc'
         ],      
         'users' => [
-            'Bedard\User\Models\User',
+            'RainLab\User\Models\User',
             'table' => 'rainlab_blog_user_post',
             'key' => 'user_id',
             'order' => 'post_id desc'
