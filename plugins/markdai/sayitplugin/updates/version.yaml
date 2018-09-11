@@ -27,3 +27,6 @@
 1.0.10:
     - 'Updated table markdai_sayitplugin_debate_section_speech'
     - builder_table_update_markdai_sayitplugin_debate_section_speech.php
+1.0.11:
+    - 'Updated table markdai_sayitplugin_debate_section_speech'
+    - builder_table_update_markdai_sayitplugin_debate_section_speech_2.php
