@@ -67,6 +67,9 @@ function onStart()
                                     
                                         <div class="col-md-12">
                                            {{ post.content_html|raw }}
+                                           {% if post.transcript %}
+                                               <a href="/debate/{{post.transcript.id}}" target="_blank" >逐字稿連結</a>
+                                           {% endif %}
                                         </div>
                                     
                                 </div>
