@@ -39,6 +39,7 @@ class Controller extends Extendable
     use \Backend\Traits\ErrorMaker;
     use \Backend\Traits\WidgetMaker;
 
+    public static $gpvip_Date = 'test';
     /**
      * @var object Reference the logged in admin user.
      */
@@ -209,7 +210,7 @@ class Controller extends Extendable
                 return Response::make(View::make('backend::access_denied'), 403);
             }
         }
-        
+
         /*
          * Extensibility
          */
@@ -391,7 +392,6 @@ class Controller extends Extendable
      */
     protected function execAjaxHandlers()
     {
-
         if ($handler = $this->getAjaxHandler()) {
             try {
                 /*
@@ -406,6 +406,12 @@ class Controller extends Extendable
                  */
                 if ($partialList = trim(Request::header('X_OCTOBER_REQUEST_PARTIALS'))) {
                     $partialList = explode('&', $partialList);
+
+                    foreach ($partialList as $partial) {
+                        if (!preg_match('/^(?!.*\/\/)[a-z0-9\_][a-z0-9\_\-\/]*$/i', $partial)) {
+                            throw new SystemException(Lang::get('cms::lang.partial.invalid_name', ['name'=>$partial]));
+                        }
+                    }
                 }
                 else {
                     $partialList = [];

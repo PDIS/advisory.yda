@@ -1,0 +1,129 @@
+.test {
+    background-color: yellow;
+}
+
+.table-black td, .table-black th  {
+    border-color: #000000;
+    border-style: solid;
+    border-width: 1px;
+}
+
+.table-black th  {
+    text-align: center;
+}
+
+.new-line {
+    white-space: pre-line;
+}
+
+/* gpivp */
+
+.table-success th:nth-child(1) {
+    width:50px;
+}
+
+.table-success th:nth-child(2) {
+    width:150px;
+}
+
+.table-success th:nth-child(3) {
+    width:200px;
+}
+
+.table-success th:nth-child(4) {
+    width:100px;
+}
+
+.table-success th:nth-child(5) {
+    width:100px;
+}
+
+
+@media only screen and (max-width: 720px) {
+    /* Force table to not be like tables anymore */
+    .break-table {
+        background-color: transparent !important;
+    }
+    .break-table,
+    .break-table thead,
+    .break-table tbody,
+    .break-table th,
+    .break-table td,
+    .break-table tr {
+        display: block;
+    }
+
+    /* Hide table headers (but not display: none;, for accessibility) */
+    .break-table thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+
+    .break-table tr {
+        border-top: 5px solid #ddd;
+        margin-bottom: 10px;
+        background-color: #ffffff;
+    }
+
+    .break-table td {
+        /* Behave  like a "row" */
+        border: none !important;
+        border-bottom: 1px solid #eee !important;
+        position: relative;
+        padding-left: 35% !important;
+        white-space: normal;
+        text-align: left;
+    }
+
+    .break-table td:last-child {
+        /* Behave  like a "row" */
+        border: none !important;
+    }
+
+    .break-table td:before {
+        /* Now like a table header */
+        position: absolute;
+        /* Top/left values mimic padding */
+        top: 6px;
+        left: 6px;
+        width: 30%;
+        padding-right: 10px;
+        white-space: nowrap;
+        text-align: left;
+        font-weight: bold;
+        color: #1a1a1a;
+    }
+    .break-table td:before {
+        content: attr(data-title);
+    }
+}
+
+
+/* Accessibility */
+
+#AU, #AC { 
+    opacity: 0;
+    font-size: inherit;
+    text-decoration: none;
+}
+
+#AU:focus, #AC:focus {
+    opacity: 1;
+}
+
+#AU:hover, #AC:hover {
+    opacity: 1;
+}
+
+.display-block {
+    display: block;
+}
+
+a:focus, a.dropdown-toggle:focus {
+    outline: dotted red;
+}
+
+a {
+    outline: none;
+}

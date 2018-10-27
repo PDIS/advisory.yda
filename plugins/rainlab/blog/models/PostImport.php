@@ -1,9 +1,13 @@
 <?php namespace RainLab\Blog\Models;
 
+use ApplicationException;
 use Backend\Models\ImportModel;
 use Backend\Models\User as AuthorModel;
-use ApplicationException;
+use Bedard\BlogTags\Models\Tag as Tag;
 use Exception;
+use MarkDai\SayitPlugin\Models\Debate as Transcript;
+use RainLab\User\Models\User as User;
+use Vdomah\Excel\Classes\Excel;
 
 /**
  * Post Import Model
@@ -16,13 +20,25 @@ class PostImport extends ImportModel
      * Validation rules
      */
     public $rules = [
-        'title'   => 'required',
-        'content' => 'required'
+        'title' => 'required',
+        'content' => 'required',
     ];
 
     protected $authorEmailCache = [];
 
     protected $categoryNameCache = [];
+
+    public static $combineColumn = array(
+        'casenum' => '案號',
+        'case' => '案由',
+        'proposer' => '提案人',
+        'cosigner' => '連署人',
+        'content' => '一、青年委員提案內容',
+        'description' => '(一)提案說明',
+        'suggestion' => '(二)具體建議',
+        'opinion' => '二、綜合研處意見',
+        'resolution' => '決議',
+    );
 
     public function getDefaultAuthorOptions()
     {
@@ -61,26 +77,59 @@ class PostImport extends ImportModel
                  */
                 $post = Post::make();
 
-                if ($this->update_existing) {
-                    $post = $this->findDuplicatePost($data) ?: $post;
-                }
+                // if ($this->update_existing) {
+                //     $post = $this->findDuplicatePost($data) ?: $post;
+                // }
 
-                $postExists = $post->exists;
+                // $postExists = $post->exists;
 
                 /*
                  * Set attributes
                  */
-                $except = ['id', 'categories', 'author_email'];
+                $except = ['id', 'slug', 'categories', 'author_email', 'tags', 'petitioners', 'relative_posts'];
 
                 foreach (array_except($data, $except) as $attribute => $value) {
                     $post->{$attribute} = $value ?: null;
                 }
+
+                if (!$post->{'title'}) {
+                    $this->logError($row, '[Title] could not be empty.');
+                }
+
+                $post->{'published'} = 1;
+                $post->{'slug'} = md5($post->{'title'} . date('Y-m-d h:i:s'));
 
                 if ($author = $this->findAuthorFromEmail($data)) {
                     $post->user_id = $author->id;
                 }
 
                 $post->forceSave();
+
+                $users = $this->findUsers($data, 'attendees');
+                foreach ($users as $user) {
+                    $post->users()->save($user);
+                }
+
+                $users = $this->findUsers($data, 'petitioners');
+                foreach ($users as $user) {
+                    $post->reconsideration_users()->save($user);
+                }
+
+                $tags = $this->findTags($data);
+                foreach ($tags as $tag) {
+                    $post->tags()->save($tag);
+                }
+
+                // post_child
+                $postChilds = $this->findPosts($data);
+                foreach ($postChilds as $postChild) {
+                    $post->post_child()->save($postChild);
+                }
+
+                $transcript = $this->findTranscript($data);
+                if ($transcript) {
+                    $post->transcript()->save($transcript);
+                }
 
                 if ($categoryIds = $this->getCategoryIdsForPost($data)) {
                     $post->categories()->sync($categoryIds, false);
@@ -89,14 +138,12 @@ class PostImport extends ImportModel
                 /*
                  * Log results
                  */
-                if ($postExists) {
-                    $this->logUpdated();
-                }
-                else {
-                    $this->logCreated();
-                }
-            }
-            catch (Exception $ex) {
+                // if ($postExists) {
+                //     $this->logUpdated();
+                // } else {
+                $this->logCreated();
+                // }
+            } catch (Exception $ex) {
                 $this->logError($row, $ex->getMessage());
             }
         }
@@ -114,6 +161,82 @@ class PostImport extends ImportModel
 
         $author = AuthorModel::where('email', $email)->first();
         return $this->authorEmailCache[$email] = $author;
+    }
+
+    protected function findUsers($data, $type)
+    {
+
+        if (!$usersStr = array_get($data, $type)) {
+            return;
+        }
+
+        $arr = explode(",", $usersStr);
+
+        $users = [];
+
+        foreach ($arr as $value) {
+            $user = User::where('name', $value)->first();
+            if ($user) {
+                $users[] = $user;
+            }
+        }
+
+        return $users;
+    }
+
+    protected function findTags($data)
+    {
+
+        if (!$tagsStr = array_get($data, 'tags')) {
+            return;
+        }
+
+        $arr = explode(",", $tagsStr);
+
+        $tags = [];
+        foreach ($arr as $value) {
+            $item = Tag::where('name', $value)->first();
+            if (!$item) {
+                $item = new Tag;
+                $item->name = $value;
+                $item->save();
+            }
+            $tags[] = $item;
+        }
+
+        return $tags;
+    }
+
+    protected function findPosts($data)
+    {
+
+        if (!$itemsStr = array_get($data, 'relative_posts')) {
+            return;
+        }
+
+        $arr = explode(",", $itemsStr);
+
+        $items = [];
+        foreach ($arr as $value) {
+            $item = Post::where('title', $value)->first();
+            if ($item) {
+                $items[] = $item;
+            }
+        }
+
+        return $items;
+    }
+
+    protected function findTranscript($data)
+    {
+
+        if (!$itemStr = array_get($data, 'transcript')) {
+            return;
+        }
+
+        $item = Transcript::where('heading', $itemStr)->first();
+
+        return $item;
     }
 
     protected function findDuplicatePost($data)
@@ -146,17 +269,43 @@ class PostImport extends ImportModel
 
                 if (isset($this->categoryNameCache[$name])) {
                     $ids[] = $this->categoryNameCache[$name];
-                }
-                else {
+                } else {
                     $newCategory = Category::firstOrCreate(['name' => $name]);
                     $ids[] = $this->categoryNameCache[$name] = $newCategory->id;
                 }
             }
-        }
-        elseif ($this->categories) {
+        } elseif ($this->categories) {
             $ids = (array) $this->categories;
         }
 
         return $ids;
+    }
+
+    protected function processImportData($filePath, $matches, $options)
+    {
+        $excelReader = Excel::excel()->load($filePath, function ($reader) {
+            $reader->setDateFormat('Y-m-d h:i:s');
+        });
+        $dataArray = $excelReader->toArray();
+
+        $result = [];
+        if (count($dataArray) > 0) {
+            foreach ($dataArray as $idx => $item) {
+                $row = [];
+                $combineResult = '';
+                foreach ($item as $key => $val) {
+                    $combineColumn = $this::$combineColumn;
+                    if (array_key_exists($key, $combineColumn)) {
+                        $combineResult .= "{$combineColumn[$key]}:\n$val\n\n"; //"案號:<br/>案號內容"
+                    } else {
+                        array_push($row, $val);
+                    }
+                }
+                array_push($row, $combineResult);
+                $result[] = $this->processImportRow($row, $matches);
+            }
+        }
+
+        return $result;
     }
 }

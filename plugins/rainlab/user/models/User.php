@@ -462,6 +462,7 @@ class User extends UserBase
             ->join('rainlab_blog_reconsideration_user_post', 'users.id', '=', 'rainlab_blog_reconsideration_user_post.user_id')
             ->join('rainlab_blog_posts', 'rainlab_blog_reconsideration_user_post.post_id', '=', 'rainlab_blog_posts.id')
             ->join('rainlab_blog_posts_categories', 'rainlab_blog_posts.id', '=', 'rainlab_blog_posts_categories.post_id')
+            ->Where('rainlab_blog_reconsideration_user_post.user_id', '=', $this->id)
             ->where('rainlab_blog_posts_categories.category_id','!=','1')
             ->get();
 

@@ -4,7 +4,7 @@
 
 fields:
     step1_section:
-        label: backend::lang.import_export.upload_csv_file
+        label: Upload Excel File
         type: section
 
     import_file:
@@ -12,17 +12,17 @@ fields:
         type: fileupload
         mode: file
         span: left
-        fileTypes: csv
+        fileTypes: xlsx
         useCaption: false
 
-    format_preset:
-        label: backend::lang.import_export.file_format
-        type: dropdown
-        default: standard
-        options:
-            standard: backend::lang.import_export.standard_format
-            custom: backend::lang.import_export.custom_format
-        span: right
+    # format_preset:
+    #     label: backend::lang.import_export.file_format
+    #     type: dropdown
+    #     default: standard
+    #     options:
+    #         standard: backend::lang.import_export.standard_format
+    #         custom: backend::lang.import_export.custom_format
+    #     span: right
 
     format_delimiter:
         label: backend::lang.import_export.delimiter_char
@@ -63,7 +63,7 @@ fields:
 
     first_row_titles:
         label: backend::lang.import_export.first_row_contains_titles
-        comment: backend::lang.import_export.first_row_contains_titles_desc
+        comment: Leave this checked if the first row in the EXCEL is used as the column titles.
         type: checkbox
         default: true
         span: left

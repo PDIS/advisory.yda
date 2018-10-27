@@ -3,9 +3,10 @@
   .recent-tweets .headline {
     text-align: center;
     padding: 50px; }
-    .recent-tweets .headline span {
-      background: none;
-      font-size: 30px; }
+.recent-tweets .headline span {
+  background: none;
+  font-size: 1.3em; 
+}
   .recent-tweets .headline:before {
     border: 0px; }
   .recent-tweets .panel {

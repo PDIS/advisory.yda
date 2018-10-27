@@ -44,26 +44,28 @@ formPage = "blog/post"
 function onStart()
 {   
     $this->addCss('assets/css/tree.css');
-    $tmpQTag = $_ENV["GOOGLE_CALENDAR_TAG"];
-    if ( !empty($tmpQTag) ){
-        $this["GOOGLE_CALENDAR_TAG"] = $tmpQTag;
-    }else{
-        $this["GOOGLE_CALENDAR_TAG"] = "";
-    }
-    
+
+    $this["GOOGLE_CALENDAR_API_KEY"] = !empty($_ENV["GOOGLE_CALENDAR_API_KEY"]) ? $_ENV["GOOGLE_CALENDAR_API_KEY"] : "AIzaSyCohFxIG6E7gPRFzkxaawVJHNvufRFSJuo";
+    $this["GOOGLE_CALENDAR_DISCOVERY_DOCS"] = !empty($_ENV["GOOGLE_CALENDAR_DISCOVERY_DOCS"]) ? $_ENV["GOOGLE_CALENDAR_DISCOVERY_DOCS"] : "https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest";
+    $this["GOOGLE_CALENDAR_ID"] = !empty($_ENV["GOOGLE_CALENDAR_ID"]) ? $_ENV["GOOGLE_CALENDAR_ID"] : "youyhaw@gmail.com";
+    $this["GOOGLE_CALENDAR_TIMEZONE"] = !empty($_ENV["GOOGLE_CALENDAR_TIMEZONE"]) ? $_ENV["GOOGLE_CALENDAR_TIMEZONE"] : "Taipei";
+    $this["GOOGLE_CALENDAR_TAG"] = !empty($_ENV["GOOGLE_CALENDAR_TAG"]) ? $_ENV["GOOGLE_CALENDAR_TAG"] : "青諮會網站";
+    $this["GOOGLE_CALENDAR_ORDERBY"] = !empty($_ENV["GOOGLE_CALENDAR_ORDERBY"]) ? $_ENV["GOOGLE_CALENDAR_ORDERBY"] : "startTime";
+
+    $this['tool'] = new class {
+        public function categoriesCheck($categories) {
+            foreach ($categories as $category) {
+                $name = $category->name;
+                if ($name == "文章類" || $name == "會議" || $name == "活動") {
+                    return true;
+                }
+                return false;
+            }
+        }
+    };
 }
 ?>
 ==
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-123352956-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-123352956-1');
-</script>
-
 <link href="{{ 'assets/css/home/fields.css'|theme }}" rel="stylesheet">
 {% put scripts %}
     <script src="{{ [
@@ -90,6 +92,7 @@ function onStart()
     <link href="{{ 'assets/css/user/track.css'|theme }}" rel="stylesheet">
     <section id="track" class="container">
         <div class="row">
+            <a id="AC" accesskey="C" href="#AC" title="中央內容區塊" name="AC">:::</a>
             <h4 class="headline">
                 <span>委員 Tracks</span>
             </h4>
@@ -102,7 +105,9 @@ function onStart()
                     <div class="col-sm-6 col-sm-offset-3">
                         <form method="GET" action="{{ Blog.resultPage|page }}">
                             <div class="input-group stylish-input-group">
-                                <input type="text" class="form-control" name="search" class="form-control" placeholder="輸入關鍵字搜尋"> {% if __SELF__.categoryFilter %}
+                                <label for="search"></label>
+                                <input type="text" class="form-control" name="search" id="search" placeholder="輸入關鍵字搜尋" title="輸入關鍵字搜尋"> 
+                                {% if __SELF__.categoryFilter %}
                                 <select name="cat[]" class="form-control">
                                     {% for key,cat in Blog.categories %}
                                     <option value="{{ key }}">{{ cat }}</option>
@@ -120,16 +125,19 @@ function onStart()
                 </div>
             </div>
         </div>
-        </br>
-        <body bgcolor="black" text="white" link="#00ffff" vlink="green" alink="yellow">
+        <br>
         <!-- Blog呈現 -->
         <div class="row">
             <div class="col-md-12">
                 <ul class="timeline" id="timeline_head"></ul>
             </div>
             
+            <script src='https://apis.google.com/js/api.js?'></script>
             <script>
-            
+
+                typeof document.readyState;
+                document.readyState = "loading";
+
             var timelineHead = document.getElementById('timeline_head');
             var leftOrRight = true; //left=true ; right=false
             var existTags = [];
@@ -138,29 +146,22 @@ function onStart()
             {% endfor %}
             
             function handleClientLoad() {
-                var API_KEY = 'AIzaSyCohFxIG6E7gPRFzkxaawVJHNvufRFSJuo';
-                // var API_KEY = 'AIzaSyCohFxIG6E7gPRFzkxaawVJHNvufRFSJuo111';
-                var DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"];
-                var userEmail = "youyhaw@gmail.com"; //your calendar Id
-                var userTimeZone = "Taipei"; //example "Rome" "Los_Angeles" ecc...
-                // var maxRows = 10; //events to shown
-                var qTag = '{{ GOOGLE_CALENDAR_TAG }}'; //Get param from php function onStart()
+                let qTag = '{{ GOOGLE_CALENDAR_TAG }}';
 
                 gapi.client.init({
-                    apiKey: API_KEY,
-                    discoveryDocs: DISCOVERY_DOCS,
+                    apiKey: '{{ GOOGLE_CALENDAR_API_KEY }}',
+                    discoveryDocs: ['{{ GOOGLE_CALENDAR_DISCOVERY_DOCS }}'],
                 }).then(function(){
                     return gapi.client.calendar.events.list({
-                            'calendarId' : userEmail,
-                            'timeZone' : userTimeZone, 
+                            'calendarId' : '{{ GOOGLE_CALENDAR_ID }}',
+                            'timeZone' : '{{ GOOGLE_CALENDAR_TIMEZONE }}', 
                             'singleEvents': true, 
                             'timeMin': (new Date()).toISOString(), //gathers only events not happened yet
                             // 'maxResults': maxRows, 
                             'q': qTag,
-                            'orderBy': 'startTime'});
+                            'orderBy': '{{ GOOGLE_CALENDAR_ORDERBY }}'});
                 }).then(function (response) {
-                    console.log('Success');
-
+                    console.log('render');
                     var events = response.result.items;
                     
                     for (var i = events.length - 1; i >= 0; i--) {
@@ -174,9 +175,9 @@ function onStart()
                             descSplitSpaces.forEach(function(str){
                                 reg = str.match(/^#[\u4e00-\u9fa5]+/)
                                 if (reg){
-                                    formalStr = reg[0].replace(/^#/, ''); //Harry: remove prefix '#'
+                                    formalStr = reg[0].replace(/^#/, '');
                                     if (formalStr != qTag){
-                                        var existFlag = false; //Harry: Can delete
+                                        var existFlag = false;
                                         for (var i=0; i<existTags.length; i++) {
                                             existTag = existTags[i];
                                             if (formalStr == existTag){
@@ -219,7 +220,9 @@ function onStart()
                         var startDay = date[2];
 
                         //timeline-panel            
-                        postTitle = document.createElement('h4');
+                        postTitle = document.createElement('h2');
+                        postTitle.style.fontSize = 'large';
+                        postTitle.style.margin = '15px';
                         postTitle.textContent += item.summary;
 
                         postTitleLink = document.createElement('a');  
@@ -231,7 +234,7 @@ function onStart()
 
                         timeLineFooter = document.createElement('div');
                         timeLineFooter.classList.add('timeline-footer');
-                        timeLineFooter.innerHTML= tagString; //tagString need to use js DOM
+                        timeLineFooter.innerHTML= tagString;
 
                         timeLinePanel = document.createElement('div');
                         timeLinePanel.classList.add('timeline-panel');
@@ -276,18 +279,15 @@ function onStart()
                     }
                     renderPost();
                 }, function (reason) {
-                    console.log('Fail');
+                    console.log('Failure');
                     renderPost();
                 });
             }
 
             function renderPost(){
-                console.log('renderPost');
-                timelineLiCount = 0;
-                profilePictureHeight = 0;
 
-                {% for post in posts if post.categories[0].id != 1 %}
-
+                {% for post in posts %}
+                {% if tool.categoriesCheck(post.categories) == true %}
                     var tagString = '';
                     var avatarString = '';
 
@@ -306,16 +306,14 @@ function onStart()
                     {% endfor %}
 
                     //timeline-panel            
-                    postTitle = document.createElement('h4');
+                    postTitle = document.createElement('h2');
+                    postTitle.style.fontSize = 'large';
+                    postTitle.style.margin = '15px';
                     postTitle.textContent += '{{post.title}}';
-
-                    postTitleLink = document.createElement('a');
-                    postTitleLink.href = '{{post.url}}';          
-                    postTitleLink.appendChild(postTitle);
 
                     timeLineBody = document.createElement('div');
                     timeLineBody.classList.add('timeline-body');
-                    timeLineBody.appendChild(postTitleLink);
+                    timeLineBody.appendChild(postTitle);
 
                     timeLineFooter = document.createElement('div');
                     timeLineFooter.classList.add('timeline-footer');
@@ -325,6 +323,10 @@ function onStart()
                     timeLinePanel.classList.add('timeline-panel');
                     timeLinePanel.appendChild(timeLineBody);
                     timeLinePanel.appendChild(timeLineFooter);
+
+                    postLink = document.createElement('a');
+                    postLink.href = '{{post.url}}';          
+                    postLink.appendChild(timeLinePanel);
 
                     //avatars
                     profilePicture = document.createElement('div');
@@ -354,57 +356,25 @@ function onStart()
                         timelineLi.classList.add("timeline-inverted");
                     }
                     
-                    timelineLi.appendChild(timeLinePanel);
+                    timelineLi.appendChild(postLink);
                     timelineLi.appendChild(avatars);
 
                     timelineHead.appendChild(timelineLi);
 
                     leftOrRight ^= true; //toggle to left or right
+                {% endif %}
                 {% endfor %}
 
                 clearfix = document.createElement('li');
                 clearfix.classList.add('clearfix');
                 clearfix.style.float = 'none';
                 timelineHead.appendChild(clearfix);
-            }
-            </script>
-            <script src='https://apis.google.com/js/client.js?onload=handleClientLoad'></script>
-            <!-- Hao -->
-            <!-- <script src="https://apis.google.com/js/api.js?"></script>
-            <script>
-            /**
-            * Sample JavaScript code for calendar.events.list
-            * See instructions for running APIs Explorer code samples locally:
-            * https://developers.google.com/explorer-help/guides/code_samples#javascript
-            */
-            const YOUR_API_KEY = 'AIzaSyCohFxIG6E7gPRFzkxaawVJHNvufRFSJuo';
-            function loadClient() {
-                console.log('loadClient');
-                gapi.client.setApiKey(YOUR_API_KEY);
-                return gapi.client.load("https://content.googleapis.com/discovery/v1/apis/calendar/v3/rest")
-                    .then(function() { 
-                            console.log("GAPI client loaded for API"); 
-                            execute();
-                        },function(err) { 
-                            console.error("Error loading GAPI client for API", err); 
-                        });
-            }
-            // Make sure the client is loaded before calling this method.
-            function execute() {
-                console.log('execute');
-                var userEmail = "youyhaw@gmail.com"; //your calendar Id
-                return gapi.client.calendar.events.list({
-                "calendarId": userEmail
-                })
-                    .then(function(response) {
-                            // Handle the results here (response.result has the parsed body).
-                            console.log("Response", response);
-                        },
-                        function(err) { console.error("Execute error", err); });
-            }
-            gapi.load("client");
-            </script>
-            <script src='https://apis.google.com/js/client.js?onload=loadClient'></script> -->
 
+                document.readyState = "complete";
+            }
+            
+            gapi.load('client', handleClientLoad);
+            </script>
         </div>
-</section>
+    </section>
+</div>

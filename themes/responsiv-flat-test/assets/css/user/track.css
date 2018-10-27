@@ -70,37 +70,35 @@
   clear: both;
 }
 
-#track .timeline>li>.timeline-panel {
+#track .timeline>li .timeline-panel {
   cursor: pointer;
   width: 100%;
   margin-right: 0%;
   float: left;
   border: 0px solid #d4d4d4;
   margin-bottom: 10px;
-  /*border-radius: 2px;*/
-  /*padding: 20px;*/
   position: relative;
   background-color: #eeeeee;
 }
 
-#track .timeline>li>.timeline-panel:hover {
+#track .timeline>li .timeline-panel:hover {
   background-color: #ccc;
 }
 
-#track .timeline>li.timeline-inverted>.timeline-panel {
+#track .timeline>li.timeline-inverted .timeline-panel {
   float: right;
   margin-right: 0;
   margin-left: 20%;
 }
 
-#track .timeline>li.timeline-inverted>.timeline-panel:before {
+#track .timeline>li.timeline-inverted .timeline-panel:before {
   border-left-width: 0;
   border-right-width: 15px;
   left: -15px;
   right: auto;
 }
 
-#track .timeline>li.timeline-inverted>.timeline-panel:after {
+#track .timeline>li.timeline-inverted .timeline-panel:after {
   border-left-width: 0;
   border-right-width: 14px;
   left: -14px;
@@ -147,7 +145,7 @@
   left: -12px;
 }
 
-.avatars .profile-picture{
+.avatars .profile-picture {
   font-size: 0;
 }
 
@@ -205,18 +203,18 @@
     margin-left: 0;
     top: 16px;
   }
-  #track ul.timeline>li>.timeline-panel {
+  #track ul.timeline>li .timeline-panel {
     width: 100%;
     float: right;
     margin-right: 0;
   }
-  #track ul.timeline>li>.timeline-panel:before {
+  #track ul.timeline>li .timeline-panel:before {
     border-left-width: 0;
     border-right-width: 15px;
     left: -15px;
     right: auto;
   }
-  #track ul.timeline>li>.timeline-panel:after {
+  #track ul.timeline>li .timeline-panel:after {
     border-left-width: 0;
     border-right-width: 14px;
     left: -14px;

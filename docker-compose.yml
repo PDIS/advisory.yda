@@ -1,27 +1,36 @@
 version: '2.2'
 services:
   web:
-    image: aspendigital/octobercms:php7.0-apache
+    image: yda:latest
+    build: .
+    restart: always
+    container_name: ${YDA_SESSION_NAME}-web
+    depends_on:
+      - mysqldb
     ports:
-      - 80:80
+      - expose_web_port:80
     volumes:
-      - ./plugins:/var/www/html/plugins
-      - ./themes:/var/www/html/themes
-      - ./env:/var/www/html/.env
+      - ./storage/app:/var/www/html/storage/app
+      - ./storage/logs:/var/www/html/storage/logs
+      - ./.env:/var/www/html/.env
     environment:
       - DB_TYPE=mysql
-      - DB_HOST=mysql 
+      - DB_HOST=${YDA_SESSION_NAME}-mysql
       - DB_DATABASE=octobercmsdb
       - DB_USERNAME=root
-      - DB_PASSWORD=root
+      - DB_PASSWORD=sql_password
 
-  mysql:
-    image: mysql:latest
-    command: --default-authentication-plugin=mysql_native_password
+  mysqldb:
+    image: mariadb:5.5.61
+    restart: always
+    container_name: ${YDA_SESSION_NAME}-mysql
     volumes:
       - ./sql:/docker-entrypoint-initdb.d
+      - ./mysql:/var/lib/mysql
     ports:
-      - 3306:3306
+      - expose_sql_port:3306
     environment:
-      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_ROOT_PASSWORD=sql_password
       - MYSQL_DATABASE=octobercmsdb
+      - MYSQL_ROOT_HOST=%
+

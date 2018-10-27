@@ -33,16 +33,6 @@ function onStart()
 }
 ?>
 ==
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-123352956-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-123352956-1');
-</script>
-
 <link href="{{ 'assets/css/user/track.css'|theme }}" rel="stylesheet">
     <section id="track" class="container">
     <div class="row">
@@ -56,7 +46,8 @@ function onStart()
                 <div class="col-sm-6 col-sm-offset-3">
                     <div id="imaginary_container"> 
                         <div class="input-group stylish-input-group">
-                            <input type="text" class="form-control"  placeholder="輸入關鍵字搜尋" >
+                            <label for="search"></label>
+                            <input id="search" type="text" class="form-control"  placeholder="輸入關鍵字搜尋" >
                             <span class="input-group-addon">
                                 <button type="submit">
                                     <span class="glyphicon glyphicon-search"></span>

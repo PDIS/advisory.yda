@@ -202,6 +202,8 @@ class Post extends Model
     {
         $result = Markdown::parse(trim($input));
 
+        $result = str_replace("<blockquote>","<blockquote xml:lang=\"zh\">", $result);
+
         if ($preview) {
             $result = str_replace('<pre>', '<pre class="prettyprint">', $result);
         }

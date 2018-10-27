@@ -22,10 +22,13 @@
 
     <?php if ($this->user->hasAnyAccess(['rainlab.blog.access_import_export'])): ?>
         <div class="btn-group">
-            <a
+            <!-- <a
                 href="<?= Backend::url('rainlab/blog/posts/export') ?>"
                 class="btn btn-default oc-icon-download">
                 <?= e(trans('rainlab.blog::lang.posts.export_post')) ?>
+            </a> -->
+            <a href="/api/export" target="_blank" class="btn btn-default oc-icon-download">
+                Download the import sample file
             </a>
             <a
                 href="<?= Backend::url('rainlab/blog/posts/import') ?>"

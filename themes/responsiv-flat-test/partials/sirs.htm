@@ -12,72 +12,44 @@ function onInit()
             'imageUploader',
             ['modelClass'=>'RainLab\User\Models\User','modelKeyColumn'=>'avatar', 'deferredBinding' => false]
         );
-
         $component->bindModel('avatar', $user);
     }
 }
+
 function onRun() {
    $name = $this->param('name');
-  }
+}
 ?>
 ==
-<div class=" col-md-2 col-sm-3 col-xs-4 avatar-back">
-<a href="https://www.ey.gov.tw/Page/77A100A2C8409A3A">
 
-<div class="avatar" style="width:100%; background:url({{ 'assets/images/sirs/sirli.jpg'|theme }});padding-bottom:100%">
-    <div class="text"><h6>賴清德院長兼召集人</h6></div>
-    </div>
-  </a>
+{% for user in chiefUsers %}
+  <div class=" col-md-2 col-sm-3 col-xs-4 avatar-back">
+    <a href="{{ user.website }}" class="display-block">
+        <div class="avatar" style="width:100%; background:url({{user.avatar.path}}); padding-bottom:100%">
+            <div class="text">
+                <h6>{{ user.name }}</h6>
+            </div>
+        </div>
+    </a>
 </div>
- 
- 
- <div class=" col-md-2 col-sm-3 col-xs-4 avatar-back">
-<a href="https://www.ey.gov.tw/Page/3F66C0895C431ADC/722736d6-94ac-4479-adfb-c34aa9d281dd">
+{% endfor %}
 
-<div class="avatar" style="width:100%; background:url({{ 'assets/images/sirs/tin3.jpg'|theme }});padding-bottom:100%">
-    <div class="text"><h6>唐鳳政務委員兼副召集人</h6></div>
-    </div>
-  </a>
-</div>
-<div class=" col-md-2 col-sm-3 col-xs-4 avatar-back">
-    <a href="https://www.edu.tw/cp.aspx?n=2589C171FB60857B&s=B75E93A3DAB23A99">
-
-    <div class="avatar" style="width:100%; background:url({{ 'assets/images/sirs/sir1.jpg'|theme }});padding-bottom:100%">
-        <div class="text"><h6>葉俊榮部長</h6></div>
-    </div>
-  </a>
-</div>
-<div class=" col-md-2 col-sm-3 col-xs-4 avatar-back">
-<a href="https://www.mol.gov.tw/introduction/2088/2488/">
-
-<div class="avatar" style="width:100%; background:url({{ 'assets/images/sirs/mol_p2.png'|theme }});padding-bottom:100%">
-    <div class="text"><h6>許銘春部長</h6></div>
-    </div>
-  </a>
-</div>
-<div class=" col-md-2 col-sm-3 col-xs-4 avatar-back">
-<a href="https://www.ey.gov.tw/Page/3F66C0895C431ADC/ce4105c2-22aa-417a-9531-3d6a69214d74">
-
-<div class="avatar" style="width:100%; background:url({{ 'assets/images/sirs/sin3.jpg'|theme }});padding-bottom:100%">
-    <div class="text"><h6>沈榮津部長</h6></div>
-    </div>
-  </a>
-</div>
 {% for users_picture in userpop %}
-{% if users_picture.attachment_id !=1%}
-{% if users_picture.attachment_id ==3%}
-                <div class=" col-md-2 col-sm-3 col-xs-4 avatar-back">
-                    <a href="{{ 'test/userpost'|page({ id:users_picture.attachment_id }) }}">
-                        <div class="avatar" style="width:100%; background:url({{users_picture.path}});padding-bottom:100%">
-                        {% for users in activatedUsers%}
+    {% if users_picture.attachment_id !=1 %}
+        {% if users_picture.attachment_id ==3 %}
+        <div class=" col-md-2 col-sm-3 col-xs-4 avatar-back">
+            <a href="{{ 'test/userpost'|page({ id:users_picture.attachment_id }) }}" class="display-block">
+                <div class="avatar" style="width:100%; background:url({{users_picture.path}});padding-bottom:100%">
+                    {% for users in activatedUsers%}
                         {% if users.id ==users_picture.attachment_id%}
-                            <div class="text"><h6>{{users.name}}{{users.surname}}</h6></div>
-                        {% endif %} 
-                        {% endfor %} 
+                        <div class="text">
+                            <h6>{{users.name}}{{users.surname}}</h6>
                         </div>
-                    </a>
+                        {% endif %}
+                    {% endfor %}
                 </div>
- {% endif %} 
-
-    {% endif %} 
-    {% endfor %}
+            </a>
+        </div>
+        {% endif %}
+    {% endif %}
+{% endfor %}

@@ -2,65 +2,72 @@
 ==
 {# Note: Only one levels of sublinks are supported by Bootstrap 3 #}
 <nav class="navbar navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
-                    aria-controls="navbar">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="{{ 'advisory_home'|page }}">行政院青年諮詢委員會</a>
-            </div>
-            <div id="navbar" class="navbar-collapse collapse" aria-expanded="false" style="height: 1px;">
-                <ul class="nav navbar-nav navbar-right">
-                    <li class=" ">
-                        <a href="{{ 'proposal'|page }}" class="">
-                            提案
-                        </a>
-                    </li>
-                    <li class=" ">
-                        <a href="{{ 'blog/blog'|page }}" class="">
-                            Track
-                        </a>
-                    </li>
-                    {% if user %}
-                    <li class="dropdown">
-                        <a class="dropdown-toggle menu-user-widget-switch"href="#" data-toggle="dropdown">
-                            <img class="img-circle" src="{{ user.getAvatarThumb(20, {'extension': 'png'}) }}">
-                            &nbsp; {{ user.name }} <span class="caret"></span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a href="{{ 'test/userpost'|page({ id:user.id }) }}">個人資訊</a></li>
-                            <li><a href="{{ 'test456'|page }}">發布</a></li>
-                            <li><a href="{{ 'forget'|page }}">密碼重置</a></li>
-                            <li><a data-request="onLogout" >{{ _('sign_out') }}</a></li>
-                    </li>
-                    </li>
-                    {% else %}
-                    <li class="dropdown menu-user-widget-signin"style ="padding-top: none; padding-bottom: none;">
-                        <a class="dropdown-toggle menu-user-widget-signin-switch" href="#" data-toggle="dropdown">{{ _('sign_in', 'rainlab.user::lang.account') }} &nbsp; <i class="icon-off"></i></a>
-                        <div class="dropdown-menu" style="padding: 17px">
-                            <form class="menu-user-widget-sigin-form" data-request="onSignin">
-                                <div class="form-group menu-user-widget-signin-login">
-                                    <input name="login" type="text" placeholder="{{ loginAttributeLabel }}">
-                                </div>
-                                <div class="form-group menu-user-widget-signin-password">
-                                    <input name="password" id="password" type="password" placeholder="{{ _('password', 'rainlab.user::lang.account') }}">
-                                </div>
-                                    <div class="pull-right">
-                    
-                    <a  class="btn" href="{{ 'forget_email'|page }}"style ="background-color:#337ab7;color: #f5f5f5;font-size: 14px;">密碼重置</a>
-                </div>
-                                <button type="submit" class="btn  menu-user-widget-signin-btn" style ="background-color:#337ab7;color: #f5f5f5;">{{ _('login', 'rainlab.user::lang.account') }}</button>
-                              
-                            </form>
-                        </div>
-                    </li>
-                    {% endif %}
-                </ul>
-            </div>
-            <!--/.nav-collapse -->
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="{{ 'advisory_home'|page }}">行政院青年諮詢委員會</a>
         </div>
-    </nav>
+        <div id="navbar" class="navbar-collapse collapse" style="height: 1px;">
+            
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a id="AU" accesskey="U" href="#AU" title="上方導覽列" name="AU">:::</a>
+                </li>
+                <li>
+                    <a href="{{ 'sitemap'|page }}" class="">網站導覽</a>
+                </li>
+                <li class=" ">
+                    <a href="{{ 'youth-policy'|page }}" class="">青年政策</a>
+                </li>
+                <li class=" ">
+                    <a href="{{ 'proposal'|page }}" class="">提案</a>
+                </li>
+                <li class=" ">
+                    <a href="{{ 'blog/blog'|page }}" class="">Track</a>
+                </li>
+                {% if user %}
+                <li class="dropdown">
+                    <a class="dropdown-toggle menu-user-widget-switch" href="#" data-toggle="dropdown">
+                        <img class="img-circle" src="{{ user.getAvatarThumb(20, {'extension': 'png'}) }}" style="width:20px;">
+                        <span>{{ user.name }}</span>
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ 'test/userpost'|page({ id:user.id }) }}">個人資訊</a></li>
+                        <li><a href="{{ 'test456'|page }}">發布</a></li>
+                        <li><a href="{{ 'forget'|page }}">密碼重置</a></li>
+                        <li><a href="#" data-request="onLogout">{{ _('sign_out') }}</a></li>
+                    </ul>
+                </li>
+                {% else %}
+                <li class="dropdown menu-user-widget-signin" style="padding-top: none; padding-bottom: none;">
+                    <a class="dropdown-toggle menu-user-widget-signin-switch" href="#" data-toggle="dropdown">{{ _('sign_in',
+                        'rainlab.user::lang.account') }}<i class="icon-off"></i></a>
+                    <div class="dropdown-menu" style="padding: 17px">
+                        <form class="menu-user-widget-sigin-form" data-request="onSignin">
+                            <div class="form-group menu-user-widget-signin-login">
+                                <label for="login"></label>
+                                <input name="login" id="login" type="text" placeholder="{{ loginAttributeLabel }}" title="{{ loginAttributeLabel }}" >
+                            </div>
+                            <div class="form-group menu-user-widget-signin-password">
+                                <label for="password"></label>
+                                <input name="password" id="password" type="password" placeholder="{{ _('password', 'rainlab.user::lang.account') }}"
+                                title="{{ _('password', 'rainlab.user::lang.account') }}">
+                            </div>
+                            <div class="pull-right">
+                                <a class="btn" href="{{ 'forget_email'|page }}" style="background-color:#337ab7;color: #f5f5f5;">密碼重置</a>
+                            </div>
+                            <button type="submit" class="btn  menu-user-widget-signin-btn" style="background-color:#337ab7;color: #f5f5f5; padding: 6px 10px">{{ _('login', 'rainlab.user::lang.account') }}</button>
+                        </form>
+                    </div>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>

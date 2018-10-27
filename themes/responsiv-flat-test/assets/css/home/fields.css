@@ -5,9 +5,10 @@
     text-align: center;
     padding: 50px;
     padding-bottom: 10px; }
-    .fields .headline span {
-      background: none;
-      font-size: 30px; }
+.fields .headline span {
+  background: none;
+  font-size: 1.3em; 
+}
   .fields .headline:before {
     border: 0px; }
   .fields #cloudtag {

@@ -17,166 +17,136 @@ postPage = "blog/post"
 use RainLab\User\Models\User as UserModel;
 function onStart()
 {
-   
-  
-  
     $this["user_model"] = UserModel::find($this->param('id'));
 
-  
+    $this['tool'] = new class {
+        public function categoriesCheck($categories) {
+            foreach ($categories as $category) {
+                $name = $category->name;
+                if ($name == "大會提案") {
+                    return true;
+                }
+                return false;
+            }
+        }
+    };
 }
 ?>
 ==
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-123352956-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-123352956-1');
-</script>
-
 <div style="margin-top: 100px;">
-<link href="{{ 'assets/css/proposal-page/proposal-page.css'|theme }}" rel="stylesheet">
-<link href="{{ 'assets/css/proposal-page/proposal-info.css'|theme }}" rel="stylesheet">
-<link href="{{ 'assets/css/proposal-page/track-side.css'|theme }}" rel="stylesheet">
-<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <link href="{{ 'assets/css/proposal-page/proposal-page.css'|theme }}" rel="stylesheet">
+    <link href="{{ 'assets/css/proposal-page/proposal-info.css'|theme }}" rel="stylesheet">
+    <link href="{{ 'assets/css/proposal-page/track-side.css'|theme }}" rel="stylesheet">
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 
-<div class="container text-center" id="proposal-intro">
-    <h1>青諮提案</h1>
-    <h2>詳列青諮在大會中提出之具體提案</h2>
-    <div class="row">
-        <div class="col-md-4 col-md-offset-4">
-            <h4>進度說明</h4>
-        </div>
-    </div>
+    <div class="container text-center" id="proposal-intro">
+        <h1>青諮提案</h1>
+        <h2>詳列青諮在大會中提出之具體提案</h2>
         <div class="row">
-        <div class="col-md-2 col-md-offset-1 col-sm-2 col-xs-4">
-        {% partial 'progress/proposal' %}
-            <span>提案</span>
+            <div class="col-md-4 col-md-offset-4">
+                <h4>進度說明</h4>
+            </div>
         </div>
-        <div class="col-md-2 col-sm-2 col-xs-4">
-        {% partial 'progress/processing' %}
-            <span>進行中</span>
+        <div class="row">
+            <div class="col-md-2 col-md-offset-1 col-sm-2 col-xs-4">
+                {% partial 'progress/proposal' %}
+                <span>提案</span>
+            </div>
+            <div class="col-md-2 col-sm-2 col-xs-4">
+                {% partial 'progress/processing' %}
+                <span>進行中</span>
+
+            </div>
+            <div class="col-md-2 col-sm-2 col-xs-4">
+                {% partial 'progress/part_of_the_reference' %}
+
+                <span>部分參採</span>
+            </div>
+            <div class="col-md-2 col-sm-2 col-xs-4">
+                {% partial 'progress/fully_taken' %}
+                <span>完全參採</span>
+            </div>
+            <div class="col-md-2 col-sm-2 col-xs-4">
+
+                {% partial 'progress/temporarily_not_participating' %}
+                <span>暫不參採</span>
+            </div>
 
         </div>
-        <div class="col-md-2 col-sm-2 col-xs-4">
-            {% partial 'progress/part_of_the_reference' %}
-
-            <span>部分參採</span>
-        </div>
-        <div class="col-md-2 col-sm-2 col-xs-4">
-            {% partial 'progress/fully_taken' %}
-            <span>完全參採</span>
-        </div>
-         <div class="col-md-2 col-sm-2 col-xs-4">
-
-            {% partial 'progress/temporarily_not_participating' %}
-            <span>暫不參採</span>
-        </div>
-
     </div>
-</div>
 
 
 
-<div id="proposal" class="container">
-
- <link href="{{ 'assets/css/user/track.css'|theme }}" rel="stylesheet">
-    <section id="track" class="container">
-
-    
-      <div class="row">
-        <!-- 搜詢 --> 
-      <div  class="container">
-      <div class="row">
-      <div class="col-sm-6 col-sm-offset-3">
-<form  method="GET" action="{{ Blog.resultPage|page }}">
-     <div class="input-group stylish-input-group">
-        <input type="text" class="form-control" name="search" class="form-control" placeholder="輸入關鍵字搜尋">
-    
-        {% if __SELF__.categoryFilter %}
-            <select name="cat[]" class="form-control">
-            {% for key,cat in Blog.categories %}
-                <option value="{{ key }}">{{ cat }}</option>
-            {% endfor %}
-            </select>
-        {% endif %}
-        <span class="input-group-addon">
-        <button  type="submit"><span class="glyphicon glyphicon-search">{{ ''|_ }}</span></button>
-        </span>    
+    <div id="proposal" class="container">
+        <link href="{{ 'assets/css/user/track.css'|theme }}" rel="stylesheet">
+        <section id="track" class="container">
+            <div class="row">
+                <!-- 搜詢 -->
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-6 col-sm-offset-3">
+                            <form method="GET" action="{{ Blog.resultPage|page }}">
+                                <div class="input-group stylish-input-group">
+                                    <label for="search"></label>
+                                    <input type="text" class="form-control" name="search" id="search" placeholder="輸入關鍵字搜尋" title="輸入關鍵字搜尋">
+                                    {% if __SELF__.categoryFilter %}
+                                    <select name="cat[]" class="form-control">
+                                        {% for key,cat in Blog.categories %}
+                                        <option value="{{ key }}">{{ cat }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    {% endif %}
+                                    <span class="input-group-addon">
+                                        <button type="submit"><span class="glyphicon glyphicon-search">{{ ''|_ }}</span></button>
+                                    </span>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <a id="AC" accesskey="C" href="#AC" title="中央內容區塊" name="AC">:::</a>
+                        <h4 class="headline">
+                            <span>委員提案</span>
+                        </h4>
+                        <div class="row">
+                            {% for post in posts %}
+                            {% if tool.categoriesCheck(post.categories) == true %}
+                            <div class="col-sm-4" style="text-overflow: ellipsis;">
+                                <div class="thumbnail" data-toggle="modal" data-target="#myModal" onclick="window.location='{{ post.url }}';">
+                                    <div class="caption">
+                                        <a href="{{ post.url }}" class="display-block">
+                                            <p class="card-description JQellipsis" align="left">{{ post.title }}</p>
+                                        </a>
+                                        {% if post.level == 1 %}
+                                        {% partial 'progress/proposal' %}
+                                        <span>提案</span>
+                                        {%elseif post.level==2%}
+                                        {% partial 'progress/processing' %}
+                                        <span>進行中</span>
+                                        {%elseif post.level==3%}
+                                        {% partial 'progress/part_of_the_reference' %}
+                                        <span>部分參採</span>
+                                        {%elseif post.level==4%}
+                                        {% partial 'progress/fully_taken' %}
+                                        <span>完全參採</span>
+                                        {%elseif post.level==5%}
+                                        {% partial 'progress/temporarily_not_participating' %}
+                                        <span>暫不參採</span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+                            {% endfor %}
+                            <script src="{{ [      
+                                'assets/javascript/proposal/JQellipsis.js'
+                            ]|theme }}"></script>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
-</form>
-</div>
-</div>
-</div>
-
-
-
-<div class="row">
-
-<div class="col-md-12">
-    <h4 class="headline">
-        <span>委員提案</span>
-    </h4>
-<div class="row">
-
-    {% for post in posts  %}
-    
-
-    {% for category in post.categories %}
-    {% if category.id == 1 %}
-      <div class="col-sm-4" style="text-overflow: ellipsis;">
-    <div class="thumbnail"   data-toggle="modal" data-target="#myModal" onclick="window.location='{{ post.url }}';">
-      <div class="caption">
-      
-       <a href="{{ post.url }}"> <p class="card-description JQellipsis" align="left">{{ post.title }}</p></a>
-        
-     
-
-        {% if post.level == 1 %}
-          {% partial 'progress/proposal' %}
-        
-
-            <span>提案</span>
-       {%elseif  post.level==2%}
-       
-        {% partial 'progress/processing' %}
-            <span>進行中</span>
-           
-         
-        {%elseif  post.level==3%}
-        {% partial 'progress/part_of_the_reference' %}
-            <span>部分參採</span>
-
-          
-        {%elseif  post.level==4%}
-        {% partial 'progress/fully_taken' %}
-  
-            <span>完全參採</span>
-         {%elseif  post.level==5%}
-           {% partial 'progress/temporarily_not_participating' %}
-        
-            <span>暫不參採</span>
-    {% endif %}
-
-
-      </div>
-    </div>
-  </div>
-  {% endif %}
-
-         
-        {% endfor %}
-       
-    {% endfor %}
-            <script src="{{ [      
-            'assets/javascript/proposal/JQellipsis.js'
-        ]|theme }}"></script>
-    
- 
-</div>
-</div>
-</div>
-</div>
 </div>
