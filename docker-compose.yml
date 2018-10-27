@@ -2,7 +2,6 @@ version: '2.2'
 services:
   web:
     image: yda:latest
-    build: .
     restart: always
     container_name: ${YDA_SESSION_NAME}-web
     depends_on:
@@ -27,8 +26,6 @@ services:
     volumes:
       - ./sql:/docker-entrypoint-initdb.d
       - ./mysql:/var/lib/mysql
-    ports:
-      - expose_sql_port:3306
     environment:
       - MYSQL_ROOT_PASSWORD=sql_password
       - MYSQL_DATABASE=octobercmsdb
