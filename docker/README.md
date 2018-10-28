@@ -37,11 +37,11 @@ docker run --name nginx-reverse_proxy --network=nginx -p 80:80 -p 443:443  --res
  - env.example (環境變數主要腳本範例)
  - env.template (環境變數主要腳本)
 
-請先將env.example改名成env.template
-請確認修改完成env.template到所需參數，請勿修改DB_前綴之資料庫相關參數
-如需新增第一屆請將${SESSION_NUMBER}改為數字1
-例如：./create_yda_docker.sh 1
-依此類推，最多新增99屆
+請先將env.example改名成env.template 
+請確認修改完成env.template到所需參數，請勿修改DB_前綴之資料庫相關參數 
+如需新增第一屆請將${SESSION_NUMBER}改為數字1 
+例如：./create_yda_docker.sh 1 
+依此類推，最多新增99屆 
 ```
 ./create_yda_docker.sh ${SESSION_NUMBER}
 ```
