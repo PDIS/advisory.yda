@@ -35,13 +35,12 @@ RUN git clone https://github.com/JoeyChen-NTUT/advisory.yda.git --depth 1 . && \
   composer install --no-interaction --prefer-dist --no-scripts && \
   composer clearcache && \
   git status && git reset --hard HEAD && \
+  cp docker-oc-entrypoint /usr/local/bin/ && \
   rm -rf .git && \
   find . -type d \( -path './plugins' -or  -path './storage' -or  -path './themes' -or  -path './plugins/*' -or  -path './storage/*' -or  -path './themes/*' \) -exec chmod g+ws {} \;
 
 RUN echo "* * * * * /usr/local/bin/php /var/www/html/artisan schedule:run > /proc/1/fd/1 2>/proc/1/fd/2" > /etc/cron.d/october-cron && \
   crontab /etc/cron.d/october-cron
-
-COPY docker-oc-entrypoint /usr/local/bin/
 
 RUN echo 'exec php artisan "$@"' > /usr/local/bin/artisan && \
   echo 'exec php artisan tinker' > /usr/local/bin/tinker && \
