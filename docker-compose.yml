@@ -1,7 +1,7 @@
 version: '2.2'
 services:
   web:
-    image: yda:latest
+    image: joeyntut/advisory.yda
     restart: always
     container_name: ${YDA_SESSION_NAME}-web
     depends_on:
@@ -20,7 +20,7 @@ services:
       - DB_PASSWORD=sql_password
 
   mysqldb:
-    image: mariadb:5.5.61
+    image: mariadb:5.5
     restart: always
     container_name: ${YDA_SESSION_NAME}-mysql
     volumes:
@@ -30,4 +30,3 @@ services:
       - MYSQL_ROOT_PASSWORD=sql_password
       - MYSQL_DATABASE=octobercmsdb
       - MYSQL_ROOT_HOST=%
-
