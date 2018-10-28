@@ -31,7 +31,7 @@ ENV COMPOSER_ALLOW_SUPERUSER=1
 RUN a2enmod rewrite
 
 
-RUN git clone https://github.com/JoeyChen-NTUT/advisory.yda.git --depth 1 . && \
+RUN git clone https://gitlab.lab412.ee.ntut.edu.tw/s89206x/yda_git.git --depth 1 . && \
   composer install --no-interaction --prefer-dist --no-scripts && \
   composer clearcache && \
   git status && git reset --hard HEAD && \
