@@ -41,13 +41,13 @@ RUN git clone https://github.com/JoeyChen-NTUT/advisory.yda.git --depth 1 . && \
 RUN echo "* * * * * /usr/local/bin/php /var/www/html/artisan schedule:run > /proc/1/fd/1 2>/proc/1/fd/2" > /etc/cron.d/october-cron && \
   crontab /etc/cron.d/october-cron
 
+COPY docker-oc-entrypoint /usr/local/bin/
+
 RUN echo 'exec php artisan "$@"' > /usr/local/bin/artisan && \
   echo 'exec php artisan tinker' > /usr/local/bin/tinker && \
   echo '[ $# -eq 0 ] && exec php artisan october || exec php artisan october:"$@"' > /usr/local/bin/october && \
   sed -i '1s;^;#!/bin/bash\n[ "$PWD" != "/var/www/html" ] \&\& echo " - Helper must be run from /var/www/html" \&\& exit 1\n;' /usr/local/bin/artisan /usr/local/bin/tinker /usr/local/bin/october && \
-  chmod +x /usr/local/bin/artisan /usr/local/bin/tinker /usr/local/bin/october
-
-COPY docker-oc-entrypoint /usr/local/bin/
+  chmod +x /usr/local/bin/artisan /usr/local/bin/tinker /usr/local/bin/october /usr/local/bin/docker-oc-entrypoint
 
 ENTRYPOINT ["docker-oc-entrypoint"]
 CMD ["apache2-foreground"]
