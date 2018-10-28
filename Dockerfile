@@ -34,7 +34,7 @@ RUN a2enmod rewrite
 RUN git clone https://github.com/JoeyChen-NTUT/advisory.yda.git --depth 1 . && \
   composer install --no-interaction --prefer-dist --no-scripts && \
   composer clearcache && \
-  git status && git reset --hard HEAD && \
+  git status && git reset --hard HEAD && git clean -f -d && \
   cp docker-oc-entrypoint /usr/local/bin/ && \
   rm -rf .git && \
   find . -type d \( -path './plugins' -or  -path './storage' -or  -path './themes' -or  -path './plugins/*' -or  -path './storage/*' -or  -path './themes/*' \) -exec chmod g+ws {} \;
