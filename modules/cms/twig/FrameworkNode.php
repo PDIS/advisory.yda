@@ -41,14 +41,12 @@ class FrameworkNode extends Twig_Node
                 ->write("}" . PHP_EOL)
                 ->write("else {" . PHP_EOL)
                 ->indent()
-                    ->write("echo '<script src=\"'. Request::getBasePath()
-                    .'/modules/system/assets/js/framework.js\"></script>'.PHP_EOL;" . PHP_EOL)
-                    ->write("echo '<script src=\"'. Request::getBasePath()
-                    .'/modules/system/assets/js/framework.extras.js\"></script>'.PHP_EOL;" . PHP_EOL)
+                    ->write("echo '<script src=\"' . url('/modules/system/assets/js/framework.js') . '\"></script>'.PHP_EOL;" . PHP_EOL)
+                    ->write("echo '<script src=\"' . url('/modules/system/assets/js/framework.extras.js') . '\"></script>'.PHP_EOL;" . PHP_EOL)
                 ->outdent()
                 ->write("}" . PHP_EOL)
-                ->write("echo '<link rel=\"stylesheet\" property=\"stylesheet\" href=\"'. Request::getBasePath()
-                    .'/modules/system/assets/css/framework.extras'.(\$_minify ? '-min' : '').'.css\">'.PHP_EOL;" . PHP_EOL)
+                ->write("echo '<link rel=\"stylesheet\" property=\"stylesheet\" href=\"'. url('/modules/system/assets/css/framework.extras' . (\$_minify ? '-min' : '') . '.css')
+                    . '\">'.PHP_EOL;" . PHP_EOL)
             ;
         }
         else {
