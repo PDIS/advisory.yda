@@ -71,6 +71,15 @@
 .navbar .icon-bar {
   background-color: black;
 }
+.navbar a:focus{
+  outline: red dotted;
+}
+.navbar input:focus{
+  outline: red dotted;
+}
+.navbar button:focus{
+  outline: red dotted;
+}
 
 @media (max-width: 767px) {
   .navbar {

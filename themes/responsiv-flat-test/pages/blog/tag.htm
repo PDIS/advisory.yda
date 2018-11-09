@@ -27,6 +27,20 @@ function onStart()
 {   
     $this->addCss('assets/css/tree.css');
     
+    $this['tool'] = new class {
+        public function postFilterByCategory($items) {
+            $result = [];
+            foreach ($items as $item) {
+                foreach ($item->categories as $category) {
+                    if ($category->name != "大會提案") {
+                        $result[] = $item;
+                        break;
+                    }
+                }
+            }
+            return $result;
+        }
+    };
 }
 ?>
 ==
@@ -94,15 +108,15 @@ function onStart()
                 <div class="container">
                     <div class="col-md-12">
                         <ul class="timeline" id="timeline_head">
-                            {% for idx, post in blogTagSearch.tag.posts if post.categories[0].name != '大會提案' %}
-                            {% for category in post.categories %}
-                            {% if category.name != '大會提案' %}
-                            {% if idx%2 == 0 %}
+                            {% set posts = tool.postFilterByCategory(blogTagSearch.tag.posts) %}
+                            {% set flag = true %}
+                            {% for post in posts %}
+                            {% if flag == true %}
                             <li>
                             {% else %}
                             <li class="timeline-inverted">
                             {% endif %}
-                                <a href="{{ post.slug }}" class="display-block">
+                                <a href="{{ 'blog/post'|page }}/{{ post.slug }}" class="display-block">
                                     <div class="timeline-panel">
                                         <div class="timeline-body">
                                             <h2 class="timeline-title">{{ post.title }}</h2>
@@ -111,7 +125,7 @@ function onStart()
                                             {% for tag in post.tags %}
                                             <!-- <a class="pull-right" href="{{ 'blog/tag'|page }}/{{ tag.name }}"> -->
                                             <a href="/tag/{{ tag.name }}" class="pull-right">
-                                                <span class="label label-success">{{ tag.name }}</span>
+                                                <!-- <span class="label label-success">{{ tag.name }}</span> -->
                                             </a>
                                             {% endfor %}
                                         </div>
@@ -121,9 +135,9 @@ function onStart()
                                             <div class="profile-picture col-lg-10 col-md-9 col-sm-8 col-xs-12">
                                                 {% for user in post.getUsers %}
                                                 <a href="{{ 'test/userpost'|page({ id:user.id }) }}">
-                                                    <div class="avatar" style="background:url('{{user.getAvatarThumb(60)}}');"
+                                                    <!-- <div class="avatar" style="background:url('{{user.getAvatarThumb(60)}}');"
                                                         title="{{user.name}}">
-                                                    </div>
+                                                    </div> -->
                                                 </a>
                                                 {% endfor %}
                                             </div>
@@ -132,8 +146,11 @@ function onStart()
                                     </div>
                                 </a>
                             </li>
+                            {% if flag == true %}
+                                {% set flag = false %}
+                            {% else %}
+                                {% set flag = true %}
                             {% endif %}
-                            {% endfor %}
                             {% endfor %}
                             <li class="clearfix" style="float: none;"></li>
                         </ul>

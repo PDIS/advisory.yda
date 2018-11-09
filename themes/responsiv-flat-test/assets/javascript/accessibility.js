@@ -23,35 +23,24 @@ accessibility = function() {
             icon.setAttribute("alt","搜尋")
         }
     }
-    if(document.readyState === 'complete'){
-        document.querySelector("#goTop").setAttribute("title", "回到頂部")
-    }
 
     // 3.1 
     if(document.readyState === 'complete'){
+        var htag = document.querySelectorAll('h1,h2,h3,h4,h5,h6')
         var h1 = document.getElementsByTagName('h1')
         if (h1.length == 0){
-            var headers= ['h2','h3','h4','h5','h6']
-            var tag = []
-            headers.forEach((el)=>{
-                if (document.getElementsByTagName(el).length>0){
-                    tag.push(el)
-                }
-            })
-            var tags = document.getElementsByTagName(tag[0])
-            var windowsize = window.getComputedStyle(tags[0]).fontSize
-            var size = Number(windowsize.split('').slice(0,2).join(''))/14.4
-            var className = tags[0].className
-            var text = tags[0].innerHTML
-            if (className == ''){
-                html = `<h1 style="font-size:${size}em">${text}</h1>`
-            }else{
-                html = `<h1 class=${className} style="font-size:${size}em">${text}</h1>`
-            }
-            $(tags[0]).replaceWith(html)  
+            addh1(htag)
         }else if (h1.length == 1){
-            
+            if (htag[0].tagName != 'H1'){
+                addh1(htag)
+                var tags = document.getElementsByTagName('h1')
+                const length = tags.length
+                replaceWithHtmlTag(tags, length,'h2', 1)
+            }
         }else if(h1.length >1){
+            if (htag[0].tagName != 'H1'){
+                addh1(htag)
+            }
             var tags = document.getElementsByTagName('h1')
             const length = tags.length
             replaceWithHtmlTag(tags, length,'h2', 1)
@@ -67,6 +56,28 @@ accessibility = function() {
                 replaceWithHtmlTag(tags, length, 'h2')
             }  
         })
+    }
+
+    function addh1 (htag){
+        var tagname = htag[0].tagName
+        // var headers= ['h2','h3','h4','h5','h6']
+        // var tag = []
+        // headers.forEach((el)=>{
+        //     if (document.getElementsByTagName(el).length>0){
+        //         tag.push(el)
+        //     }
+        // })
+        var tags = document.getElementsByTagName(tagname)
+        var windowsize = window.getComputedStyle(tags[0]).fontSize
+        var size = Number(windowsize.split('').slice(0,2).join(''))/14.4
+        var className = tags[0].className
+        var text = tags[0].innerHTML
+        if (className == ''){
+            html = `<h1 style="font-size:${size}em">${text}</h1>`
+        }else{
+            html = `<h1 class=${className} style="font-size:${size}em">${text}</h1>`
+        }
+        $(tags[0]).replaceWith(html)
     }
 
     function replaceWithHtmlTag(tags, tagsLength, htmltag, index){
@@ -100,6 +111,7 @@ accessibility = function() {
         navbar[0].appendChild(left)
         navbar[0].appendChild(originNav)
         var alink = document.getElementsByTagName('a')
+        alink[0].tabIndex ="1"
         alink[0].href = '#AC'
         $(alink[0]).css('opacity','0')
         $(alink[0]).focus(()=>{
