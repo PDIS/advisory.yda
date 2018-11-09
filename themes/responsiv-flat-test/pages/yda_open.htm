@@ -4,32 +4,32 @@ layout = "default"
 is_hidden = 0
 robot_index = "index"
 robot_follow = "follow"
+
+[blogPosts]
+pageNumber = "{{ :page }}"
+postsPerPage = 10
+noPostsMessage = "No posts found"
+sortOrder = "published_at desc"
+categoryPage = "blog/category"
+postPage = "blog/post"
 ==
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-123352956-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+<div class="container yda-container">
+  <h1 class="headline"><span>行政院青諮會簡介</span></h1>
+  {% set flag = false %}
+  {% for post in posts %}
+  {% if flag == false%}
+  {% for category in post.categories %}
+  {% if category.name == "簡介" %}
+  <div class="content">
+    {{ post.content_html|raw }}
+  </div>
+  {% set flag = true %}
+  {% endif %}
+  {% endfor %}
+  {% endif %}
+  {% endfor %}
 
-  gtag('config', 'UA-123352956-1');
-</script>
-
-<section class="home-title">
-    <div class="container">
-        <div class="row">
-        <h4 class="headline"><span>緣起</span></h4>
-        <p>蔡總統青年政策已揭示「提升青年諮詢委員會的層級，從教育部層級提升為行政院層級」之方向，行政院（以下簡稱本院）為強化青年公共參與及溝通機制，提供青年於政府政策形成中之參與管道，特設青年諮詢委員會（以下簡稱本會）。</p>
-        <h4 class="headline"><span>任務</span></h4>
-        <p>（一）蒐集及反映青年意見。</p>
-        <p>（二）針對青年關注之公共政策，積極提供策進建言。</p>
-        <p>（三）其他有關促進青年參與公共事務之事項。</p>
-
-        <h4 class="headline"><span>實施要項</span></h4>
-        <p>（一）本會委員任期2年，期滿得予續聘（派）兼之。</p>
-        <p>（二）本會以每3個月召開會議1次為原則；必要時，得召開臨時會議。 </p>
-        <p>（三）本會開會時，得視需要邀請與討論議題相關之機關派員列席。 </p>
-        <p>（四）本會由教育部擔任幕僚工作。 </p>
-        </div>
-           <p></p>
-   </div>
+  {% if flag == false %}
+  <h2 class="text-center">目前暫無相關資料</h2>
+  {% endif %}
+</div>
