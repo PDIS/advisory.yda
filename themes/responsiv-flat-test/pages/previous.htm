@@ -1,5 +1,5 @@
-title = "yda_points"
-url = "/yda_points"
+title = "previous"
+url = "/previous"
 layout = "default"
 is_hidden = 0
 robot_index = "index"
@@ -14,12 +14,12 @@ categoryPage = "blog/category"
 postPage = "blog/post"
 ==
 <div class="container">
-	<h1 class="headline"><span>行政院青年諮詢委員會設置要點</span></h1>
+	<h1 class="headline"><span>歷屆資訊</span></h1>
 	{% set flag = false %}
 	{% for post in posts %}
 	{% if flag == false%}
 	{% for category in post.categories %}
-	{% if category.name == "設置要點" %}
+	{% if category.name == "歷屆資訊" %}
 	<div class="content">
 			{{ post.content_html|raw }}
 	</div>

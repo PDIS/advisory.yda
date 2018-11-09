@@ -52,6 +52,12 @@ class PostImport extends ImportModel
 
     public function importData($results, $sessionKey = null)
     {
+        if (count($results) == 0) {
+            return;
+        }
+
+        // date_default_timezone_set("Asia/Taipei");
+
         $firstRow = reset($results);
 
         /*
@@ -92,11 +98,17 @@ class PostImport extends ImportModel
                     $post->{$attribute} = $value ?: null;
                 }
 
+
                 if (!$post->{'title'}) {
                     $this->logError($row, '[Title] could not be empty.');
                 }
 
-                $post->{'published'} = 1;
+                // $la_time = new DateTimeZone('Asia/Taipei');
+
+                if ($post->{'published_at'}) {
+                    // $post->{'published_at'}->setTimezone($la_time);;
+                    $post->{'published'} = 1;
+                }
                 $post->{'slug'} = md5($post->{'title'} . date('Y-m-d h:i:s'));
 
                 if ($author = $this->findAuthorFromEmail($data)) {
@@ -105,25 +117,32 @@ class PostImport extends ImportModel
 
                 $post->forceSave();
 
-                $users = $this->findUsers($data, 'attendees');
-                foreach ($users as $user) {
-                    $post->users()->save($user);
+                //提案/參與人員
+                if ($users = $this->findUsers($data, 'attendees')) {
+                    foreach ($users as $user) {
+                        $post->users()->save($user);
+                    }
                 }
 
-                $users = $this->findUsers($data, 'petitioners');
-                foreach ($users as $user) {
-                    $post->reconsideration_users()->save($user);
+                //連署人
+                if ($users = $this->findUsers($data, 'petitioners')) {
+                    foreach ($users as $user) {
+                        $post->reconsideration_users()->save($user);
+                    }
                 }
 
-                $tags = $this->findTags($data);
-                foreach ($tags as $tag) {
-                    $post->tags()->save($tag);
+                //文章標籤
+                if ($tags = $this->findTags($data)) {
+                    foreach ($tags as $tag) {
+                        $post->tags()->save($tag);
+                    }
                 }
 
-                // post_child
-                $postChilds = $this->findPosts($data);
-                foreach ($postChilds as $postChild) {
-                    $post->post_child()->save($postChild);
+                // 相關提案
+                if ($postChilds = $this->findPosts($data)) {
+                    foreach ($postChilds as $postChild) {
+                        $post->post_child()->save($postChild);
+                    }
                 }
 
                 $transcript = $this->findTranscript($data);
@@ -284,7 +303,7 @@ class PostImport extends ImportModel
     protected function processImportData($filePath, $matches, $options)
     {
         $excelReader = Excel::excel()->load($filePath, function ($reader) {
-            $reader->setDateFormat('Y-m-d h:i:s');
+            $reader->setDateFormat('Y-m-d H:i:s');
         });
         $dataArray = $excelReader->toArray();
 
@@ -293,7 +312,11 @@ class PostImport extends ImportModel
             foreach ($dataArray as $idx => $item) {
                 $row = [];
                 $combineResult = '';
+                $nullFlag = true; //如果此row全是null，則nullFlag為true
                 foreach ($item as $key => $val) {
+                    if ($nullFlag && $val) {
+                        $nullFlag = false;
+                    }
                     $combineColumn = $this::$combineColumn;
                     if (array_key_exists($key, $combineColumn)) {
                         $combineResult .= "{$combineColumn[$key]}:\n$val\n\n"; //"案號:<br/>案號內容"
@@ -301,8 +324,11 @@ class PostImport extends ImportModel
                         array_push($row, $val);
                     }
                 }
-                array_push($row, $combineResult);
-                $result[] = $this->processImportRow($row, $matches);
+
+                if (!$nullFlag) {
+                    array_push($row, $combineResult);
+                    $result[] = $this->processImportRow($row, $matches);
+                }
             }
         }
 

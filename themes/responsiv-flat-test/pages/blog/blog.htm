@@ -66,13 +66,14 @@ function onStart()
 }
 ?>
 ==
+
 <link href="{{ 'assets/css/home/fields.css'|theme }}" rel="stylesheet">
 {% put scripts %}
-    <script src="{{ [
+<script src="{{ [
         'assets/vendor/isotope/jquery.isotope.js',
         'assets/javascript/pages/portfolio.js',
     ]|theme }}">
-    </script>
+</script>
 {% endput %}
 
 <!-- 文字雲JS end -->
@@ -106,7 +107,8 @@ function onStart()
                         <form method="GET" action="{{ Blog.resultPage|page }}">
                             <div class="input-group stylish-input-group">
                                 <label for="search"></label>
-                                <input type="text" class="form-control" name="search" id="search" placeholder="輸入關鍵字搜尋" title="輸入關鍵字搜尋"> 
+                                <input type="text" class="form-control" name="search" id="search" placeholder="輸入關鍵字搜尋"
+                                    title="輸入關鍵字搜尋">
                                 {% if __SELF__.categoryFilter %}
                                 <select name="cat[]" class="form-control">
                                     {% for key,cat in Blog.categories %}
@@ -131,185 +133,144 @@ function onStart()
             <div class="col-md-12">
                 <ul class="timeline" id="timeline_head"></ul>
             </div>
-            
+
             <script src='https://apis.google.com/js/api.js?'></script>
             <script>
 
                 typeof document.readyState;
                 document.readyState = "loading";
 
-            var timelineHead = document.getElementById('timeline_head');
-            var leftOrRight = true; //left=true ; right=false
-            var existTags = [];
-            {% for tag in blogTags.tags %}
+                var timelineHead = document.getElementById('timeline_head');
+                var leftOrRight = true; //left=true ; right=false
+                var existTags = [];
+                {% for tag in blogTags.tags %}
                 existTags.push('{{tag.name}}')
-            {% endfor %}
-            
-            function handleClientLoad() {
-                let qTag = '{{ GOOGLE_CALENDAR_TAG }}';
+                {% endfor %}
 
-                gapi.client.init({
-                    apiKey: '{{ GOOGLE_CALENDAR_API_KEY }}',
-                    discoveryDocs: ['{{ GOOGLE_CALENDAR_DISCOVERY_DOCS }}'],
-                }).then(function(){
-                    return gapi.client.calendar.events.list({
-                            'calendarId' : '{{ GOOGLE_CALENDAR_ID }}',
-                            'timeZone' : '{{ GOOGLE_CALENDAR_TIMEZONE }}', 
-                            'singleEvents': true, 
+                function handleClientLoad() {
+                    let qTag = '{{ GOOGLE_CALENDAR_TAG }}';
+
+                    gapi.client.init({
+                        apiKey: '{{ GOOGLE_CALENDAR_API_KEY }}',
+                        discoveryDocs: ['{{ GOOGLE_CALENDAR_DISCOVERY_DOCS }}'],
+                    }).then(function () {
+                        return gapi.client.calendar.events.list({
+                            'calendarId': '{{ GOOGLE_CALENDAR_ID }}',
+                            'timeZone': '{{ GOOGLE_CALENDAR_TIMEZONE }}',
+                            'singleEvents': true,
                             'timeMin': (new Date()).toISOString(), //gathers only events not happened yet
                             // 'maxResults': maxRows, 
                             'q': qTag,
-                            'orderBy': '{{ GOOGLE_CALENDAR_ORDERBY }}'});
-                }).then(function (response) {
-                    console.log('render');
-                    var events = response.result.items;
-                    
-                    for (var i = events.length - 1; i >= 0; i--) {
-                        var item = events[i];
-                        
-                        descSplitNewLines = item.description.split('\n');
+                            'orderBy': '{{ GOOGLE_CALENDAR_ORDERBY }}'
+                        });
+                    }).then(function (response) {
+                        console.log('render');
+                        var events = response.result.items;
 
-                        var tags = [];
-                        descSplitNewLines.forEach(function(descSplitNewLine){
-                            descSplitSpaces = descSplitNewLine.split(' ');
-                            descSplitSpaces.forEach(function(str){
-                                reg = str.match(/^#[\u4e00-\u9fa5]+/)
-                                if (reg){
-                                    formalStr = reg[0].replace(/^#/, '');
-                                    if (formalStr != qTag){
-                                        var existFlag = false;
-                                        for (var i=0; i<existTags.length; i++) {
-                                            existTag = existTags[i];
-                                            if (formalStr == existTag){
-                                                tags.push(formalStr);
-                                                existFlag = true;
-                                                break;        
+                        for (var i = events.length - 1; i >= 0; i--) {
+                            var item = events[i];
+
+                            descSplitNewLines = item.description.split('\n');
+
+                            var tags = [];
+                            descSplitNewLines.forEach(function (descSplitNewLine) {
+                                descSplitSpaces = descSplitNewLine.split(' ');
+                                descSplitSpaces.forEach(function (str) {
+                                    reg = str.match(/^#[\u4e00-\u9fa5]+/)
+                                    if (reg) {
+                                        formalStr = reg[0].replace(/^#/, '');
+                                        if (formalStr != qTag) {
+                                            var existFlag = false;
+                                            for (var i = 0; i < existTags.length; i++) {
+                                                existTag = existTags[i];
+                                                if (formalStr == existTag) {
+                                                    tags.push(formalStr);
+                                                    existFlag = true;
+                                                    break;
+                                                }
+                                            }
+                                            if (!existFlag) {
+                                                console.log('Tag \'' + formalStr + '\'' + ' do not exist !');
                                             }
                                         }
-                                        if (!existFlag){
-                                            console.log('Tag \'' + formalStr + '\'' + ' do not exist !');
-                                        }
                                     }
-                                }
-                            })
-                        });
-                        
-                        
-                        var tagString = '';
-                        // var avatarString = '';
+                                })
+                            });
 
-                        tags.forEach(function(tag){
-                            tagString += '<a href="{{ 'blog/tag'|page }}/' + tag + '" class="pull-right">';
-                            tagString += '<span class="label label-success">' + tag + '</span>';
-                            tagString += '</a>';
-                        });
 
-                        // {% for user in post.getUsers %}
-                        //     avatarString += '<a href="{{ 'test/userpost'|page({ id:user.id }) }}">';
-                        //     avatarString += '<div class="avatar" style="background:url(\'{{user.getAvatarThumb(60)}}\');">';
-                        //     avatarString += '</div>';
-                        //     avatarString += '</a>';
-                        // {% endfor %}
+                            var tagString = '';
+                            // var avatarString = '';
 
-                        var allDay = item.start.date? true : false;
-                        var startDT = allDay ? item.start.date : item.start.dateTime;
-                        var dateTime = startDT.split("T"); //split date from time
-                        var date = dateTime[0].split("-"); //split yyyy mm dd
-                        var startYear = date[0];
-                        var startMonth = date[1];
-                        var startDay = date[2];
+                            tags.forEach(function (tag) {
+                                tagString += '<a href="{{ 'blog / tag'|page }}/' + tag + '" class="pull-right">';
+                                tagString += '<span class="label label-success">' + tag + '</span>';
+                                tagString += '</a>';
+                            });
 
-                        //timeline-panel            
-                        postTitle = document.createElement('h2');
-                        postTitle.style.fontSize = 'large';
-                        postTitle.style.margin = '15px';
-                        postTitle.textContent += item.summary;
+                            // {% for user in post.getUsers %}
+                            //     avatarString += '<a href="{{ 'test/userpost'|page({ id:user.id }) }}">';
+                            //     avatarString += '<div class="avatar" style="background:url(\'{{user.getAvatarThumb(60)}}\');">';
+                            //     avatarString += '</div>';
+                            //     avatarString += '</a>';
+                            // {% endfor %}
 
-                        postTitleLink = document.createElement('a');  
-                        postTitleLink.appendChild(postTitle);
+                            var allDay = item.start.date ? true : false;
+                            var startDT = allDay ? item.start.date : item.start.dateTime;
+                            var dateTime = startDT.split("T"); //split date from time
+                            var date = dateTime[0].split("-"); //split yyyy mm dd
+                            var startYear = date[0];
+                            var startMonth = date[1];
+                            var startDay = date[2];
 
-                        timeLineBody = document.createElement('div');
-                        timeLineBody.classList.add('timeline-body');
-                        timeLineBody.appendChild(postTitleLink);
 
-                        timeLineFooter = document.createElement('div');
-                        timeLineFooter.classList.add('timeline-footer');
-                        timeLineFooter.innerHTML= tagString;
-
-                        timeLinePanel = document.createElement('div');
-                        timeLinePanel.classList.add('timeline-panel');
-                        timeLinePanel.appendChild(timeLineBody);
-                        timeLinePanel.appendChild(timeLineFooter);
-
-                        //avatars
-                        profilePicture = document.createElement('div');
-                        profilePicture.className = 'profile-picture col-lg-10 col-md-9 col-sm-8 col-xs-12';
-                        // profilePicture.innerHTML += avatarString; //avatarString is profile picture
-
-                        timeLineDate = document.createElement('div');
-                        timeLineDate.classList.add('timeline-date');
-                        timeLineDate.textContent += startYear + '-' + startMonth + '-' + startDay
-
-                        timeLineDateBox = document.createElement('div');
-                        timeLineDateBox.className = 'col-lg-2 col-md-3 col-sm-4 col-xs-12';
-                        timeLineDateBox.appendChild(timeLineDate);
-
-                        colTimeLineDate = document.createElement('div');
-                        colTimeLineDate.className = 'col-md-12';
-                        colTimeLineDate.appendChild(profilePicture);
-                        colTimeLineDate.appendChild(timeLineDateBox);
-                        // colTimeLineDate.innerHTML += profilePicture;
-
-                        avatars = document.createElement('div');
-                        avatars.classList.add('avatars');
-                        avatars.appendChild(colTimeLineDate);
-
-                        //li.timeline
-                        timelineLi = document.createElement('li');
-                        if(!leftOrRight){
-                            timelineLi.classList.add("timeline-inverted");
+                            generateTimeline('', startYear + '-' + startMonth + '-' + startDay, item.summary, tagString)
                         }
+                        renderPost();
+                    }, function (reason) {
+                        console.log('Failure');
+                        renderPost();
+                    });
+                }
 
-                        timelineLi.appendChild(timeLinePanel);
-                        timelineLi.appendChild(avatars);
+                function renderPost() {
 
-                        timelineHead.appendChild(timelineLi);
-
-                        leftOrRight ^= true; //toggle to left or right
-                    }
-                    renderPost();
-                }, function (reason) {
-                    console.log('Failure');
-                    renderPost();
-                });
-            }
-
-            function renderPost(){
-
-                {% for post in posts %}
-                {% if tool.categoriesCheck(post.categories) == true %}
+                    {% for post in posts %}
+                    {% if tool.categoriesCheck(post.categories) == true %}
                     var tagString = '';
                     var avatarString = '';
 
                     {% for tag in post.tags %}
-                        tagName = '{{tag.name}}'
-                        tagString += '<a href="{{ 'blog/tag'|page }}/' + tagName + '" class="pull-right">';
-                        tagString += '<span class="label label-success">' + tagName + '</span>';
-                        tagString += '</a>';
+                    tagName = '{{tag.name}}'
+                    tagString += '<a href="{{ 'blog/tag'|page }}/' + tagName + '" class="pull-right">';
+                    tagString += '<span class="label label-success">' + tagName + '</span>';
+                    tagString += '</a>';
                     {% endfor %}
 
                     {% for user in post.getUsers %}
-                        avatarString += '<a href="{{ 'test/userpost'|page({ id:user.id }) }}">';
-                        avatarString += '<div class="avatar" style="background:url(\'{{user.getAvatarThumb(60)}}\');">';
-                        avatarString += '</div>';
-                        avatarString += '</a>';
+                    avatarString += '<a href="{{ 'test/userpost'|page({ id:user.id }) }}">';
+                    avatarString += '<div class="avatar" style="background:url(\'{{user.getAvatarThumb(60)}}\');">';
+                    avatarString += '</div>';
+                    avatarString += '</a>';
                     {% endfor %}
+
+                    generateTimeline('{{ post.url }}', '{{post.published_at|date("Y-m-d")}}', '{{post.title}}', tagString, avatarString);
+                    {% endif %}
+                    {% endfor %}
+
+                    clearfix = document.createElement('li');
+                    clearfix.classList.add('clearfix');
+                    clearfix.style.float = 'none';
+                    timelineHead.appendChild(clearfix);
+
+                    document.readyState = "complete";
+                }
+
+                function generateTimeline(url, date, summary, tagString, avatarString = '') {
 
                     //timeline-panel            
                     postTitle = document.createElement('h2');
-                    postTitle.style.fontSize = 'large';
-                    postTitle.style.margin = '15px';
-                    postTitle.textContent += '{{post.title}}';
+                    postTitle.classList.add('timeline-title');
+                    postTitle.textContent += summary;
 
                     timeLineBody = document.createElement('div');
                     timeLineBody.classList.add('timeline-body');
@@ -317,7 +278,7 @@ function onStart()
 
                     timeLineFooter = document.createElement('div');
                     timeLineFooter.classList.add('timeline-footer');
-                    timeLineFooter.innerHTML= tagString; //tagString need to use js DOM
+                    timeLineFooter.innerHTML = tagString; //tagString need to use js DOM
 
                     timeLinePanel = document.createElement('div');
                     timeLinePanel.classList.add('timeline-panel');
@@ -325,55 +286,47 @@ function onStart()
                     timeLinePanel.appendChild(timeLineFooter);
 
                     postLink = document.createElement('a');
-                    postLink.href = '{{post.url}}';          
+                    if (url != '') {
+                        postLink.href = url;
+                    }
+                    postLink.classList.add('display-block');
                     postLink.appendChild(timeLinePanel);
 
                     //avatars
                     profilePicture = document.createElement('div');
                     profilePicture.className = 'profile-picture col-lg-10 col-md-9 col-sm-8 col-xs-12';
-                    profilePicture.innerHTML += avatarString;
+                    if (avatarString != '') {
+                        profilePicture.innerHTML += avatarString;
+                    }
 
                     timeLineDate = document.createElement('div');
-                    timeLineDate.classList.add('timeline-date');
-                    timeLineDate.textContent += '{{post.published_at|date("Y-m-d")}}'
-
-                    timeLineDateBox = document.createElement('div');
-                    timeLineDateBox.className = 'col-lg-2 col-md-3 col-sm-4 col-xs-12';
-                    timeLineDateBox.appendChild(timeLineDate);
+                    timeLineDate.className = 'timeline-date col-lg-2 col-md-3 col-sm-4 col-xs-12';
+                    timeLineDate.textContent += date;
 
                     colTimeLineDate = document.createElement('div');
                     colTimeLineDate.className = 'col-md-12';
                     colTimeLineDate.appendChild(profilePicture);
-                    colTimeLineDate.appendChild(timeLineDateBox);
+                    colTimeLineDate.appendChild(timeLineDate);
 
                     avatars = document.createElement('div');
                     avatars.classList.add('avatars');
                     avatars.appendChild(colTimeLineDate);
-                    
+
                     //li.timeline
                     timelineLi = document.createElement('li');
-                    if(!leftOrRight){
+                    if (!leftOrRight) {
                         timelineLi.classList.add("timeline-inverted");
                     }
-                    
+
                     timelineLi.appendChild(postLink);
                     timelineLi.appendChild(avatars);
 
                     timelineHead.appendChild(timelineLi);
 
                     leftOrRight ^= true; //toggle to left or right
-                {% endif %}
-                {% endfor %}
+                }
 
-                clearfix = document.createElement('li');
-                clearfix.classList.add('clearfix');
-                clearfix.style.float = 'none';
-                timelineHead.appendChild(clearfix);
-
-                document.readyState = "complete";
-            }
-            
-            gapi.load('client', handleClientLoad);
+                gapi.load('client', handleClientLoad);
             </script>
         </div>
     </section>

@@ -213,10 +213,6 @@ class Plugin extends PluginBase
                             'type'    => 'datepicker',
                             'span' => 'left',
                             'mode'    => 'datetime',
-                            'trigger'=>[
-                                'action'=> 'enable',
-                                'field'=> 'published',
-                                'condition'=> 'checked'],
                             'tab'     => '其他欄位'
                         ],
                         'location' => [

@@ -5,7 +5,10 @@ fields:
         type: text
     surname:
         label: 'rainlab.user::lang.user.surname'
+        oc.commentPosition: ''
         span: auto
+        disabled: 1
+        hidden: 1
         type: text
 tabs:
     fields:
@@ -18,13 +21,15 @@ tabs:
             label: 'rainlab.user::lang.user.send_invite'
             span: left
             default: 0
+            disabled: 1
+            hidden: 1
             context: create
             type: checkbox
             comment: 'rainlab.user::lang.user.send_invite_comment'
             tab: 'rainlab.user::lang.user.account'
         is_activated:
             label: 'rainlab.user::lang.users.activate_confirm'
-            span: right
+            span: left
             default: 1
             type: checkbox
             comment: 是否激活該使用者(激活才會被顯示)

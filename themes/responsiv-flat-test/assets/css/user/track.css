@@ -107,6 +107,7 @@
 
 #track .timeline>li.timeline-inverted .avatars .timeline-date {
   float: right;
+  text-align: right;
   margin-right: 0;
 }
 
@@ -151,6 +152,7 @@
 
 #track .avatars .timeline-date {
   float: right;
+  text-align: right;
 }
 
 #track .avatars .avatar {

@@ -59,7 +59,7 @@ function onStart()
                     </h4>
                     <div class="info-box">
                         <h4>會議時間：</h4>
-                        <p>{{ post.event_date|date('Y-m-d H:i') }}</p>
+                        <p>{{ post.event_date|date('Y-m-d') }}</p>
                     </div>
                     <div class="info-box">
                         <h4>主持人：</h4>
@@ -279,31 +279,32 @@ function onStart()
                             <ul class="timeline">
                                 {% for childPost in post.getChildPosts %}
                                 <li>
-                                    <div class="timeline-panel">
-                                        <div class="timeline-body">
-                                            <h4><a href="{{ childPost.slug }}">{{ childPost.title }}</a></h4>
-                                            <p></p>
-                                        </div>
-                                        <div class="timeline-footer">
-                                            {% for tag in childPost.tags %}
-                                            <a class="pull-right" href="{{ 'blog/tag'|page }}/{{ tag.name }}">
-                                                <span class="label label-success">{{ tag.name }} </span>
-                                            </a>
-                                            {% endfor %}
-                                        </div>
-                                    </div>
-                                    <div class="avatars">
-                                        {% for user in childPost.getUsers %}
-                                        <a href="{{ 'test/userpost'|page({ id:user.id }) }}" class="">
-                                            <div class="avatar" style="background:url('{{user.getAvatarThumb(60)}}');"
-                                                title="{{user.name}}">
+                                    <a href="{{ 'blog/post'|page }}/{{ childPost.slug }}" class="display-block">
+                                        <div class="timeline-panel">
+                                            <div class="timeline-body">
+                                                <h2 class="timeline-title">{{ childPost.title }}</h2>
                                             </div>
-                                        </a>
-                                        {% endfor %}
-                                        <div class="timeline-date">
-                                            {{ childPost.published_at|date('Y-m-d') }}
+                                            <div class="timeline-footer">
+                                                {% for tag in childPost.tags %}
+                                                <a class="pull-right" href="{{ 'blog/tag'|page }}/{{ tag.name }}">
+                                                    <span class="label label-success">{{ tag.name }} </span>
+                                                </a>
+                                                {% endfor %}
+                                            </div>
                                         </div>
-                                    </div>
+                                        <div class="avatars">
+                                            <div class="col-md-12">
+                                                <div class="profile-picture col-lg-10 col-md-9 col-sm-8 col-xs-12">
+                                                    {% for user in childPost.getUsers %}
+                                                    <a href="{{ 'test/userpost'|page({ id:user.id }) }}">
+                                                        <div class="avatar" style="background:url('{{user.getAvatarThumb(60)}}');" title="{{user.name}}"></div>
+                                                    </a>
+                                                    {% endfor %}
+                                                </div>
+                                                <div class="timeline-date col-lg-2 col-md-3 col-sm-4 col-xs-12">{{ childPost.published_at|date('Y-m-d') }}</div>
+                                            </div>
+                                        </div>
+                                    </a>
                                 </li>
                                 {% endfor %}
                                 <li class="clearfix" style="float: none;"></li>

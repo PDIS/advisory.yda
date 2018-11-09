@@ -215,4 +215,9 @@
   'cms\\Controllers\\themes' => 'modules\\cms\\controllers\\themes.php',
   'RainLab\\Translate\\Classes\\ThemeScanner' => 'plugins\\rainlab\\translate\\classes\\ThemeScanner.php',
   'Offline\\SiteSearch\\Models\\Settings' => 'plugins\\offline\\sitesearch\\models\\Settings.php',
+  'rainlab\\location\\Controllers\\locations' => 'plugins\\rainlab\\location\\controllers\\locations.php',
+  'RainLab\\Location\\Models\\Setting' => 'plugins\\rainlab\\location\\models\\Setting.php',
+  'rainlab\\translate\\Controllers\\messages' => 'plugins\\rainlab\\translate\\controllers\\messages.php',
+  'ntut\\https\\Plugin' => 'plugins\\ntut\\https\\Plugin.php',
+  'rainlab\\translate\\Controllers\\locales' => 'plugins\\rainlab\\translate\\controllers\\locales.php',
 );

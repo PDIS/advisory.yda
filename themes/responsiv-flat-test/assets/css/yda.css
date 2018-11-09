@@ -1,6 +1,10 @@
-.test {
-    background-color: yellow;
+/* Layout */
+
+.yda-container {
+    margin-bottom: 50px;
 }
+
+/* Committee Member Roster */
 
 .table-black td, .table-black th  {
     border-color: #000000;
@@ -14,6 +18,12 @@
 
 .new-line {
     white-space: pre-line;
+}
+
+/* post */
+
+.content * {
+    max-width: 100%;
 }
 
 /* gpivp */
@@ -118,12 +128,29 @@
 
 .display-block {
     display: block;
+    overflow: hidden;
 }
 
 a:focus, a.dropdown-toggle:focus {
-    outline: dotted red;
+    outline: 5px dotted red;
 }
 
 a {
     outline: none;
+}
+
+/* Timeline */
+
+.timeline-title {
+    font-size: large;
+    margin: 15px;
+}
+
+.timeline-date {
+    min-width: 80px;
+}
+
+
+.profile-picture {
+    max-width: calc(100% - 80px);
 }

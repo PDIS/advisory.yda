@@ -50,12 +50,6 @@ class GpvipController extends Controller
             $header = substr($response, 0, $header_size);
             $body = substr($response, $header_size);
 
-            // if ($response === false) {
-            //     $result[0] = 'ERROR';
-            //     $result[1] = curl_error($curl);
-            //     return $result;
-            // }
-
             curl_close($curl);
 
             if ($response != false) {
