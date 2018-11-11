@@ -113,17 +113,20 @@
 /* Accessibility */
 
 #AU, #AC { 
-    opacity: 0;
+    /* opacity: 0; */
+    color: rgba(0, 0, 0, 0);
     font-size: inherit;
     text-decoration: none;
 }
 
 #AU:focus, #AC:focus {
-    opacity: 1;
+    /* opacity: 1; */
+    color: rgba(0, 0, 0, 1);
 }
 
 #AU:hover, #AC:hover {
-    opacity: 1;
+    /* opacity: 1; */
+    color: rgba(0, 0, 0, 1);
 }
 
 .display-block {

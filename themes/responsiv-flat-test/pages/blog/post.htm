@@ -269,46 +269,102 @@ function onStart()
                     </div>
                 </div>
                 <section id="track" class="track-side">
-                    <div class="row">
-                        <h4 class="headline">
-                            <span>提案相關 Tracks</span>
-                        </h4>
+                    <div>
+                        <h4 class="headline"><span>提案相關 Tracks</span></h4>
                     </div>
-                    <div class="row">
+                    <div>
                         <div class="col-md-12">
-                            <ul class="timeline">
-                                {% for childPost in post.getChildPosts %}
-                                <li>
-                                    <a href="{{ 'blog/post'|page }}/{{ childPost.slug }}" class="display-block">
-                                        <div class="timeline-panel">
-                                            <div class="timeline-body">
-                                                <h2 class="timeline-title">{{ childPost.title }}</h2>
-                                            </div>
-                                            <div class="timeline-footer">
-                                                {% for tag in childPost.tags %}
-                                                <a class="pull-right" href="{{ 'blog/tag'|page }}/{{ tag.name }}">
-                                                    <span class="label label-success">{{ tag.name }} </span>
-                                                </a>
-                                                {% endfor %}
-                                            </div>
-                                        </div>
-                                        <div class="avatars">
-                                            <div class="col-md-12">
-                                                <div class="profile-picture col-lg-10 col-md-9 col-sm-8 col-xs-12">
-                                                    {% for user in childPost.getUsers %}
-                                                    <a href="{{ 'test/userpost'|page({ id:user.id }) }}">
-                                                        <div class="avatar" style="background:url('{{user.getAvatarThumb(60)}}');" title="{{user.name}}"></div>
-                                                    </a>
-                                                    {% endfor %}
-                                                </div>
-                                                <div class="timeline-date col-lg-2 col-md-3 col-sm-4 col-xs-12">{{ childPost.published_at|date('Y-m-d') }}</div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                {% endfor %}
-                                <li class="clearfix" style="float: none;"></li>
-                            </ul>
+                            <div class="col-md-12">
+                                <ul class="timeline" id="timeline_head"></ul>
+                            </div>
+                            <script>
+                                var timelineHead = document.getElementById('timeline_head');
+                                
+                                function renderPost() {
+                                    {% for childPost in post.getChildPosts %}
+                                    var tagString = '';
+                                    var avatarString = '';
+                
+                                    {% for tag in childPost.tags %}
+                                    tagName = '{{tag.name}}'
+                                    tagString += '<a href="{{ 'blog/tag'|page }}/' + tagName + '">';
+                                    tagString += '<span class="label label-success">' + tagName + '</span>';
+                                    tagString += '</a>';
+                                    {% endfor %}
+                
+                                    {% for user in childPost.getUsers %}
+                                    avatarString += '<a href="{{ 'test/userpost'|page({ id:user.id }) }}">';
+                                    avatarString += '<div class="avatar" style="background:url(\'{{user.getAvatarThumb(60)}}\');">';
+                                    avatarString += '</div>';
+                                    avatarString += '</a>';
+                                    {% endfor %}
+
+                                    generateTimeline("{{ 'blog/post'|page({ slug : childPost.slug }) }}", '{{childPost.published_at|date("Y-m-d")}}', '{{childPost.title}}', tagString, avatarString);
+                                    {% endfor %}
+                
+                                    clearfix = document.createElement('li');
+                                    clearfix.classList.add('clearfix');
+                                    clearfix.style.float = 'none';
+                                    timelineHead.appendChild(clearfix);
+                
+                                    document.readyState = "complete";
+                                }
+                
+                                function generateTimeline(url, date, summary, tagString, avatarString = '') {
+                                    //timeline-panel            
+                                    postTitle = document.createElement('h2');
+                                    postTitle.classList.add('timeline-title');
+                                    postTitle.textContent += summary;
+                
+                                    timeLineBody = document.createElement('div');
+                                    timeLineBody.classList.add('timeline-body');
+                                    timeLineBody.appendChild(postTitle);
+                
+                                    timeLineFooter = document.createElement('div');
+                                    timeLineFooter.classList.add('timeline-footer');
+                                    timeLineFooter.innerHTML = tagString; //tagString need to use js DOM
+                
+                                    timeLinePanel = document.createElement('div');
+                                    timeLinePanel.classList.add('timeline-panel');
+                                    timeLinePanel.appendChild(timeLineBody);
+                                    timeLinePanel.appendChild(timeLineFooter);
+                
+                                    postLink = document.createElement('a');
+                                    if (url != '') {
+                                        postLink.href = url;
+                                    }
+                                    postLink.classList.add('display-block');
+                                    postLink.appendChild(timeLinePanel);
+                
+                                    //avatars
+                                    profilePicture = document.createElement('div');
+                                    profilePicture.className = 'profile-picture col-lg-10 col-md-9 col-sm-8 col-xs-12';
+                                    if (avatarString != '') {
+                                        profilePicture.innerHTML += avatarString;
+                                    }
+                
+                                    timeLineDate = document.createElement('div');
+                                    timeLineDate.className = 'timeline-date col-lg-2 col-md-3 col-sm-4 col-xs-12';
+                                    timeLineDate.textContent += date;
+                
+                                    colTimeLineDate = document.createElement('div');
+                                    colTimeLineDate.className = 'col-md-12';
+                                    colTimeLineDate.appendChild(profilePicture);
+                                    colTimeLineDate.appendChild(timeLineDate);
+                
+                                    avatars = document.createElement('div');
+                                    avatars.classList.add('avatars');
+                                    avatars.appendChild(colTimeLineDate);
+                
+                                    timelineLi = document.createElement('li');
+                
+                                    timelineLi.appendChild(postLink);
+                                    timelineLi.appendChild(avatars);
+                
+                                    timelineHead.appendChild(timelineLi);
+                                }
+                                renderPost()
+                            </script>
                         </div>
                     </div>
                 </section>

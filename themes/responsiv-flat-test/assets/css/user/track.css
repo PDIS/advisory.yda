@@ -123,6 +123,7 @@
 #track .timeline-footer {
   padding: 10px;
   height: 40px;
+  text-align: right;
 }
 
 #track .timeline-footer>a {

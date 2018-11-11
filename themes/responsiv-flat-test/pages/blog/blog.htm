@@ -202,7 +202,7 @@ function onStart()
                             // var avatarString = '';
 
                             tags.forEach(function (tag) {
-                                tagString += '<a href="{{ 'blog / tag'|page }}/' + tag + '" class="pull-right">';
+                                tagString += '<a href="{{ 'blog / tag'|page }}/' + tag + '">';
                                 tagString += '<span class="label label-success">' + tag + '</span>';
                                 tagString += '</a>';
                             });
@@ -241,7 +241,7 @@ function onStart()
 
                     {% for tag in post.tags %}
                     tagName = '{{tag.name}}'
-                    tagString += '<a href="{{ 'blog/tag'|page }}/' + tagName + '" class="pull-right">';
+                    tagString += '<a href="{{ 'blog/tag'|page }}/' + tagName + '">';
                     tagString += '<span class="label label-success">' + tagName + '</span>';
                     tagString += '</a>';
                     {% endfor %}

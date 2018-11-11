@@ -19,26 +19,30 @@ postPage = "blog/post"
 categoryPage = "blog/category"
 
 [blogTags]
-results = 5
+results = 0
 direction = "desc"
 ==
 <?php
 function onStart()
 {   
     $this->addCss('assets/css/tree.css');
+
+    $this["GOOGLE_CALENDAR_API_KEY"] = !empty($_ENV["GOOGLE_CALENDAR_API_KEY"]) ? $_ENV["GOOGLE_CALENDAR_API_KEY"] : "AIzaSyCohFxIG6E7gPRFzkxaawVJHNvufRFSJuo";
+    $this["GOOGLE_CALENDAR_DISCOVERY_DOCS"] = !empty($_ENV["GOOGLE_CALENDAR_DISCOVERY_DOCS"]) ? $_ENV["GOOGLE_CALENDAR_DISCOVERY_DOCS"] : "https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest";
+    $this["GOOGLE_CALENDAR_ID"] = !empty($_ENV["GOOGLE_CALENDAR_ID"]) ? $_ENV["GOOGLE_CALENDAR_ID"] : "youyhaw@gmail.com";
+    $this["GOOGLE_CALENDAR_TIMEZONE"] = !empty($_ENV["GOOGLE_CALENDAR_TIMEZONE"]) ? $_ENV["GOOGLE_CALENDAR_TIMEZONE"] : "Taipei";
+    $this["GOOGLE_CALENDAR_TAG"] = !empty($_ENV["GOOGLE_CALENDAR_TAG"]) ? $_ENV["GOOGLE_CALENDAR_TAG"] : "青諮會網站";
+    $this["GOOGLE_CALENDAR_ORDERBY"] = !empty($_ENV["GOOGLE_CALENDAR_ORDERBY"]) ? $_ENV["GOOGLE_CALENDAR_ORDERBY"] : "startTime";
     
     $this['tool'] = new class {
-        public function postFilterByCategory($items) {
-            $result = [];
-            foreach ($items as $item) {
-                foreach ($item->categories as $category) {
-                    if ($category->name != "大會提案") {
-                        $result[] = $item;
-                        break;
-                    }
+        public function categoriesCheck($categories) {
+            foreach ($categories as $category) {
+                $name = $category->name;
+                if ($name == "文章類" || $name == "會議" || $name == "活動") {
+                    return true;
                 }
+                return false;
             }
-            return $result;
         }
     };
 }
@@ -66,7 +70,7 @@ function onStart()
         <div class="col-sm-4">
             <div class="thumbnail" data-toggle="modal" data-target="#myModal">
                 <div class="caption">
-                    <a href="{{ post.url }}">
+                    <a href="{{ post.url }}" class="display-block">
                         <p class="card-description JQellipsis" align="left">{{ post.title }}</p>
                     </a>
                     {% if post.level == 1 %}
@@ -102,60 +106,199 @@ function onStart()
         <link href="{{ 'assets/css/user/track.css'|theme }}" rel="stylesheet">
         <section id="track" class="container">
             <div class="row">
+                <a id="AC" accesskey="C" href="#AC" title="中央內容區塊" name="AC">:::</a>
                 <h4 class="headline"><span>委員 Tracks</span></h4>
             </div>
             <div class="row">
-                <div class="container">
-                    <div class="col-md-12">
-                        <ul class="timeline" id="timeline_head">
-                            {% set posts = tool.postFilterByCategory(blogTagSearch.tag.posts) %}
-                            {% set flag = true %}
-                            {% for post in posts %}
-                            {% if flag == true %}
-                            <li>
-                            {% else %}
-                            <li class="timeline-inverted">
-                            {% endif %}
-                                <a href="{{ 'blog/post'|page }}/{{ post.slug }}" class="display-block">
-                                    <div class="timeline-panel">
-                                        <div class="timeline-body">
-                                            <h2 class="timeline-title">{{ post.title }}</h2>
-                                        </div>
-                                        <div class="timeline-footer">
-                                            {% for tag in post.tags %}
-                                            <!-- <a class="pull-right" href="{{ 'blog/tag'|page }}/{{ tag.name }}"> -->
-                                            <a href="/tag/{{ tag.name }}" class="pull-right">
-                                                <!-- <span class="label label-success">{{ tag.name }}</span> -->
-                                            </a>
-                                            {% endfor %}
-                                        </div>
-                                    </div>
-                                    <div class="avatars">
-                                        <div class="col-md-12">
-                                            <div class="profile-picture col-lg-10 col-md-9 col-sm-8 col-xs-12">
-                                                {% for user in post.getUsers %}
-                                                <a href="{{ 'test/userpost'|page({ id:user.id }) }}">
-                                                    <!-- <div class="avatar" style="background:url('{{user.getAvatarThumb(60)}}');"
-                                                        title="{{user.name}}">
-                                                    </div> -->
-                                                </a>
-                                                {% endfor %}
-                                            </div>
-                                            <div class="timeline-date col-lg-2 col-md-3 col-sm-4 col-xs-12">{{ post.published_at|date('Y-m-d') }}</div>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            {% if flag == true %}
-                                {% set flag = false %}
-                            {% else %}
-                                {% set flag = true %}
-                            {% endif %}
-                            {% endfor %}
-                            <li class="clearfix" style="float: none;"></li>
-                        </ul>
-                    </div>
+                <div class="col-md-12">
+                    <ul class="timeline" id="timeline_head"></ul>
                 </div>
+    
+                <script src='https://apis.google.com/js/api.js?'></script>
+                <script>
+                    var timelineHead = document.getElementById('timeline_head');
+                    var leftOrRight = true; //left=true ; right=false
+                    var existTags = [];
+                    {% for tag in blogTags.tags %}
+                    existTags.push('{{tag.name}}')
+                    {% endfor %}
+    
+                    function handleClientLoad() {
+                        let qTag = '{{ GOOGLE_CALENDAR_TAG }}';
+    
+                        gapi.client.init({
+                            apiKey: '{{ GOOGLE_CALENDAR_API_KEY }}',
+                            discoveryDocs: ['{{ GOOGLE_CALENDAR_DISCOVERY_DOCS }}'],
+                        }).then(function () {
+                            return gapi.client.calendar.events.list({
+                                'calendarId': '{{ GOOGLE_CALENDAR_ID }}',
+                                'timeZone': '{{ GOOGLE_CALENDAR_TIMEZONE }}',
+                                'singleEvents': true,
+                                'timeMin': (new Date()).toISOString(), //gathers only events not happened yet
+                                // 'maxResults': maxRows, 
+                                'q': qTag,
+                                'orderBy': '{{ GOOGLE_CALENDAR_ORDERBY }}'
+                            });
+                        }).then(function (response) {
+                            console.log('render');
+                            var events = response.result.items;
+    
+                            for (var i = events.length - 1; i >= 0; i--) {
+                                var item = events[i];
+    
+                                descSplitNewLines = item.description.split('\n');
+    
+                                var tagCheck = false;
+                                var tags = [];
+                                descSplitNewLines.forEach(function (descSplitNewLine) {
+                                    descSplitSpaces = descSplitNewLine.split(' ');
+                                    descSplitSpaces.forEach(function (str) {
+                                        reg = str.match(/^#[\u4e00-\u9fa5]+/)
+                                        if (reg) {
+                                            formalStr = reg[0].replace(/^#/, '');
+                                            if (formalStr != qTag) {
+                                                var existFlag = false;
+                                                if (formalStr == '{{ this.param[tag] }}' && tagCheck == false) {
+                                                    tagCheck = true;
+                                                }
+                                                for (var i = 0; i < existTags.length; i++) {
+                                                    existTag = existTags[i];
+                                                    if (formalStr == existTag) {
+                                                        tags.push(formalStr);
+                                                        existFlag = true;
+                                                        break;
+                                                    }
+                                                }
+                                                if (!existFlag) {
+                                                    console.log('Tag \'' + formalStr + '\'' + ' do not exist !');
+                                                }
+                                            }
+                                        }
+                                    })
+                                });
+
+                                if (tagCheck) {
+    
+                                    var tagString = '';
+        
+                                    tags.forEach(function (tag) {
+                                        tagString += '<a href="{{ 'blog / tag'|page }}/' + tag + '">';
+                                        tagString += '<span class="label label-success">' + tag + '</span>';
+                                        tagString += '</a>';
+                                    });
+        
+                                    var allDay = item.start.date ? true : false;
+                                    var startDT = allDay ? item.start.date : item.start.dateTime;
+                                    var dateTime = startDT.split("T"); //split date from time
+                                    var date = dateTime[0].split("-"); //split yyyy mm dd
+                                    var startYear = date[0];
+                                    var startMonth = date[1];
+                                    var startDay = date[2];
+        
+                                    generateTimeline('', startYear + '-' + startMonth + '-' + startDay, item.summary, tagString)
+                                }
+                            }
+                            renderPost();
+                        }, function (reason) {
+                            console.log('Failure');
+                            renderPost();
+                        });
+                    }
+    
+                    function renderPost() {
+                        {% for post in blogTagSearch.tag.posts %}
+                        {% if tool.categoriesCheck(post.categories) == true %}
+                        var tagString = '';
+                        var avatarString = '';
+    
+                        {% for tag in post.tags %}
+                        tagName = '{{tag.name}}'
+                        tagString += '<a href="{{ 'blog/tag'|page }}/' + tagName + '">';
+                        tagString += '<span class="label label-success">' + tagName + '</span>';
+                        tagString += '</a>';
+                        {% endfor %}
+    
+                        {% for user in post.getUsers %}
+                        avatarString += '<a href="{{ 'test/userpost'|page({ id:user.id }) }}">';
+                        avatarString += '<div class="avatar" style="background:url(\'{{user.getAvatarThumb(60)}}\');">';
+                        avatarString += '</div>';
+                        avatarString += '</a>';
+                        {% endfor %}
+    
+                        generateTimeline('{{ post.url }}', '{{post.published_at|date("Y-m-d")}}', '{{post.title}}', tagString, avatarString);
+                        {% endif %}
+                        {% endfor %}
+    
+                        clearfix = document.createElement('li');
+                        clearfix.classList.add('clearfix');
+                        clearfix.style.float = 'none';
+                        timelineHead.appendChild(clearfix);
+    
+                        document.readyState = "complete";
+                    }
+    
+                    function generateTimeline(url, date, summary, tagString, avatarString = '') {
+                        //timeline-panel            
+                        postTitle = document.createElement('h2');
+                        postTitle.classList.add('timeline-title');
+                        postTitle.textContent += summary;
+    
+                        timeLineBody = document.createElement('div');
+                        timeLineBody.classList.add('timeline-body');
+                        timeLineBody.appendChild(postTitle);
+    
+                        timeLineFooter = document.createElement('div');
+                        timeLineFooter.classList.add('timeline-footer');
+                        timeLineFooter.innerHTML = tagString; //tagString need to use js DOM
+    
+                        timeLinePanel = document.createElement('div');
+                        timeLinePanel.classList.add('timeline-panel');
+                        timeLinePanel.appendChild(timeLineBody);
+                        timeLinePanel.appendChild(timeLineFooter);
+    
+                        postLink = document.createElement('a');
+                        if (url != '') {
+                            postLink.href = url;
+                        }
+                        postLink.classList.add('display-block');
+                        postLink.appendChild(timeLinePanel);
+    
+                        //avatars
+                        profilePicture = document.createElement('div');
+                        profilePicture.className = 'profile-picture col-lg-10 col-md-9 col-sm-8 col-xs-12';
+                        if (avatarString != '') {
+                            profilePicture.innerHTML += avatarString;
+                        }
+    
+                        timeLineDate = document.createElement('div');
+                        timeLineDate.className = 'timeline-date col-lg-2 col-md-3 col-sm-4 col-xs-12';
+                        timeLineDate.textContent += date;
+    
+                        colTimeLineDate = document.createElement('div');
+                        colTimeLineDate.className = 'col-md-12';
+                        colTimeLineDate.appendChild(profilePicture);
+                        colTimeLineDate.appendChild(timeLineDate);
+    
+                        avatars = document.createElement('div');
+                        avatars.classList.add('avatars');
+                        avatars.appendChild(colTimeLineDate);
+    
+                        //li.timeline
+                        timelineLi = document.createElement('li');
+                        if (!leftOrRight) {
+                            timelineLi.classList.add("timeline-inverted");
+                        }
+    
+                        timelineLi.appendChild(postLink);
+                        timelineLi.appendChild(avatars);
+    
+                        timelineHead.appendChild(timelineLi);
+    
+                        leftOrRight ^= true; //toggle to left or right
+                    }
+    
+                    gapi.load('client', handleClientLoad);
+                </script>
             </div>
         </section>
     </section>
