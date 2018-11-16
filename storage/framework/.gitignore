@@ -4,3 +4,6 @@ compiled.php
 services.json
 events.scanned.php
 routes.scanned.php
+classes.php
+packages.php
+services.php

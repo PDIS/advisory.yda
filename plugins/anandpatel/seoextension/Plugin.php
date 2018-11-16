@@ -12,7 +12,7 @@ use AnandPatel\SeoExtension\classes\Helper;
  */
 class Plugin extends PluginBase
 {
-
+    public $require = ['RainLab.Blog'];
     /**
      * Returns information about this plugin.
      *
@@ -213,10 +213,6 @@ class Plugin extends PluginBase
                             'type'    => 'datepicker',
                             'span' => 'left',
                             'mode'    => 'datetime',
-                            'trigger'=>[
-                                'action'=> 'enable',
-                                'field'=> 'published',
-                                'condition'=> 'checked'],
                             'tab'     => '其他欄位'
                         ],
                         'location' => [

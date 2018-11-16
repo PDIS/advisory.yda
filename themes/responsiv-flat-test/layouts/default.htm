@@ -8,102 +8,100 @@ paramCode = "code"
 forceSecure = 0
 ==
 <!DOCTYPE html>
-<html>
-    <head>
-      <link rel="shortcut icon" href="{{'assets/images/favicon.ico'|theme}}">
-       <link href="{{ 'assets/css/nav.css'|theme }}" rel="stylesheet">
-       <link href="{{ 'assets/css/default.css'|theme }}" rel="stylesheet">
-        <!-- jQuery -->
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g="
-        crossorigin="anonymous"></script>
-        
-        <!-- Latest compiled and minified CSS -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
-        crossorigin="anonymous">
-        
-        <!-- Optional theme -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
-        crossorigin="anonymous">
+<html lang="中文">
 
-        <!-- Latest compiled and minified JavaScript -->
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-        crossorigin="anonymous"></script>
-        
-        <script defer src="https://use.fontawesome.com/releases/v5.0.1/js/all.js"></script>
-            <!-- Global site tag (gtag.js) - Google Analytics -->
-            <script async src="https://www.googletagmanager.com/gtag/js?id=UA-123352956-1"></script>
-            <script>
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
+<head>
+    <link rel="shortcut icon" href="{{'assets/images/favicon.ico'|theme}}">
+    
+    <!-- Local Bootstrap 3.3.7 -->
+    <link rel="stylesheet" href="{{ 'assets/bootstrap-3.3.7-dist/css/bootstrap.min.css'|theme }}">
+    <link rel="stylesheet" href="{{ 'assets/bootstrap-3.3.7-dist/css/bootstrap-theme.min.css'|theme }}">
 
-            gtag('config', 'UA-123352956-1');
-        </script>
-        
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g=" crossorigin="anonymous"></script> 
+
+    <!-- Yda -->
+    <link href="{{ 'assets/css/nav.css'|theme }}" rel="stylesheet">
+    <link href="{{ 'assets/css/default.css'|theme }}" rel="stylesheet">
+    <link href="{{ 'assets/css/yda.css'|theme }}" rel="stylesheet">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>行政院青年諮詢委員會</title>
-    </head>
+</head>
 <style>
-/* Go Top 按鈕 */
-#goTop {
-position: fixed;
-bottom: 5px; /* 與下方的距離, 也可改為百分比, 即為距離螢幕下方的百分比 */
-right: 5px; /* 與右方的距離 */
-width: 40px; /* 按鈕原始寬度 */
-height: 40px; /* 按鈕原始高度 */
-opacity: 0.4; /* 按鈕原始透明度 */
-z-index: 10;
-cursor: pointer;
-transition: all .5s; /* 動畫效果 持續期間 */
--webkit-transition: all .5s;
--moz-transition: all .5s;
-}
-#goTop:hover { /* 滑鼠經過按鈕時 */
-opacity: 1; /* 透明度 */
-width: 80px; /* 按鈕寬度 */
-height: 80px; /* 按鈕高度 */
-}
+    /* Go Top 按鈕 */
+    #goTop {
+        position: fixed;
+        bottom: 5px;
+        /* 與下方的距離, 也可改為百分比, 即為距離螢幕下方的百分比 */
+        right: 5px;
+        /* 與右方的距離 */
+        width: 40px;
+        /* 按鈕原始寬度 */
+        height: 40px;
+        /* 按鈕原始高度 */
+        opacity: 0.4;
+        /* 按鈕原始透明度 */
+        z-index: 10;
+        cursor: pointer;
+        transition: all .5s;
+        /* 動畫效果 持續期間 */
+        -webkit-transition: all .5s;
+        -moz-transition: all .5s;
+    }
+    #goTop:hover {
+        /* 滑鼠經過按鈕時 */
+        opacity: 1;
+        /* 透明度 */
+        width: 80px;
+        /* 按鈕寬度 */
+        height: 80px;
+        /* 按鈕高度 */
+    }
+    #goTop:focus {
+        opacity: 1;
+        width: 80px;
+        height: 80px;
+        outline: red dotted;
+    }
 </style>
-    <!-- Go Top 按鈕+動畫 start -->
-<img id="goTop" src="{{'/assets/images/free-vector-tango-go-top_100342_tango_go_top.png'|theme}}" title="Back to Top"/>
-<script>
-$.extend($.easing, {
-easeOutExpo: function (x, t, b, c, d) {
-return (t==d) ? b+c : c * (-Math.pow(2, -10 * t/d) + 1) + b;
-}
-});
-$("#goTop").click(function(){
-$("html, body").animate({scrollTop: 0}, 1000, "easeOutExpo");
-});
-</script>
-    <body id="page-top"  style="font-family: Microsoft JhengHei;">
+<!-- Go Top 按鈕+動畫 start -->
 
-        <!-- Header -->
-        <header id="layout-header" class="header-navbar">
-            <!-- Nav -->
-            {% partial "advisory_nav" %}
-           
-        </header>
+<body id="page-top" style="font-family: Microsoft JhengHei;">
 
-        <!-- Content -->
-        <div style="margin-top: 100px;">
+    <!-- Header -->
+    <header id="layout-header" class="header-navbar">
+        <!-- Nav -->
+        {% partial "advisory_nav" %}
+    </header>
 
+    <!-- Content -->
+    <div style="margin-top: 100px;">
+        {% page %}
+    </div>
 
-            {% page %}
-        </div>
-
-        <!-- Mailing List -->
-        <!--<section id="layout-subscribe" class="subscribe-form">
+    <!-- Mailing List -->
+    <!--<section id="layout-subscribe" class="subscribe-form">
             
         </section>-->
 
-        <!-- Footer -->
-        <footer id="layout-footer" style="position: absolute;width: 100%;">
-            {% partial "advisory_footer" %}
-        </footer>
+    <!-- Footer -->
+    <footer id="layout-footer" style="position: absolute;width: 100%;">
+        {% partial "advisory_footer" %}
+    </footer>
 
-        <!-- Scripts -->
-        <script src="{{ [
+    <script defer src="https://use.fontawesome.com/releases/v5.0.1/js/all.js"></script>
+    
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-123352956-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-123352956-1');
+    </script>
+    <!-- Scripts -->
+    <script src="{{ [
             'assets/javascript/jquery.min.js',
             
             'assets/vendor/bootstrap/js/transition.js',
@@ -129,10 +127,23 @@ $("html, body").animate({scrollTop: 0}, 1000, "easeOutExpo");
 
             'assets/javascript/app.js'
         ]|theme }}"></script>
-
         
-        {% framework extras %}
-        {% scripts %}
+        
+    <script src="{{ 'assets/bootstrap-3.3.7-dist/js/bootstrap.min.js'|theme }}"></script>
 
-    </body>
+    <script>
+        $.extend($.easing, {
+            easeOutExpo: function (x, t, b, c, d) {
+                return (t == d) ? b + c : c * (-Math.pow(2, -10 * t / d) + 1) + b;
+            }
+        });
+        $("#goTop").click(function () {
+            $("html, body").animate({ scrollTop: 0 }, 1000, "easeOutExpo");
+        });
+    </script>
+    {% framework extras %} {% scripts %}
+    <script src="{{ 'assets/javascript/accessibility.js'|theme }}"></script>
+</body>
+<img id="goTop" src="{{'/assets/images/free-vector-tango-go-top_100342_tango_go_top.png'|theme}}" title="回到頂部" alt="回到頂部" tabindex="0"/>
+
 </html>

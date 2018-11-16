@@ -49,7 +49,7 @@ return [
     |
     */
 
-    'backendForceSecure' => null,
+    'backendForceSecure' => false,
 
     /*
     |--------------------------------------------------------------------------
@@ -80,7 +80,7 @@ return [
     |
     */
 
-    'backendTimezone' => 'UTC',
+    'backendTimezone' => 'Asia/Taipei',
 
     /*
     |--------------------------------------------------------------------------

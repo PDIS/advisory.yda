@@ -8,16 +8,13 @@ robot_follow = "follow"
 [resetPassword]
 paramCode = "code"
 ==
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-123352956-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-123352956-1');
-</script>
-
 <div  class="container">
-{% component 'resetPassword' %}
- </div>
+  <h3>密碼重置</h3>
+  <div id="partialUserResetForm">
+    {% if resetPassword.code == null %}
+        {% partial resetPassword ~ '::restore' %}
+    {% else %}
+        {% partial resetPassword ~ '::reset' %}
+    {% endif %}
+</div>
+</div>

@@ -4,60 +4,32 @@ layout = "default"
 is_hidden = 0
 robot_index = "index"
 robot_follow = "follow"
+
+[blogPosts]
+pageNumber = "{{ :page }}"
+postsPerPage = 10
+noPostsMessage = "No posts found"
+sortOrder = "published_at desc"
+categoryPage = "blog/category"
+postPage = "blog/post"
 ==
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-123352956-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+<div class="container yda-container">
+	<h1 class="headline"><span>行政院青年諮詢委員會設置要點</span></h1>
+	{% set flag = false %}
+	{% for post in posts %}
+	{% if flag == false%}
+	{% for category in post.categories %}
+	{% if category.name == "設置要點" %}
+	<div class="content">
+			{{ post.content_html|raw }}
+	</div>
+	{% set flag = true %}
+	{% endif %}
+	{% endfor %}
+	{% endif %}
+	{% endfor %}
 
-  gtag('config', 'UA-123352956-1');
-</script>
-
-<section class="home-title">
-    <div class="container">
-    <div align="right">
-    <h8><span>中華民國 106 年 9 月 12 日行政院院臺教字第 1060029806 號函修正</span></h8>
-    </div>
-    <h4 class="headline"><span>行政院青年諮詢委員會設置要點</span></h4>
-
-    
-   
-        <div class="row">
-        <p>一、 行政院（以下簡稱本院）為強化青年公共參與及溝通機制，提供青年於政府政策形成中之參與管道，特設青年諮詢委員會（以下簡稱本會）。</p>
-                
-
-        <p>二、 本會任務如下：
-（一）蒐集及反映青年意見。
-（二）針對青年關注之公共政策，積極提供策進建言。
-（三）其他有關促進青年參與公共事務之事項。</p>
-        <p>三、 本會置召集人一人，由本院院長兼任；副召集人二人，一人由本院院長指派政務委員兼任，一人由青年代表擔任之委員相互推選產生；執行長一人，由教育部部長兼任之，協助召集人綜理本會相關業務；委員人數二十五人至三十人，除召集人、副召集人及執行長為當然委員外，其餘委員，由本院院長就下列人員派（聘）兼之：</p>
-        <p>（一）勞動部部長。</p>
-        <p>（二）經濟部部長。</p>
-
-        <p>（三）青年代表二十人至二十五人，以十八歲以上、三十五歲以下之本國籍在學學生或社會青年為原則。
-前項第三款青年代表擔任之委員，分別由涉及青年議題之相關部會推薦人選若干人，由本院院長圈選後聘任之。</p>
-        <p>四、 本會委員任期二年，期滿得予續聘（派）兼之；於聘任期間因故出缺者，由本院院長補聘之，其任期至原任期屆滿日為止。
-但機關代表兼任之委員，應隨其本職進退；由青年代表擔任之委員，得隨同召集人異動改聘之。</p>
-        <p>五、 本會以每三個月召開會議一次為原則；必要時，得召開臨時會議。</p>
-        <p>本會會議由召集人擔任主席，召集人因故無法出席會議時，由召集人指定副召集人代理之。</p>
-        <p>本會委員應親自出席會議。但由機關代表兼任之委員因故無法出席會議時，得指派相當層級人員代表出席。</p>
-        <p>本會委員應遵守利益迴避原則；未經授權，不得代表本會對外發言。</p>
-        <p>本會開會時，得視需要邀請與討論議題相關之機關派員列席。</p>
-
-        <p>六、 本會得視需要下設若干工作分組，由召集人指派委員擔任主持人，負責工作分組議題之規劃及推動。</p>
-        <p>工作分組召開會議時，得邀請相關機關、學者專家、民間團體或其他具代表性之青年列席。</p>
-
-        <p>七、本會委員及相關幕僚工作成員，均為無給職。</p>
-        <p>八、本會由教育部擔任幕僚工作。</p>
-        <p>本會及工作分組會議所需經費，由教育部及工作分組會議之主辦機關分別編列預算支應。</p>
-        </div>
-        <a class="fr-file" href="{{ 'assets/pdf/point.pdf'|theme }}">行政院青年諮詢委員會設置要點</a>
-        
-      
-       
-        
-        </br>
-        
-   </div>
+	{% if flag == false %}
+	<h2 class="text-center">目前暫無相關資料</h2>
+	{% endif %}
+</div>

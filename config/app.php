@@ -16,7 +16,7 @@ return [
     |
     */
 
-    'debug' => env('APP_DEBUG', true),
+    'debug' => env('APP_DEBUG', false),
 
     /*
     |--------------------------------------------------------------------------
@@ -29,7 +29,7 @@ return [
     |
     */
     
-    'url' => env('APP_URL', 'http://140.124.39.147/ydagit/'),
+    'url' => env('APP_URL', 'http://localhost'),
 
 
     /*
@@ -43,7 +43,8 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Asia/Taipei',
+    // 'timezone' => 'UTC',
 
     /*
     |--------------------------------------------------------------------------
@@ -82,7 +83,7 @@ return [
     |
     */
 
-    'key' => env('APP_KEY', 'Nf4wSOMMTHwkvIXpDqGUpi2q0GSqwcMT'),
+    'key' => env('APP_KEY', ''),
 
     'cipher' => 'AES-256-CBC',
 
@@ -99,7 +100,7 @@ return [
     |
     */
 
-    'log' => 'single',
+    'log' => 'daily',
 
     /*
     |--------------------------------------------------------------------------
@@ -136,3 +137,4 @@ return [
     ]),
 
 ];
+

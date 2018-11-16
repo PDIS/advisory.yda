@@ -15,7 +15,8 @@ class Posts extends Controller
     public $implement = [
         'Backend.Behaviors.FormController',
         'Backend.Behaviors.ListController',
-        'Backend.Behaviors.ImportExportController'
+        // 'Backend.Behaviors.ImportExportController'
+        'RainLab.Blog.Behaviors.ImportExportBehavior'
     ];
 
     public $formConfig = 'config_form.yaml';

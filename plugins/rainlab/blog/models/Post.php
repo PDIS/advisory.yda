@@ -88,7 +88,7 @@ class Post extends Model
             'order' => 'tag_id desc'
         ],      
         'users' => [
-            'Bedard\User\Models\User',
+            'RainLab\User\Models\User',
             'table' => 'rainlab_blog_user_post',
             'key' => 'user_id',
             'order' => 'post_id desc'
@@ -98,6 +98,10 @@ class Post extends Model
             'table' => 'rainlab_blog_user_post',
             'key' => 'post_id'
         ]
+    ];
+
+    public $hasOne = [
+        'transcript' => ['MarkDai\SayitPlugin\Models\Debate']
     ];
 
     public $attachMany = [
@@ -197,6 +201,8 @@ class Post extends Model
     public static function formatHtml($input, $preview = false)
     {
         $result = Markdown::parse(trim($input));
+
+        $result = str_replace("<blockquote>","<blockquote xml:lang=\"zh\">", $result);
 
         if ($preview) {
             $result = str_replace('<pre>', '<pre class="prettyprint">', $result);

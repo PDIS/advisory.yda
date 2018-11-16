@@ -1,0 +1,51 @@
+title = "youth-policy"
+url = "/youth-policy"
+layout = "default"
+description = "國發會 青年政策 Yda/Gpivp plugin"
+is_hidden = 0
+robot_index = "index"
+robot_follow = "follow"
+==
+<?php
+function onStart()
+{ 
+  use Yda\Gpvip\Controllers\GpvipController;
+
+  $gpvip = new GpvipController();
+  $result = $gpvip->index();
+  
+  $this['error'] = GpvipController::$msgError;
+  $this['title'] = $result[0];
+  $this['items'] = array_slice($result, 1);
+}
+?>
+==
+<div class="container text-center yda-container" id="youth-policy">
+  <div class="row">
+    <div class="col-lg-12">
+      <h1>青年政見追蹤事項各機關辦理情形摘要表</h1>
+      {% if title == '[ERROR]' %}
+        <h2>無資料</h2>
+      {% else %}
+      <table class="break-table table text-left">
+        <thead>
+            <tr class="table-success">
+                {% for val in title %}
+                <th>{{ val }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>  
+          {% for item in items %}
+            <tr>
+              {% for val in item %}
+                <td data-title="{{title[loop.index-1]}}">{{ val }}</td>
+              {% endfor %}
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% endif %}
+    </div>
+  </div>
+</div>
