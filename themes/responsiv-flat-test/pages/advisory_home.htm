@@ -15,6 +15,14 @@ security = "all"
 [RainLab\User\Components\Account account]
 paramCode = "code"
 forceSecure = 0
+
+[blogPosts]
+pageNumber = "{{ :page }}"
+postsPerPage = 10
+noPostsMessage = "No posts found"
+sortOrder = "published_at desc"
+categoryPage = "blog/category"
+postPage = "blog/post"
 ==
 <?php
 use RainLab\User\Models\User;
@@ -44,24 +52,22 @@ function onStart()
     <div class="container">
         <div class="row">
             <div class="col-sm-4">
-
-
                 <a href="{{ '#'|page }}">
                     <img src="{{ 'assets/images/logo.jpg'|theme }}" style="width:70%; height: 70%" alt="青諮會網站LOGO">
                 </a>
-
-
                 <h2>行政院青年諮詢委員會</h2>
-                <p>行政院為強化青年公共參與及溝通機制，提供青年於政府政策形成中之參與管道，於105年11月1日成立青年諮詢委員會。</p>
-                <p>委員共30人，由行政院院長兼任召集人；副召集人2人，1人由行政院院長指派唐政務委員鳳兼任，
-                    1人由青年代表相互推選黃委員敬峰擔任；執行長由教育部部長兼任之，其餘委員包含勞動部部長、經濟部部長及青年代表25人。</p>
+                {% set flag = false %}
+                {% for post in posts %}
+                    {% if flag == false%}
+                        {% for category in post.categories %}
+                            {% if category.name == "前台頁面" and post.slug == "abstract" %}
+                                {{ post.content_html|raw }}
+                            {% set flag = true %}
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                {% endfor %}
             </div>
-            <!--<div class="col-sm-7 col-sm-offset-1 player-wrapper">
-                            <div class="player">
-                                <iframe src="http://player.vimeo.com/video/29568236?color=3498db" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
-                            </div>                
-                        </div>-->
-
             <div class="col-sm-8">
                 {% partial 'sirs' %}
                 {% partial 'user' %}

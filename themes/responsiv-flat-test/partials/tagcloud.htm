@@ -12,22 +12,40 @@
       {% endfor %}
     ];
 
-    $("#jqcloud").jQCloud(words, {
-      classPattern: null,
-      colors: ["rgb(181, 207, 107)", "rgb(99, 121, 57)", "rgb(140, 162, 82)", "rgb(206, 219, 156)", "#79ffcb", "rgb(189, 158, 57)", "rgb(231, 186, 82)", "rgb(231, 203, 148)"],
-      delay: 50,
-      width: 350,
-      height: 250,
-      steps: 50,
-      fontSize: {
-        from: 0.15,
-        to: 0.02
-      }
-    });
+    if (words.length == 0) {
+      {% set flag = false %}
+        {% for post in posts %}
+          {% if flag == false%}
+              {% for category in post.categories %}
+                  {% if category.name == "前台頁面" and post.slug == "empty" %}
+                    var content = '{{ post.content_html|raw }}';
+                  {% set flag = true %}
+                  {% endif %}
+              {% endfor %}
+          {% endif %}
+      {% endfor %}
+
+      $("#jqcloud").append(content);
+    } else {
+      $("#jqcloud").jQCloud(words, {
+        classPattern: null,
+        colors: ["rgb(181, 207, 107)", "rgb(99, 121, 57)", "rgb(140, 162, 82)", "rgb(206, 219, 156)", "#79ffcb", "rgb(189, 158, 57)", "rgb(231, 186, 82)", "rgb(231, 203, 148)"],
+        delay: 50,
+        width: 350,
+        height: 250,
+        steps: 50,
+        fontSize: {
+          from: 0.15,
+          to: 0.02
+        }
+      });
+    }
   });
 </script>
 
 <!-- You should explicitly specify the dimensions of the container element -->
-<div class="row">
-  <div id="jqcloud" class="container" style="width:auto;font-family:Microsoft JhengHei; autoResize: true;"></div>
+<div class="container">
+  <div class="row">
+    <div id="jqcloud" class="container" style="width:auto;font-family:Microsoft JhengHei; autoResize: true;"></div>
+  </div>
 </div>

@@ -16,18 +16,18 @@ postPage = "blog/post"
 <div class="container yda-container">
   <h1 class="headline"><span>行政院青諮會簡介</span></h1>
   {% set flag = false %}
-  {% for post in posts %}
-  {% if flag == false%}
-  {% for category in post.categories %}
-  {% if category.name == "簡介" %}
-  <div class="content">
-    {{ post.content_html|raw }}
-  </div>
-  {% set flag = true %}
-  {% endif %}
-  {% endfor %}
-  {% endif %}
-  {% endfor %}
+	{% for post in posts %}
+		{% if flag == false%}
+			{% for category in post.categories %}
+				{% if category.name == "前台頁面" and post.slug == "introduction" %}
+					<div class="content">
+						{{ post.content_html|raw }}
+					</div>
+				{% set flag = true %}
+				{% endif %}
+			{% endfor %}
+		{% endif %}
+	{% endfor %}
 
   {% if flag == false %}
   <h2 class="text-center">目前暫無相關資料</h2>
