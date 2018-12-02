@@ -16,7 +16,7 @@ forceSecure = 0
 pageNumber = "{{ :page }}"
 postsPerPage = 10000000
 noPostsMessage = "No posts found"
-sortOrder = "published_at asc"
+sortOrder = "published_at desc"
 categoryPage = "blog/category"
 postPage = "blog/post"
 
@@ -88,6 +88,7 @@ function onStart()
 <link href="{{ 'assets/css/proposal-page/track-side.css'|theme }}" rel="stylesheet">
 <div style="margin-top: 100px;">
     <div id="info" class="container">
+        <a id="AC" accesskey="C" href="#AC" title="中央內容區塊" name="AC">:::</a>
         <div class="row">
             {% if user.id == this.param[id] %}
             <a href="{{ 'sign/sign-test'|page }}">
@@ -245,75 +246,110 @@ function onStart()
             <div class="col-md-12">
                 <link href="{{ 'assets/css/user/track.css'|theme }}" rel="stylesheet">
                 <div class="row">
-                    <div class="col-md-12">
-                        <ul class="timeline">
-                            {% for key,post in user_model.getOthersPost%} 
-                                {% if (key+1)%2==1 %}
-                                <li>
-                                    <div class="timeline-panel" data-toggle="modal" data-target="#meeting-Modal">
-                                        <div class="timeline-body">
-                                            <h4>
-                                                <a href="../blog/post/{{ post.slug }}">{{ post.title }}</a>
-                                            </h4>
-                                        </div>
-                                        <div class="timeline-footer">
-                                            {% for tag in post.tags %}
-                                            <a href="{{ 'blog/tag'|page }}/{{ tag.name }}" class="pull-right">
-                                                <span class="label label-success">{{ tag.name }} </span>
-                                            </a>
-                                            {% endfor %}
-                                        </div>
-                                    </div>
-                                    <div class="avatars">
-                                        <div class="col-md-12">
-                                            <div class="profile-picture col-lg-10 col-md-9 col-sm-8 col-xs-12">
-                                                {% for user in post.userModel %}
-                                                <a href="{{ 'test/userpost'|page({ id:user.id }) }}" class="">
-                                                    <div class="avatar" style="background:url('{{user.getAvatarThumb(60)}}');"></div>
-                                                </a>
-                                                {% endfor %}
-                                            </div>
-                                            <div class="col-lg-2 col-md-3 col-sm-4 col-xs-12">
-                                                <div class="timeline-date">{{ post.published_at|date('Y-m-d') }}</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                {% else %}
-                                <li class="timeline-inverted" data-toggle="modal" data-target="#event-Modal">
-                                    <div class="timeline-panel" data-toggle="modal" data-target="#meeting-Modal">
-                                        <div class="timeline-body">
-                                            <h4>
-                                                <a href="../blog/post/{{ post.slug }}">{{ post.title }}</a>
-                                            </h4>
-                                        </div>
-                                        <div class="timeline-footer">
-                                            {% for tag in post.tags %}
-                                            <a href="{{ 'blog/tag'|page }}/{{ tag.name }}" class="pull-right">
-                                                <span class="label label-success">{{ tag.name }} </span>
-                                            </a>
-                                            {% endfor %}
-                                        </div>
-                                    </div>
-                                    <div class="avatars">
-                                        <div class="col-md-12">
-                                            <div class="profile-picture col-lg-10 col-md-9 col-sm-8 col-xs-12">
-                                                {% for user in post.userModel %}
-                                                <a href="{{ 'test/userpost'|page({ id:user.id }) }}" class="">
-                                                    <div class="avatar" style="background:url('{{user.getAvatarThumb(60)}}');"></div>
-                                                </a>
-                                                {% endfor %}
-                                            </div>
-                                            <div class="col-lg-2 col-md-3 col-sm-4 col-xs-12">
-                                                <div class="timeline-date">{{ post.published_at|date('Y-m-d') }}</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                {% endif %} 
-                            {% endfor %}
-                            <li class="clearfix" style="float: none;"></li>
-                        </ul>
+                    <div class="col-md-12" id="timeline_block">
+                        <script>
+                            // var total = 0;
+                            var timelineBlock = document.getElementById('timeline_block');
+                            var timelineHead = document.createElement('ul');
+                            timelineHead.id = 'timeline_head';
+                            timelineHead.classList.add('timeline');
+            
+                            var leftOrRight = true; //left=true ; right=false
+            
+                            function renderPost() {
+
+                                {% for post in user_model.getOthersPost %}
+                                    var tagString = '';
+                                    var avatarString = '';
+        
+                                    {% for tag in post.tags %}
+                                    tagName = '{{tag.name}}'
+                                    tagString += '<a href="{{ 'blog/tag'|page }}/' + tagName + '">';
+                                    tagString += '<span class="label label-success">' + tagName + '</span>';
+                                    tagString += '</a>';
+                                    {% endfor %}
+        
+                                    {% for user in post.getUsers %}
+                                    avatarString += '<a href="{{ 'test/userpost'|page({ id:user.id }) }}">';
+                                    avatarString += '<div class="avatar" style="background:url(\'{{user.getAvatarThumb(60)}}\');">';
+                                    avatarString += '</div>';
+                                    avatarString += '</a>';
+                                    {% endfor %}
+        
+                                    generateTimeline("{{ 'blog/post'|page({ slug:post.slug }) }}", '{{post.published_at|date("Y-m-d")}}', '{{post.title}}', tagString, avatarString);
+                                {% endfor %}
+            
+                                timelineBlock.append(timelineHead);
+            
+                                clearfix = document.createElement('li');
+                                clearfix.classList.add('clearfix');
+                                clearfix.style.float = 'none';
+                                timelineHead.appendChild(clearfix);
+                            }
+            
+                            function generateTimeline(url, date, summary, tagString, avatarString = '') {
+            
+                                //timeline-panel            
+                                postTitle = document.createElement('h2');
+                                postTitle.classList.add('timeline-title');
+                                postTitle.textContent += summary;
+            
+                                timeLineBody = document.createElement('div');
+                                timeLineBody.classList.add('timeline-body');
+                                timeLineBody.appendChild(postTitle);
+            
+                                timeLineFooter = document.createElement('div');
+                                timeLineFooter.classList.add('timeline-footer');
+                                timeLineFooter.innerHTML = tagString; //tagString need to use js DOM
+            
+                                timeLinePanel = document.createElement('div');
+                                timeLinePanel.classList.add('timeline-panel');
+                                timeLinePanel.appendChild(timeLineBody);
+                                timeLinePanel.appendChild(timeLineFooter);
+            
+                                postLink = document.createElement('a');
+                                if (url != '') {
+                                    postLink.href = url;
+                                }
+                                postLink.classList.add('display-block');
+                                postLink.appendChild(timeLinePanel);
+            
+                                //avatars
+                                profilePicture = document.createElement('div');
+                                profilePicture.className = 'profile-picture col-lg-10 col-md-9 col-sm-8 col-xs-12';
+                                if (avatarString != '') {
+                                    profilePicture.innerHTML += avatarString;
+                                }
+            
+                                timeLineDate = document.createElement('div');
+                                timeLineDate.className = 'timeline-date col-lg-2 col-md-3 col-sm-4 col-xs-12';
+                                timeLineDate.textContent += date;
+            
+                                colTimeLineDate = document.createElement('div');
+                                colTimeLineDate.className = 'col-md-12';
+                                colTimeLineDate.appendChild(profilePicture);
+                                colTimeLineDate.appendChild(timeLineDate);
+            
+                                avatars = document.createElement('div');
+                                avatars.classList.add('avatars');
+                                avatars.appendChild(colTimeLineDate);
+            
+                                //li.timeline
+                                timelineLi = document.createElement('li');
+                                if (!leftOrRight) {
+                                    timelineLi.classList.add("timeline-inverted");
+                                }
+            
+                                timelineLi.appendChild(postLink);
+                                timelineLi.appendChild(avatars);
+            
+                                timelineHead.appendChild(timelineLi);
+            
+                                leftOrRight ^= true; //toggle to left or right
+                            }
+            
+                            renderPost()
+                        </script>
                     </div>
                 </div>
             </div>
