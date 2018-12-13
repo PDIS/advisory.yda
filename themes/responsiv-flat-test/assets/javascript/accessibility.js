@@ -49,7 +49,7 @@ accessibility = function() {
 
     if(document.readyState === 'complete'){
         var headers = ['h3','h4','h5','h6']
-        headers.forEach((el)=>{
+        headers.forEach(function(el) {
             var tags = document.getElementsByTagName(el)
             if(tags.length >0){
                 const length = tags.length
@@ -73,11 +73,12 @@ accessibility = function() {
         var className = tags[0].className
         var text = tags[0].innerHTML
         if (className == ''){
-            html = `<h1 style="font-size:${size}em">${text}</h1>`
+            // "string text "+expression+" string text"
+            htmlContent = "<h1 style=\"font-size:" + size + "em\">" + text + "</h1>";
         }else{
-            html = `<h1 class=${className} style="font-size:${size}em">${text}</h1>`
+            htmlContent = "<h1 class=\"" + className + "\" style=\"font-size:" + size + "em\">" + text + "</h1>";
         }
-        $(tags[0]).replaceWith(html)
+        $(tags[0]).replaceWith(htmlContent)
     }
 
     function replaceWithHtmlTag(tags, tagsLength, htmltag, index){
@@ -92,9 +93,9 @@ accessibility = function() {
             var className = tags[index].className
             var text = tags[index].innerHTML
             if (className == ''){
-                html = `<${htmltag} style="font-size:${size}em">${text}</${htmltag}>`
+                html = "<" + htmltag + "style=\"font-size:" + size + "em\">" + text + "</" + htmltag + ">";
             }else{
-                html = `<${htmltag} class=${className} style="font-size:${size}em">${text}</${htmltag}>`
+                html = "<" + htmltag + "class=\"" + className + "\" style=\"font-size:" + size + "em\">" + text + "</" + htmltag + ">";
             }
             $(tags[index]).replaceWith(html)    
         }
@@ -114,10 +115,10 @@ accessibility = function() {
         alink[0].tabIndex ="1"
         alink[0].href = '#AC'
         $(alink[0]).css('opacity','0')
-        $(alink[0]).focus(()=>{
+        $(alink[0]).focus(function() {
             $(alink[0]).css('opacity','1')
         })
-        $(alink[0]).blur(()=>{
+        $(alink[0]).blur(function() {
             $(alink[0]).css('opacity','0')
         })
     }

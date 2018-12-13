@@ -279,7 +279,7 @@ function onStart()
                                     generateTimeline("{{ 'blog/post'|page({ slug:post.slug }) }}", '{{post.published_at|date("Y-m-d")}}', '{{post.title}}', tagString, avatarString);
                                 {% endfor %}
             
-                                timelineBlock.append(timelineHead);
+                                timelineBlock.appendChild(timelineHead);
             
                                 clearfix = document.createElement('li');
                                 clearfix.classList.add('clearfix');

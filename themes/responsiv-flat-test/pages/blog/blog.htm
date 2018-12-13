@@ -273,7 +273,7 @@ function onStart()
                         // alignCenter.innerHTML = content
                         timelineBlock.innerHTML = content;
                     } else {
-                        timelineBlock.append(timelineHead);
+                        timelineBlock.appendChild(timelineHead);
                     }
 
                     clearfix = document.createElement('li');
@@ -282,7 +282,9 @@ function onStart()
                     timelineHead.appendChild(clearfix);
                 }
 
-                function generateTimeline(url, date, summary, tagString, avatarString = '') {
+                function generateTimeline(url, date, summary, tagString, avatarString) {
+
+                    if (typeof(avatarString)==='undefined') avatarString = '';
 
                     //timeline-panel            
                     postTitle = document.createElement('h2');
