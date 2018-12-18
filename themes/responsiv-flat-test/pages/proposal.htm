@@ -37,7 +37,7 @@ function onStart()
     <link href="{{ 'assets/css/proposal-page/proposal-page.css'|theme }}" rel="stylesheet">
     <link href="{{ 'assets/css/proposal-page/proposal-info.css'|theme }}" rel="stylesheet">
     <link href="{{ 'assets/css/proposal-page/track-side.css'|theme }}" rel="stylesheet">
-    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <!-- <script src="http://code.jquery.com/jquery-latest.min.js"></script> -->
 
     <div class="container text-center" id="proposal-intro">
         <h1>青諮提案</h1>
@@ -55,11 +55,9 @@ function onStart()
             <div class="col-md-2 col-sm-2 col-xs-4">
                 {% partial 'progress/processing' %}
                 <span>進行中</span>
-
             </div>
             <div class="col-md-2 col-sm-2 col-xs-4">
                 {% partial 'progress/part_of_the_reference' %}
-
                 <span>部分參採</span>
             </div>
             <div class="col-md-2 col-sm-2 col-xs-4">
@@ -67,15 +65,11 @@ function onStart()
                 <span>完全參採</span>
             </div>
             <div class="col-md-2 col-sm-2 col-xs-4">
-
                 {% partial 'progress/temporarily_not_participating' %}
                 <span>暫不參採</span>
             </div>
-
         </div>
     </div>
-
-
 
     <div id="proposal" class="container">
         <link href="{{ 'assets/css/user/track.css'|theme }}" rel="stylesheet">
@@ -111,35 +105,50 @@ function onStart()
                             <span>委員提案</span>
                         </h4>
                         <div class="row">
+                            {% set flag = false %}
                             {% for post in posts %}
-                            {% if tool.categoriesCheck(post.categories) == true %}
-                            <div class="col-sm-4" style="text-overflow: ellipsis;">
-                                <div class="thumbnail" data-toggle="modal" data-target="#myModal" onclick="window.location='{{ post.url }}';">
-                                    <div class="caption">
-                                        <a href="{{ post.url }}" class="display-block">
-                                            <p class="card-description JQellipsis" align="left">{{ post.title }}</p>
-                                        </a>
-                                        {% if post.level == 1 %}
-                                        {% partial 'progress/proposal' %}
-                                        <span>提案</span>
-                                        {%elseif post.level==2%}
-                                        {% partial 'progress/processing' %}
-                                        <span>進行中</span>
-                                        {%elseif post.level==3%}
-                                        {% partial 'progress/part_of_the_reference' %}
-                                        <span>部分參採</span>
-                                        {%elseif post.level==4%}
-                                        {% partial 'progress/fully_taken' %}
-                                        <span>完全參採</span>
-                                        {%elseif post.level==5%}
-                                        {% partial 'progress/temporarily_not_participating' %}
-                                        <span>暫不參採</span>
-                                        {% endif %}
+                                {% if tool.categoriesCheck(post.categories) == true %}
+                                    {% set flag = true %}
+                                    <div class="col-sm-4" style="text-overflow: ellipsis;">
+                                        <div class="thumbnail" data-toggle="modal" data-target="#myModal" onclick="window.location='{{ post.url }}';">
+                                            <div class="caption">
+                                                <a href="{{ post.url }}" class="display-block">
+                                                    <p class="card-description JQellipsis" align="left">{{ post.title }}</p>
+                                                </a>
+                                                {% if post.level == 1 %}
+                                                {% partial 'progress/proposal' %}
+                                                <span>提案</span>
+                                                {%elseif post.level==2%}
+                                                {% partial 'progress/processing' %}
+                                                <span>進行中</span>
+                                                {%elseif post.level==3%}
+                                                {% partial 'progress/part_of_the_reference' %}
+                                                <span>部分參採</span>
+                                                {%elseif post.level==4%}
+                                                {% partial 'progress/fully_taken' %}
+                                                <span>完全參採</span>
+                                                {%elseif post.level==5%}
+                                                {% partial 'progress/temporarily_not_participating' %}
+                                                <span>暫不參採</span>
+                                                {% endif %}
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                            {% endif %}
+                                {% endif %}
                             {% endfor %}
+                            {% if flag == false %}
+                                {% for post in posts %}
+                                    {% if flag == false%}
+                                        {% for category in post.categories %}
+                                            {% if category.name == "前台頁面" and post.slug == "empty" %}
+                                                <div class="container">
+                                                    {{ post.content_html|raw }}
+                                                </div>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
                             <script src="{{ [      
                                 'assets/javascript/proposal/JQellipsis.js'
                             ]|theme }}"></script>

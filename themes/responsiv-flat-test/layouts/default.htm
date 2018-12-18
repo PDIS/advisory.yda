@@ -6,6 +6,14 @@ security = "all"
 [menuUserWidget]
 paramCode = "code"
 forceSecure = 0
+
+[blogPosts]
+pageNumber = "{{ :page }}"
+postsPerPage = 10
+noPostsMessage = "No posts found"
+sortOrder = "published_at desc"
+categoryPage = "blog/category"
+postPage = "blog/post"
 ==
 <!DOCTYPE html>
 <html lang="中文">
@@ -24,48 +32,47 @@ forceSecure = 0
     <link href="{{ 'assets/css/default.css'|theme }}" rel="stylesheet">
     <link href="{{ 'assets/css/yda.css'|theme }}" rel="stylesheet">
     
+    <style>
+        /* Go Top 按鈕 */
+        #goTop {
+            position: fixed;
+            bottom: 5px;
+            /* 與下方的距離, 也可改為百分比, 即為距離螢幕下方的百分比 */
+            right: 5px;
+            /* 與右方的距離 */
+            width: 40px;
+            /* 按鈕原始寬度 */
+            height: 40px;
+            /* 按鈕原始高度 */
+            opacity: 0.4;
+            /* 按鈕原始透明度 */
+            z-index: 10;
+            cursor: pointer;
+            transition: all .5s;
+            /* 動畫效果 持續期間 */
+            -webkit-transition: all .5s;
+            -moz-transition: all .5s;
+        }
+        #goTop:hover {
+            /* 滑鼠經過按鈕時 */
+            opacity: 1;
+            /* 透明度 */
+            width: 80px;
+            /* 按鈕寬度 */
+            height: 80px;
+            /* 按鈕高度 */
+        }
+        #goTop:focus {
+            opacity: 1;
+            width: 80px;
+            height: 80px;
+            outline: red dotted;
+        }
+    </style>
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>行政院青年諮詢委員會</title>
 </head>
-<style>
-    /* Go Top 按鈕 */
-    #goTop {
-        position: fixed;
-        bottom: 5px;
-        /* 與下方的距離, 也可改為百分比, 即為距離螢幕下方的百分比 */
-        right: 5px;
-        /* 與右方的距離 */
-        width: 40px;
-        /* 按鈕原始寬度 */
-        height: 40px;
-        /* 按鈕原始高度 */
-        opacity: 0.4;
-        /* 按鈕原始透明度 */
-        z-index: 10;
-        cursor: pointer;
-        transition: all .5s;
-        /* 動畫效果 持續期間 */
-        -webkit-transition: all .5s;
-        -moz-transition: all .5s;
-    }
-    #goTop:hover {
-        /* 滑鼠經過按鈕時 */
-        opacity: 1;
-        /* 透明度 */
-        width: 80px;
-        /* 按鈕寬度 */
-        height: 80px;
-        /* 按鈕高度 */
-    }
-    #goTop:focus {
-        opacity: 1;
-        width: 80px;
-        height: 80px;
-        outline: red dotted;
-    }
-</style>
-<!-- Go Top 按鈕+動畫 start -->
-
 <body id="page-top" style="font-family: Microsoft JhengHei;">
 
     <!-- Header -->
@@ -143,7 +150,7 @@ forceSecure = 0
     </script>
     {% framework extras %} {% scripts %}
     <script src="{{ 'assets/javascript/accessibility.js'|theme }}"></script>
+    <img id="goTop" src="{{'/assets/images/free-vector-tango-go-top_100342_tango_go_top.png'|theme}}" title="回到頂部" alt="回到頂部" tabindex="0">
 </body>
-<img id="goTop" src="{{'/assets/images/free-vector-tango-go-top_100342_tango_go_top.png'|theme}}" title="回到頂部" alt="回到頂部" tabindex="0"/>
 
 </html>

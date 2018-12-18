@@ -7,6 +7,7 @@ use Mail;
 use Event;
 use October\Rain\Auth\Models\User as UserBase;
 use RainLab\User\Models\Settings as UserSettings;
+use RainLab\Blog\Models\Post;
 
 class User extends UserBase
 {
@@ -437,92 +438,59 @@ class User extends UserBase
              ->join('rainlab_blog_posts_categories', 'rainlab_blog_posts.id', '=', 'rainlab_blog_posts_categories.post_id')
              ->where('users.id', '=', $this->id)
              ->where('rainlab_blog_posts_categories.category_id','=','1')->get();
-     
-            
-         
-         
+
          return $posts;
      }
-     public function getOthersPost() {
-        $postPosts = Db::table('users')
-            ->join('rainlab_blog_posts', 'users.id', '=', 'rainlab_blog_posts.author_id')
-            ->join('rainlab_blog_posts_categories', 'rainlab_blog_posts.id', '=', 'rainlab_blog_posts_categories.post_id')
-            ->where('users.id', '=', $this->id)
-            ->where('rainlab_blog_posts_categories.category_id','!=','1')->get();
 
-        $attendPosts = Db::table('users')
-            ->join('rainlab_blog_user_post', 'users.id', '=', 'user_id')
-            ->join('rainlab_blog_posts', 'rainlab_blog_user_post.post_id', '=', 'rainlab_blog_posts.id')
-            ->join('rainlab_blog_posts_categories', 'rainlab_blog_posts.id', '=', 'rainlab_blog_posts_categories.post_id')
-            ->Where('rainlab_blog_user_post.user_id', '=', $this->id)
-            ->where('rainlab_blog_posts_categories.category_id','!=','1')
-            ->get();
+    public function getOthersPost() {
 
-        $reconsiderationPosts = Db::table('users')
-            ->join('rainlab_blog_reconsideration_user_post', 'users.id', '=', 'rainlab_blog_reconsideration_user_post.user_id')
-            ->join('rainlab_blog_posts', 'rainlab_blog_reconsideration_user_post.post_id', '=', 'rainlab_blog_posts.id')
-            ->join('rainlab_blog_posts_categories', 'rainlab_blog_posts.id', '=', 'rainlab_blog_posts_categories.post_id')
-            ->Where('rainlab_blog_reconsideration_user_post.user_id', '=', $this->id)
-            ->where('rainlab_blog_posts_categories.category_id','!=','1')
-            ->get();
+        $postPosts = DB::table('rainlab_blog_posts AS posts')
+            ->select('posts.id')
+            ->Where('author_id', '=', $this->id);
 
-        $posts = array();
-        $postTmp = array();
-        $postIdAndDate = array();
-        $postIdArray = array();
-        $postUsers = array();
-        $userIdArray = array();
-        $userModel = array();
+        $attendeesPosts = DB::table('rainlab_blog_posts AS posts')
+            ->select('posts.id')
+            ->join('rainlab_blog_user_post AS up', 'posts.id', '=', 'up.post_id')
+            ->Where('up.user_id', '=', $this->id);
 
-        foreach($postPosts as $post) {
-            $postTmp[$post->post_id] = $post;
-            $postIdAndDate[$post->post_id] = $post->created_at;
+        $tmp = DB::table('rainlab_blog_posts AS posts')
+            ->select('posts.id')
+            ->join('rainlab_blog_reconsideration_user_post AS rup', 'posts.id', '=', 'rup.post_id')
+            ->Where('rup.user_id', '=', $this->id)
+            ->union($postPosts)
+            ->union($attendeesPosts);
+
+        // //sub: laravel 5.7 support
+        // $result = DB::table('rainlab_blog_posts_categories AS pc')
+        //     ->join('rainlab_blog_categories AS categories', 'pc.category_id', '=', 'categories.id')
+        //     ->joinSub($tmp, 'tmp', function ($join) {
+        //         $join->on('pc.post_id', '=', 'tmp.id');
+        //     })->Where('categories.name', '!=', '大會提案')
+        //     ->get();
+
+        $resultTest = $tmp->get();
+        $tmpSql = $tmp->toSql();
+        //sub: laravel 5.5 method
+        $postId = DB::table('rainlab_blog_posts_categories AS pc')
+            ->select('tmp.id')
+            ->join('rainlab_blog_categories AS categories', 'pc.category_id', '=', 'categories.id')
+            ->join(
+                DB::raw('(' . $tmpSql. ') AS tmp'),
+                function($join) use ($tmp) {
+                    $join->on('tmp.id', '=', 'pc.post_id')
+                        ->addBinding($tmp->getBindings());  
+                })
+                ->Where('categories.name', '!=', '大會提案')
+                ->get();
+
+        $postIdArray = [];
+        foreach($postId as $id => $item) {
+            $postIdArray[] = $item->id;
         }
 
-        foreach($attendPosts as $post) {
-            $postTmp[$post->post_id] = $post;
-            $postIdAndDate[$post->post_id] = $post->created_at;
-        }
+        $posts = Post::whereIn('id', $postIdArray)->orderBy('published_at', 'desc')->get();
 
-        foreach($reconsiderationPosts as $post) {
-            $postTmp[$post->post_id] = $post;
-            $postIdAndDate[$post->post_id] = $post->created_at;
-        }
-        arsort($postIdAndDate);
-
-        foreach($postIdAndDate as $postId => $post) {
-            $posts[] = $postTmp[$postId];
-            $postIdArray[] = $postId;
-        }
-
-        $postUserIds = Db::table('rainlab_blog_user_post')
-            ->whereIn('rainlab_blog_user_post.post_id', $postIdArray)
-            ->get();
-
-        foreach($postUserIds as $postUser) {
-            try {
-                $postUsers[$postUser->post_id][] = $postUser->user_id;
-            } catch (Exception $e) {
-                $postUsers[$postUser->post_id] = array();
-                $postUsers[$postUser->post_id][] = $postUser->user_id;
-            }
-            $userIdArray[] = $postUser->user_id;
-        }
-        
-        $users = $this::find($userIdArray); // User::find
-        foreach($users as $user) {
-            $userModel[$user->id] = $user;
-        }
-        foreach($posts as $key => $post) {
-            $posts[$key]->userModel = array();
-            if(isset($postUsers[$post->id])) {
-                foreach($postUsers[$post->id] as $userId){
-                    $posts[$key]->userModel[] = $userModel[$userId];
-                }
-            }
-        }
-        
         return $posts;
-     }
+    }
 
 }

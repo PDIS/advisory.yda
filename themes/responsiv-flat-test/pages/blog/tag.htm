@@ -120,7 +120,7 @@ function onStart()
                     var leftOrRight = true; //left=true ; right=false
                     var existTags = [];
                     {% for tag in blogTags.tags %}
-                    existTags.push('{{tag.name}}')
+                        existTags.push('{{tag.name}}')
                     {% endfor %}
     
                     function handleClientLoad() {
@@ -182,7 +182,7 @@ function onStart()
                                     var tagString = '';
         
                                     tags.forEach(function (tag) {
-                                        tagString += '<a href="{{ 'blog / tag'|page }}/' + tag + '">';
+                                        tagString += '<a href="/blog/tag/' + tag + '">';
                                         tagString += '<span class="label label-success">' + tag + '</span>';
                                         tagString += '</a>';
                                     });
@@ -212,17 +212,16 @@ function onStart()
                         var avatarString = '';
     
                         {% for tag in post.tags %}
-                        tagName = '{{tag.name}}'
-                        tagString += '<a href="{{ 'blog/tag'|page }}/' + tagName + '">';
-                        tagString += '<span class="label label-success">' + tagName + '</span>';
-                        tagString += '</a>';
+                            tagString += '<a href="{{ 'blog/tag'|page({ tag:tag.name }) }}">';
+                            tagString += '<span class="label label-success">{{tag.name}}</span>';
+                            tagString += '</a>';
                         {% endfor %}
     
                         {% for user in post.getUsers %}
-                        avatarString += '<a href="{{ 'test/userpost'|page({ id:user.id }) }}">';
-                        avatarString += '<div class="avatar" style="background:url(\'{{user.getAvatarThumb(60)}}\');">';
-                        avatarString += '</div>';
-                        avatarString += '</a>';
+                            avatarString += '<a href="{{ 'test/userpost'|page({ id:user.id }) }}">';
+                            avatarString += '<div class="avatar" style="background:url(\'{{user.getAvatarThumb(60)}}\');">';
+                            avatarString += '</div>';
+                            avatarString += '</a>';
                         {% endfor %}
     
                         generateTimeline('{{ post.url }}', '{{post.published_at|date("Y-m-d")}}', '{{post.title}}', tagString, avatarString);

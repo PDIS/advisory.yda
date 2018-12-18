@@ -130,21 +130,22 @@ function onStart()
         <br>
         <!-- Blog呈現 -->
         <div class="row">
-            <div class="col-md-12">
-                <ul class="timeline" id="timeline_head"></ul>
+            <div class="col-md-12" id="timeline_block">
+                <!-- <ul class="timeline" id="timeline_head"></ul> -->
             </div>
 
             <script src='https://apis.google.com/js/api.js?'></script>
             <script>
+                var total = 0;
+                var timelineBlock = document.getElementById('timeline_block');
+                var timelineHead = document.createElement('ul');
+                timelineHead.id = 'timeline_head';
+                timelineHead.classList.add('timeline');
 
-                typeof document.readyState;
-                document.readyState = "loading";
-
-                var timelineHead = document.getElementById('timeline_head');
                 var leftOrRight = true; //left=true ; right=false
                 var existTags = [];
                 {% for tag in blogTags.tags %}
-                existTags.push('{{tag.name}}')
+                    existTags.push('{{tag.name}}')
                 {% endfor %}
 
                 function handleClientLoad() {
@@ -202,7 +203,7 @@ function onStart()
                             // var avatarString = '';
 
                             tags.forEach(function (tag) {
-                                tagString += '<a href="{{ 'blog / tag'|page }}/' + tag + '">';
+                                tagString += '<a href="{{ 'blog/tag'|page }}/' + tag + '">';
                                 tagString += '<span class="label label-success">' + tag + '</span>';
                                 tagString += '</a>';
                             });
@@ -222,7 +223,6 @@ function onStart()
                             var startMonth = date[1];
                             var startDay = date[2];
 
-
                             generateTimeline('', startYear + '-' + startMonth + '-' + startDay, item.summary, tagString)
                         }
                         renderPost();
@@ -235,37 +235,56 @@ function onStart()
                 function renderPost() {
 
                     {% for post in posts %}
-                    {% if tool.categoriesCheck(post.categories) == true %}
-                    var tagString = '';
-                    var avatarString = '';
+                        {% if tool.categoriesCheck(post.categories) == true %}
+                            var tagString = '';
+                            var avatarString = '';
 
-                    {% for tag in post.tags %}
-                    tagName = '{{tag.name}}'
-                    tagString += '<a href="{{ 'blog/tag'|page }}/' + tagName + '">';
-                    tagString += '<span class="label label-success">' + tagName + '</span>';
-                    tagString += '</a>';
+                            {% for tag in post.tags %}
+                            tagName = '{{tag.name}}'
+                            tagString += '<a href="{{ 'blog/tag'|page }}/' + tagName + '">';
+                            tagString += '<span class="label label-success">' + tagName + '</span>';
+                            tagString += '</a>';
+                            {% endfor %}
+
+                            {% for user in post.getUsers %}
+                            avatarString += '<a href="{{ 'test/userpost'|page({ id:user.id }) }}">';
+                            avatarString += '<div class="avatar" style="background:url(\'{{user.getAvatarThumb(60)}}\');">';
+                            avatarString += '</div>';
+                            avatarString += '</a>';
+                            {% endfor %}
+
+                            generateTimeline('{{ post.url }}', '{{post.published_at|date("Y-m-d")}}', '{{post.title}}', tagString, avatarString);
+                        {% endif %}
                     {% endfor %}
 
-                    {% for user in post.getUsers %}
-                    avatarString += '<a href="{{ 'test/userpost'|page({ id:user.id }) }}">';
-                    avatarString += '<div class="avatar" style="background:url(\'{{user.getAvatarThumb(60)}}\');">';
-                    avatarString += '</div>';
-                    avatarString += '</a>';
-                    {% endfor %}
+                    if (total == 0) {
+                        {% for post in posts %}
+                            {% if flag == false%}
+                                {% for category in post.categories %}
+                                    {% if category.name == "前台頁面" and post.slug == "empty" %}
+                                        var content = '{{ post.content_html|raw }}';
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        {% endfor %}
 
-                    generateTimeline('{{ post.url }}', '{{post.published_at|date("Y-m-d")}}', '{{post.title}}', tagString, avatarString);
-                    {% endif %}
-                    {% endfor %}
+                        // var alignCenter = document.createElement('div');
+                        // alignCenter.classList.add('text-center');
+                        // alignCenter.innerHTML = content
+                        timelineBlock.innerHTML = content;
+                    } else {
+                        timelineBlock.appendChild(timelineHead);
+                    }
 
                     clearfix = document.createElement('li');
                     clearfix.classList.add('clearfix');
                     clearfix.style.float = 'none';
                     timelineHead.appendChild(clearfix);
-
-                    document.readyState = "complete";
                 }
 
-                function generateTimeline(url, date, summary, tagString, avatarString = '') {
+                function generateTimeline(url, date, summary, tagString, avatarString) {
+
+                    if (typeof(avatarString)==='undefined') avatarString = '';
 
                     //timeline-panel            
                     postTitle = document.createElement('h2');
@@ -324,6 +343,7 @@ function onStart()
                     timelineHead.appendChild(timelineLi);
 
                     leftOrRight ^= true; //toggle to left or right
+                    total += 1;
                 }
 
                 gapi.load('client', handleClientLoad);

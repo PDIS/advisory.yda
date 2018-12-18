@@ -14,19 +14,20 @@ categoryPage = "blog/category"
 postPage = "blog/post"
 ==
 <div class="container yda-container">
+	<a id="AC" accesskey="C" href="#AC" title="中央內容區塊" name="AC">:::</a>
 	<h1 class="headline"><span>行政院青年諮詢委員會設置要點</span></h1>
 	{% set flag = false %}
 	{% for post in posts %}
-	{% if flag == false%}
-	{% for category in post.categories %}
-	{% if category.name == "設置要點" %}
-	<div class="content">
-			{{ post.content_html|raw }}
-	</div>
-	{% set flag = true %}
-	{% endif %}
-	{% endfor %}
-	{% endif %}
+		{% if flag == false%}
+			{% for category in post.categories %}
+				{% if category.name == "前台頁面" and post.slug == "regulation" %}
+					<div class="content">
+						{{ post.content_html|raw }}
+					</div>
+				{% set flag = true %}
+				{% endif %}
+			{% endfor %}
+		{% endif %}
 	{% endfor %}
 
 	{% if flag == false %}
