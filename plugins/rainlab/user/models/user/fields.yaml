@@ -81,7 +81,7 @@ tabs:
             placeholder: '1'
             default: '1'
             type: number
-            comment: 'users的排序，數字越小越前面(目前只有各部會首長有此作用，也就是"chief"群組)'
+            comment: '群組若是「Chief」sort越小排序越前面；若是「Committee Member」，則只有sort=0時會被顯示在所有委員最前面，其餘皆為隨機顯示'
             tab: 'rainlab.user::lang.user.account'
 secondaryTabs:
     fields:
