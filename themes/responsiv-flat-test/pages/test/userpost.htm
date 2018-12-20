@@ -60,15 +60,11 @@ function onStart()
     $this->addCss('https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css');
     
     $this['tool'] = new class {
-        public function is_chief($groups) {
-            $flag = false;
+        public function is_committee($groups) {
             foreach ($groups as $group) {
-                if ($group->code == "chief") {
-                    $flag = true;
+                if ($group->code == "committee-member") {
+                    return true;
                 }
-            }
-            if (!$flag) {
-                return true;
             }
             return false;
         }
@@ -78,7 +74,7 @@ function onStart()
 ==
 {% set id = 'id' %}
 
-{% if tool.is_chief(user_model.groups) %}
+{% if tool.is_committee(user_model.groups) %}
 
 <link href="{{ 'assets/css/user/info.css'|theme }}" rel="stylesheet">
 <link href="{{ 'assets/css/user/proposal.css'|theme }}" rel="stylesheet">

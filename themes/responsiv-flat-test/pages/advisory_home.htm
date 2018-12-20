@@ -28,20 +28,10 @@ postPage = "blog/post"
 use RainLab\User\Models\User;
 function onInit()
 {    
-    $this['userpop'] =\System\Models\File::where("field", "=", "avatar")->get();
     $user = Auth::getUser(true);
-    $this['activatedUsers'] = User::whereIsActivated(true)->orderByRaw("RAND()")->whereHas('groups', function($q) { $q->where('code', '=', 'committee-member'); })->get();
+    $this['users_committee'] = User::whereIsActivated(true)->where('sort_num', '!=' , 0)->whereHas('groups', function($q) { $q->where('code', '=', 'committee-member'); })->orderByRaw("RAND()")->get();
+    $this['users_coordinator'] = User::whereIsActivated(true)->where('sort_num', '==' , 0)->whereHas('groups', function($q) { $q->where('code', '=', 'committee-member'); })->get();
     $this['chiefUsers'] = User::whereIsActivated(true)->orderBy('sort_num')->whereHas('groups', function($q) { $q->where('code', '=', 'chief'); })->get();
-}
-
-function onStart()
-{
-    $var = \System\Models\File::where("field", "=", "avatar")->get();
-    foreach ( $var as $vars) {
-        $this->addCss('assets/css/user.css');
-        $this["attachment_id"] =$vars->attachment_id;
-        $this["path"] =$vars->path;
-   }
 }
 ?>
 ==

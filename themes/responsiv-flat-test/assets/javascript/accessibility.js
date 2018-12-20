@@ -93,9 +93,9 @@ accessibility = function() {
             var className = tags[index].className
             var text = tags[index].innerHTML
             if (className == ''){
-                html = "<" + htmltag + "style=\"font-size:" + size + "em\">" + text + "</" + htmltag + ">";
+                html = "<" + htmltag + " style=\"font-size:" + size + "em\">" + text + "</" + htmltag + ">";
             }else{
-                html = "<" + htmltag + "class=\"" + className + "\" style=\"font-size:" + size + "em\">" + text + "</" + htmltag + ">";
+                html = "<" + htmltag + " class=\"" + className + "\" style=\"font-size:" + size + "em\">" + text + "</" + htmltag + ">";
             }
             $(tags[index]).replaceWith(html)    
         }

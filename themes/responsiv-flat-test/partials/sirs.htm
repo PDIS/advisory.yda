@@ -33,23 +33,3 @@ function onRun() {
     </a>
 </div>
 {% endfor %}
-
-{% for users_picture in userpop %}
-    {% if users_picture.attachment_id !=1 %}
-        {% if users_picture.attachment_id ==3 %}
-        <div class=" col-md-2 col-sm-3 col-xs-4 avatar-back">
-            <a href="{{ 'test/userpost'|page({ id:users_picture.attachment_id }) }}" class="display-block">
-                <div class="avatar" style="width:100%; background:url({{users_picture.path}});padding-bottom:100%">
-                    {% for users in activatedUsers%}
-                        {% if users.id ==users_picture.attachment_id%}
-                        <div class="text">
-                            <h6>{{users.name}}</h6>
-                        </div>
-                        {% endif %}
-                    {% endfor %}
-                </div>
-            </a>
-        </div>
-        {% endif %}
-    {% endif %}
-{% endfor %}
