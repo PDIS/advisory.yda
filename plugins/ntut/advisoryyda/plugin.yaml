@@ -1,6 +1,0 @@
-plugin:
-    name: 'ntut.advisoryyda::lang.plugin.name'
-    description: 'ntut.advisoryyda::lang.plugin.description'
-    author: NTUT
-    icon: oc-icon-group
-    homepage: ''

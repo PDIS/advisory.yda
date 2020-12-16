@@ -1,6 +1,0 @@
-plugin:
-    name: 'yda.export::lang.plugin.name'
-    description: 'Make it export sample file of post-import'
-    author: Yda
-    icon: oc-icon-download
-    homepage: ''

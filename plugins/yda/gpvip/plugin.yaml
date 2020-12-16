@@ -1,6 +1,0 @@
-plugin:
-    name: 'yda.gpvip::lang.plugin.name'
-    description: 'yda.gpvip::lang.plugin.description'
-    author: Yda
-    icon: oc-icon-adjust
-    homepage: ''
