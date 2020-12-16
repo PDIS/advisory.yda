@@ -1,0 +1,26 @@
+.headline:before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  border-top: 1px solid #ddd; }
+
+.headline {
+  display: block;
+  position: relative;
+  margin-bottom: 20px;
+  font-size: x-large;
+}
+
+.headline > span {
+  display: inline-block;
+  position: relative;
+  background: white;
+  padding-right: 15px; 
+}
+
+.modal .modal-header {
+  border-bottom: 0; }
+.modal .modal-footer {
+  border-top: 0; }

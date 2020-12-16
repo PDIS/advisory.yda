@@ -1,0 +1,7 @@
+<?php Block::put('breadcrumb') ?>
+<ul>
+    <li><a href="<?= Backend::url('nashyang/forum/event_list') ?>">巡迴座談列表</a></li>
+    <li>巡迴座談列表</li>
+</ul>
+<?php Block::endPut() ?>
+<?= $this->listRender( 'event' ) ?>

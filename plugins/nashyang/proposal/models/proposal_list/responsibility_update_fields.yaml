@@ -1,0 +1,9 @@
+fields:
+    responsibility:
+        label: 主責
+        oc.commentPosition: ''
+        span: full
+    resolution:
+        label: 決議
+        span: full
+        type: textarea

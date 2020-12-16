@@ -1,0 +1,12 @@
+title: 大會處理
+modelClass: Nashyang\Proposal\Models\Meeting
+list: $/nashyang/proposal/models/meeting/columns.yaml
+recordUrl: 'nashyang/proposal/meeting/update/:id'
+noRecordsMessage: 'backend::lang.list.no_records'
+recordsPerPage: 20
+showSetup: true
+showCheckboxes: true
+toolbar:
+    buttons: list_toolbar
+    search:
+        prompt: 'backend::lang.list.search_prompt'

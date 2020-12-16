@@ -1,0 +1,62 @@
+title = "test tags views"
+url = "/test-tags-views"
+is_hidden = 0
+robot_index = "index"
+robot_follow = "follow"
+
+[PostForm]
+use_authors = 1
+restrict_owner = 1
+allowpublish = 1
+allow_images = 1
+slug = "{{ :slug }}"
+listPage = "blog/list"
+postPage = "blog/post"
+==
+<?php
+function onStart()
+{
+    $this->addJs('assets/tags/jqusery.js');
+   $this->addJs('assets/tags/jquery-ui.js');
+    $this->addJs('assets/tags/tag-it.min.js');
+     $this->addCss('assets/tags/tagit.ui-zendesk.css');
+     $this->addCss('assets/tags/jquery.tagit.css');
+}
+?>
+==
+<script type="text/javascript" src="{{ [
+    'assets/tags/jqusery.js',
+    'assets/tags/jquery-ui.js',
+    'assets/tags/tag-it.min.js',
+    ]|theme }}.js">
+</script>
+<input name="tags_name" id="Form-field-blog-tags"  class="form-control">
+<script>
+    $(document).ready(function() {
+        var tags = ["123", "abc"];
+        $('#Form-field-blog-tags').tagit({
+            availableTags: tags
+        }).val(tags[1]);
+    });
+</script>
+
+
+<div class="container">
+    <div class="row">
+        <div class='col-sm-6'>
+            <div class="form-group">
+                <div class='input-group date' id='datetimepicker1'>
+                    <input type='text' class="form-control" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript">
+            $(function () {
+                $('#datetimepicker1').datetimepicker();
+            });
+        </script>
+    </div>
+</div>

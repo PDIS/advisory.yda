@@ -1,0 +1,41 @@
+<select class="form-control " multiple="true" id="issueSelect" name="<?= $name ?>" >
+    <?php foreach( $tagList as $key => $row ): ?>
+    <option value="<?= $row['name']; ?>" <?= in_array( $row['name'], $defaultValueList ) ? 'selected="selected"' : ''; ?> >
+        <?= $row['name']; ?>
+    </option>
+    <?php endforeach; ?>
+</select>
+
+<script type="text/javascript">
+    $( document ).on( "render", function () {
+        $( ".tagBugFix select" ).select2( {
+            "placeholder": "打完請按”空白鍵”",
+            "tags": true,
+            "language": "zh-TW",
+            "createTag": function ( params ) {
+                if ( /[,;，； ]/.test( params.term ) ) {
+                    var str = params.term.trim().replace( /[,;，；]*$/, "" );
+                    return {
+                        "id": str,
+                        "text": str
+                    }
+                } else {
+                    return null;
+                }
+            }
+        } ).on( "keyup", ".select2-selection--multiple .select2-search__field", function ( event ) {
+            if ( event.keyCode == 13 ) {
+                var $this = $( this ),
+                    optionText = $this.val();
+                if ( optionText != "" && $this.find( "option[value='" + optionText + "']" ).length === 0 ) {
+                    var $select = $this.parents( ".select2-container" ).prev( "select" ),
+                        newOption = new Option( optionText, optionText, true, true );
+                    $select.append( newOption ).trigger( "change" );
+                    $this.val( "" );
+                }
+            }
+        } );
+        return false;
+
+    } );
+</script>

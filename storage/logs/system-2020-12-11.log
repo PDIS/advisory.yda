@@ -1,0 +1,302 @@
+[2020-12-11 13:35:27] docker.ERROR: PDOException: PDO::__construct(): php_network_getaddresses: getaddrinfo failed: nodename nor servname provided, or not known in /Users/nash/work/_tl/web/web_advisory/html/vendor/doctrine/dbal/lib/Doctrine/DBAL/Driver/PDOConnection.php:43
+Stack trace:
+#0 /Users/nash/work/_tl/web/web_advisory/html/vendor/doctrine/dbal/lib/Doctrine/DBAL/Driver/PDOConnection.php(43): PDO->__construct('mysql:host=mysq...', 'nash', 'hikaru0912af', Array)
+#1 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php(64): Doctrine\DBAL\Driver\PDOConnection->__construct('mysql:host=mysq...', 'nash', 'hikaru0912af', Array)
+#2 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php(43): Illuminate\Database\Connectors\Connector->createPdoConnection('mysql:host=mysq...', 'nash', 'hikaru0912af', Array)
+#3 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Database/Connectors/MySqlConnector.php(24): Illuminate\Database\Connectors\Connector->createConnection('mysql:host=mysq...', Array, Array)
+#4 /Users/nash/work/_tl/web/web_advisory/html/vendor/october/rain/src/Database/Connectors/ConnectionFactory.php(28): Illuminate\Database\Connectors\MySqlConnector->connect(Array)
+#5 [internal function]: October\Rain\Database\Connectors\ConnectionFactory->October\Rain\Database\Connectors\{closure}()
+#6 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Database/Connection.php(915): call_user_func(Object(Closure))
+#7 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Database/Connection.php(940): Illuminate\Database\Connection->getPdo()
+#8 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Database/Connection.php(399): Illuminate\Database\Connection->getReadPdo()
+#9 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Database/Connection.php(325): Illuminate\Database\Connection->getPdoForSelect(true)
+#10 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Database/Connection.php(657): Illuminate\Database\Connection->Illuminate\Database\{closure}('select * from `...', Array)
+#11 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Database/Connection.php(624): Illuminate\Database\Connection->runQueryCallback('select * from `...', Array, Object(Closure))
+#12 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Database/Connection.php(333): Illuminate\Database\Connection->run('select * from `...', Array, Object(Closure))
+#13 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php(1719): Illuminate\Database\Connection->select('select * from `...', Array, true)
+#14 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php(1704): Illuminate\Database\Query\Builder->runSelect()
+#15 /Users/nash/work/_tl/web/web_advisory/html/vendor/october/rain/src/Database/QueryBuilder.php(216): Illuminate\Database\Query\Builder->get(Array)
+#16 /Users/nash/work/_tl/web/web_advisory/html/plugins/vdomah/excel/vendor/illuminate/cache/Repository.php(327): October\Rain\Database\QueryBuilder->October\Rain\Database\{closure}()
+#17 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Cache/CacheManager.php(304): Illuminate\Cache\Repository->remember('system::setting...', 1440, Object(Closure))
+#18 /Users/nash/work/_tl/web/web_advisory/html/vendor/october/rain/src/Database/QueryBuilder.php(158): Illuminate\Cache\CacheManager->__call('remember', Array)
+#19 /Users/nash/work/_tl/web/web_advisory/html/vendor/october/rain/src/Database/QueryBuilder.php(121): October\Rain\Database\QueryBuilder->getCached(Array)
+#20 /Users/nash/work/_tl/web/web_advisory/html/vendor/october/rain/src/Database/QueryBuilder.php(92): October\Rain\Database\QueryBuilder->getDuplicateCached(Array)
+#21 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(481): October\Rain\Database\QueryBuilder->get(Array)
+#22 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(465): Illuminate\Database\Eloquent\Builder->getModels(Array)
+#23 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Database/Concerns/BuildsQueries.php(77): Illuminate\Database\Eloquent\Builder->get(Array)
+#24 /Users/nash/work/_tl/web/web_advisory/html/modules/system/Behaviors/SettingsModel.php(114): Illuminate\Database\Eloquent\Builder->first()
+#25 /Users/nash/work/_tl/web/web_advisory/html/modules/system/Behaviors/SettingsModel.php(76): System\Behaviors\SettingsModel->getSettingsRecord()
+#26 /Users/nash/work/_tl/web/web_advisory/html/modules/system/Behaviors/SettingsModel.php(135): System\Behaviors\SettingsModel->instance()
+#27 [internal function]: System\Behaviors\SettingsModel->get('profile_field')
+#28 /Users/nash/work/_tl/web/web_advisory/html/vendor/october/rain/src/Extension/ExtendableTrait.php(409): call_user_func_array(Array, Array)
+#29 /Users/nash/work/_tl/web/web_advisory/html/vendor/october/rain/src/Database/Model.php(635): October\Rain\Database\Model->extendableCall('get', Array)
+#30 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php(1489): October\Rain\Database\Model->__call('get', Array)
+#31 /Users/nash/work/_tl/web/web_advisory/html/plugins/esroyo/userprofile/Plugin.php(84): Illuminate\Database\Eloquent\Model::__callStatic('get', Array)
+#32 /Users/nash/work/_tl/web/web_advisory/html/modules/system/Classes/PluginManager.php(293): Esroyo\UserProfile\Plugin->boot()
+#33 /Users/nash/work/_tl/web/web_advisory/html/modules/system/Classes/PluginManager.php(275): System\Classes\PluginManager->bootPlugin(Object(Esroyo\UserProfile\Plugin))
+#34 /Users/nash/work/_tl/web/web_advisory/html/modules/system/ServiceProvider.php(96): System\Classes\PluginManager->bootAll()
+#35 [internal function]: System\ServiceProvider->boot()
+#36 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(29): call_user_func_array(Array, Array)
+#37 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(87): Illuminate\Container\BoundMethod::Illuminate\Container\{closure}()
+#38 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(31): Illuminate\Container\BoundMethod::callBoundMethod(Object(October\Rain\Foundation\Application), Array, Object(Closure))
+#39 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Container/Container.php(549): Illuminate\Container\BoundMethod::call(Object(October\Rain\Foundation\Application), Array, Array, NULL)
+#40 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(792): Illuminate\Container\Container->call(Array)
+#41 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(775): Illuminate\Foundation\Application->bootProvider(Object(System\ServiceProvider))
+#42 [internal function]: Illuminate\Foundation\Application->Illuminate\Foundation\{closure}(Object(System\ServiceProvider), 25)
+#43 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(776): array_walk(Array, Object(Closure))
+#44 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/BootProviders.php(17): Illuminate\Foundation\Application->boot()
+#45 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(213): Illuminate\Foundation\Bootstrap\BootProviders->bootstrap(Object(October\Rain\Foundation\Application))
+#46 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(296): Illuminate\Foundation\Application->bootstrapWith(Array)
+#47 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(119): Illuminate\Foundation\Console\Kernel->bootstrap()
+#48 /Users/nash/work/_tl/web/web_advisory/html/artisan(35): Illuminate\Foundation\Console\Kernel->handle(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#49 {main}
+
+Next PDOException: SQLSTATE[HY000] [2002] php_network_getaddresses: getaddrinfo failed: nodename nor servname provided, or not known in /Users/nash/work/_tl/web/web_advisory/html/vendor/doctrine/dbal/lib/Doctrine/DBAL/Driver/PDOConnection.php:43
+Stack trace:
+#0 /Users/nash/work/_tl/web/web_advisory/html/vendor/doctrine/dbal/lib/Doctrine/DBAL/Driver/PDOConnection.php(43): PDO->__construct('mysql:host=mysq...', 'nash', 'hikaru0912af', Array)
+#1 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php(64): Doctrine\DBAL\Driver\PDOConnection->__construct('mysql:host=mysq...', 'nash', 'hikaru0912af', Array)
+#2 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php(43): Illuminate\Database\Connectors\Connector->createPdoConnection('mysql:host=mysq...', 'nash', 'hikaru0912af', Array)
+#3 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Database/Connectors/MySqlConnector.php(24): Illuminate\Database\Connectors\Connector->createConnection('mysql:host=mysq...', Array, Array)
+#4 /Users/nash/work/_tl/web/web_advisory/html/vendor/october/rain/src/Database/Connectors/ConnectionFactory.php(28): Illuminate\Database\Connectors\MySqlConnector->connect(Array)
+#5 [internal function]: October\Rain\Database\Connectors\ConnectionFactory->October\Rain\Database\Connectors\{closure}()
+#6 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Database/Connection.php(915): call_user_func(Object(Closure))
+#7 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Database/Connection.php(940): Illuminate\Database\Connection->getPdo()
+#8 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Database/Connection.php(399): Illuminate\Database\Connection->getReadPdo()
+#9 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Database/Connection.php(325): Illuminate\Database\Connection->getPdoForSelect(true)
+#10 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Database/Connection.php(657): Illuminate\Database\Connection->Illuminate\Database\{closure}('select * from `...', Array)
+#11 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Database/Connection.php(624): Illuminate\Database\Connection->runQueryCallback('select * from `...', Array, Object(Closure))
+#12 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Database/Connection.php(333): Illuminate\Database\Connection->run('select * from `...', Array, Object(Closure))
+#13 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php(1719): Illuminate\Database\Connection->select('select * from `...', Array, true)
+#14 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php(1704): Illuminate\Database\Query\Builder->runSelect()
+#15 /Users/nash/work/_tl/web/web_advisory/html/vendor/october/rain/src/Database/QueryBuilder.php(216): Illuminate\Database\Query\Builder->get(Array)
+#16 /Users/nash/work/_tl/web/web_advisory/html/plugins/vdomah/excel/vendor/illuminate/cache/Repository.php(327): October\Rain\Database\QueryBuilder->October\Rain\Database\{closure}()
+#17 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Cache/CacheManager.php(304): Illuminate\Cache\Repository->remember('system::setting...', 1440, Object(Closure))
+#18 /Users/nash/work/_tl/web/web_advisory/html/vendor/october/rain/src/Database/QueryBuilder.php(158): Illuminate\Cache\CacheManager->__call('remember', Array)
+#19 /Users/nash/work/_tl/web/web_advisory/html/vendor/october/rain/src/Database/QueryBuilder.php(121): October\Rain\Database\QueryBuilder->getCached(Array)
+#20 /Users/nash/work/_tl/web/web_advisory/html/vendor/october/rain/src/Database/QueryBuilder.php(92): October\Rain\Database\QueryBuilder->getDuplicateCached(Array)
+#21 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(481): October\Rain\Database\QueryBuilder->get(Array)
+#22 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(465): Illuminate\Database\Eloquent\Builder->getModels(Array)
+#23 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Database/Concerns/BuildsQueries.php(77): Illuminate\Database\Eloquent\Builder->get(Array)
+#24 /Users/nash/work/_tl/web/web_advisory/html/modules/system/Behaviors/SettingsModel.php(114): Illuminate\Database\Eloquent\Builder->first()
+#25 /Users/nash/work/_tl/web/web_advisory/html/modules/system/Behaviors/SettingsModel.php(76): System\Behaviors\SettingsModel->getSettingsRecord()
+#26 /Users/nash/work/_tl/web/web_advisory/html/modules/system/Behaviors/SettingsModel.php(135): System\Behaviors\SettingsModel->instance()
+#27 [internal function]: System\Behaviors\SettingsModel->get('profile_field')
+#28 /Users/nash/work/_tl/web/web_advisory/html/vendor/october/rain/src/Extension/ExtendableTrait.php(409): call_user_func_array(Array, Array)
+#29 /Users/nash/work/_tl/web/web_advisory/html/vendor/october/rain/src/Database/Model.php(635): October\Rain\Database\Model->extendableCall('get', Array)
+#30 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php(1489): October\Rain\Database\Model->__call('get', Array)
+#31 /Users/nash/work/_tl/web/web_advisory/html/plugins/esroyo/userprofile/Plugin.php(84): Illuminate\Database\Eloquent\Model::__callStatic('get', Array)
+#32 /Users/nash/work/_tl/web/web_advisory/html/modules/system/Classes/PluginManager.php(293): Esroyo\UserProfile\Plugin->boot()
+#33 /Users/nash/work/_tl/web/web_advisory/html/modules/system/Classes/PluginManager.php(275): System\Classes\PluginManager->bootPlugin(Object(Esroyo\UserProfile\Plugin))
+#34 /Users/nash/work/_tl/web/web_advisory/html/modules/system/ServiceProvider.php(96): System\Classes\PluginManager->bootAll()
+#35 [internal function]: System\ServiceProvider->boot()
+#36 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(29): call_user_func_array(Array, Array)
+#37 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(87): Illuminate\Container\BoundMethod::Illuminate\Container\{closure}()
+#38 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(31): Illuminate\Container\BoundMethod::callBoundMethod(Object(October\Rain\Foundation\Application), Array, Object(Closure))
+#39 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Container/Container.php(549): Illuminate\Container\BoundMethod::call(Object(October\Rain\Foundation\Application), Array, Array, NULL)
+#40 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(792): Illuminate\Container\Container->call(Array)
+#41 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(775): Illuminate\Foundation\Application->bootProvider(Object(System\ServiceProvider))
+#42 [internal function]: Illuminate\Foundation\Application->Illuminate\Foundation\{closure}(Object(System\ServiceProvider), 25)
+#43 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(776): array_walk(Array, Object(Closure))
+#44 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/BootProviders.php(17): Illuminate\Foundation\Application->boot()
+#45 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(213): Illuminate\Foundation\Bootstrap\BootProviders->bootstrap(Object(October\Rain\Foundation\Application))
+#46 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(296): Illuminate\Foundation\Application->bootstrapWith(Array)
+#47 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(119): Illuminate\Foundation\Console\Kernel->bootstrap()
+#48 /Users/nash/work/_tl/web/web_advisory/html/artisan(35): Illuminate\Foundation\Console\Kernel->handle(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#49 {main}
+
+Next Doctrine\DBAL\Driver\PDOException: SQLSTATE[HY000] [2002] php_network_getaddresses: getaddrinfo failed: nodename nor servname provided, or not known in /Users/nash/work/_tl/web/web_advisory/html/vendor/doctrine/dbal/lib/Doctrine/DBAL/Driver/PDOConnection.php:47
+Stack trace:
+#0 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php(64): Doctrine\DBAL\Driver\PDOConnection->__construct('mysql:host=mysq...', 'nash', 'hikaru0912af', Array)
+#1 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php(43): Illuminate\Database\Connectors\Connector->createPdoConnection('mysql:host=mysq...', 'nash', 'hikaru0912af', Array)
+#2 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Database/Connectors/MySqlConnector.php(24): Illuminate\Database\Connectors\Connector->createConnection('mysql:host=mysq...', Array, Array)
+#3 /Users/nash/work/_tl/web/web_advisory/html/vendor/october/rain/src/Database/Connectors/ConnectionFactory.php(28): Illuminate\Database\Connectors\MySqlConnector->connect(Array)
+#4 [internal function]: October\Rain\Database\Connectors\ConnectionFactory->October\Rain\Database\Connectors\{closure}()
+#5 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Database/Connection.php(915): call_user_func(Object(Closure))
+#6 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Database/Connection.php(940): Illuminate\Database\Connection->getPdo()
+#7 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Database/Connection.php(399): Illuminate\Database\Connection->getReadPdo()
+#8 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Database/Connection.php(325): Illuminate\Database\Connection->getPdoForSelect(true)
+#9 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Database/Connection.php(657): Illuminate\Database\Connection->Illuminate\Database\{closure}('select * from `...', Array)
+#10 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Database/Connection.php(624): Illuminate\Database\Connection->runQueryCallback('select * from `...', Array, Object(Closure))
+#11 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Database/Connection.php(333): Illuminate\Database\Connection->run('select * from `...', Array, Object(Closure))
+#12 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php(1719): Illuminate\Database\Connection->select('select * from `...', Array, true)
+#13 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php(1704): Illuminate\Database\Query\Builder->runSelect()
+#14 /Users/nash/work/_tl/web/web_advisory/html/vendor/october/rain/src/Database/QueryBuilder.php(216): Illuminate\Database\Query\Builder->get(Array)
+#15 /Users/nash/work/_tl/web/web_advisory/html/plugins/vdomah/excel/vendor/illuminate/cache/Repository.php(327): October\Rain\Database\QueryBuilder->October\Rain\Database\{closure}()
+#16 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Cache/CacheManager.php(304): Illuminate\Cache\Repository->remember('system::setting...', 1440, Object(Closure))
+#17 /Users/nash/work/_tl/web/web_advisory/html/vendor/october/rain/src/Database/QueryBuilder.php(158): Illuminate\Cache\CacheManager->__call('remember', Array)
+#18 /Users/nash/work/_tl/web/web_advisory/html/vendor/october/rain/src/Database/QueryBuilder.php(121): October\Rain\Database\QueryBuilder->getCached(Array)
+#19 /Users/nash/work/_tl/web/web_advisory/html/vendor/october/rain/src/Database/QueryBuilder.php(92): October\Rain\Database\QueryBuilder->getDuplicateCached(Array)
+#20 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(481): October\Rain\Database\QueryBuilder->get(Array)
+#21 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(465): Illuminate\Database\Eloquent\Builder->getModels(Array)
+#22 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Database/Concerns/BuildsQueries.php(77): Illuminate\Database\Eloquent\Builder->get(Array)
+#23 /Users/nash/work/_tl/web/web_advisory/html/modules/system/Behaviors/SettingsModel.php(114): Illuminate\Database\Eloquent\Builder->first()
+#24 /Users/nash/work/_tl/web/web_advisory/html/modules/system/Behaviors/SettingsModel.php(76): System\Behaviors\SettingsModel->getSettingsRecord()
+#25 /Users/nash/work/_tl/web/web_advisory/html/modules/system/Behaviors/SettingsModel.php(135): System\Behaviors\SettingsModel->instance()
+#26 [internal function]: System\Behaviors\SettingsModel->get('profile_field')
+#27 /Users/nash/work/_tl/web/web_advisory/html/vendor/october/rain/src/Extension/ExtendableTrait.php(409): call_user_func_array(Array, Array)
+#28 /Users/nash/work/_tl/web/web_advisory/html/vendor/october/rain/src/Database/Model.php(635): October\Rain\Database\Model->extendableCall('get', Array)
+#29 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php(1489): October\Rain\Database\Model->__call('get', Array)
+#30 /Users/nash/work/_tl/web/web_advisory/html/plugins/esroyo/userprofile/Plugin.php(84): Illuminate\Database\Eloquent\Model::__callStatic('get', Array)
+#31 /Users/nash/work/_tl/web/web_advisory/html/modules/system/Classes/PluginManager.php(293): Esroyo\UserProfile\Plugin->boot()
+#32 /Users/nash/work/_tl/web/web_advisory/html/modules/system/Classes/PluginManager.php(275): System\Classes\PluginManager->bootPlugin(Object(Esroyo\UserProfile\Plugin))
+#33 /Users/nash/work/_tl/web/web_advisory/html/modules/system/ServiceProvider.php(96): System\Classes\PluginManager->bootAll()
+#34 [internal function]: System\ServiceProvider->boot()
+#35 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(29): call_user_func_array(Array, Array)
+#36 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(87): Illuminate\Container\BoundMethod::Illuminate\Container\{closure}()
+#37 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(31): Illuminate\Container\BoundMethod::callBoundMethod(Object(October\Rain\Foundation\Application), Array, Object(Closure))
+#38 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Container/Container.php(549): Illuminate\Container\BoundMethod::call(Object(October\Rain\Foundation\Application), Array, Array, NULL)
+#39 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(792): Illuminate\Container\Container->call(Array)
+#40 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(775): Illuminate\Foundation\Application->bootProvider(Object(System\ServiceProvider))
+#41 [internal function]: Illuminate\Foundation\Application->Illuminate\Foundation\{closure}(Object(System\ServiceProvider), 25)
+#42 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(776): array_walk(Array, Object(Closure))
+#43 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/BootProviders.php(17): Illuminate\Foundation\Application->boot()
+#44 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(213): Illuminate\Foundation\Bootstrap\BootProviders->bootstrap(Object(October\Rain\Foundation\Application))
+#45 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(296): Illuminate\Foundation\Application->bootstrapWith(Array)
+#46 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(119): Illuminate\Foundation\Console\Kernel->bootstrap()
+#47 /Users/nash/work/_tl/web/web_advisory/html/artisan(35): Illuminate\Foundation\Console\Kernel->handle(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#48 {main}
+
+Next Illuminate\Database\QueryException: SQLSTATE[HY000] [2002] php_network_getaddresses: getaddrinfo failed: nodename nor servname provided, or not known (SQL: select * from `system_settings` where `item` = user_profile_settings limit 1) in /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Database/Connection.php:664
+Stack trace:
+#0 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Database/Connection.php(624): Illuminate\Database\Connection->runQueryCallback('select * from `...', Array, Object(Closure))
+#1 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Database/Connection.php(333): Illuminate\Database\Connection->run('select * from `...', Array, Object(Closure))
+#2 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php(1719): Illuminate\Database\Connection->select('select * from `...', Array, true)
+#3 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php(1704): Illuminate\Database\Query\Builder->runSelect()
+#4 /Users/nash/work/_tl/web/web_advisory/html/vendor/october/rain/src/Database/QueryBuilder.php(216): Illuminate\Database\Query\Builder->get(Array)
+#5 /Users/nash/work/_tl/web/web_advisory/html/plugins/vdomah/excel/vendor/illuminate/cache/Repository.php(327): October\Rain\Database\QueryBuilder->October\Rain\Database\{closure}()
+#6 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Cache/CacheManager.php(304): Illuminate\Cache\Repository->remember('system::setting...', 1440, Object(Closure))
+#7 /Users/nash/work/_tl/web/web_advisory/html/vendor/october/rain/src/Database/QueryBuilder.php(158): Illuminate\Cache\CacheManager->__call('remember', Array)
+#8 /Users/nash/work/_tl/web/web_advisory/html/vendor/october/rain/src/Database/QueryBuilder.php(121): October\Rain\Database\QueryBuilder->getCached(Array)
+#9 /Users/nash/work/_tl/web/web_advisory/html/vendor/october/rain/src/Database/QueryBuilder.php(92): October\Rain\Database\QueryBuilder->getDuplicateCached(Array)
+#10 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(481): October\Rain\Database\QueryBuilder->get(Array)
+#11 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(465): Illuminate\Database\Eloquent\Builder->getModels(Array)
+#12 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Database/Concerns/BuildsQueries.php(77): Illuminate\Database\Eloquent\Builder->get(Array)
+#13 /Users/nash/work/_tl/web/web_advisory/html/modules/system/Behaviors/SettingsModel.php(114): Illuminate\Database\Eloquent\Builder->first()
+#14 /Users/nash/work/_tl/web/web_advisory/html/modules/system/Behaviors/SettingsModel.php(76): System\Behaviors\SettingsModel->getSettingsRecord()
+#15 /Users/nash/work/_tl/web/web_advisory/html/modules/system/Behaviors/SettingsModel.php(135): System\Behaviors\SettingsModel->instance()
+#16 [internal function]: System\Behaviors\SettingsModel->get('profile_field')
+#17 /Users/nash/work/_tl/web/web_advisory/html/vendor/october/rain/src/Extension/ExtendableTrait.php(409): call_user_func_array(Array, Array)
+#18 /Users/nash/work/_tl/web/web_advisory/html/vendor/october/rain/src/Database/Model.php(635): October\Rain\Database\Model->extendableCall('get', Array)
+#19 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php(1489): October\Rain\Database\Model->__call('get', Array)
+#20 /Users/nash/work/_tl/web/web_advisory/html/plugins/esroyo/userprofile/Plugin.php(84): Illuminate\Database\Eloquent\Model::__callStatic('get', Array)
+#21 /Users/nash/work/_tl/web/web_advisory/html/modules/system/Classes/PluginManager.php(293): Esroyo\UserProfile\Plugin->boot()
+#22 /Users/nash/work/_tl/web/web_advisory/html/modules/system/Classes/PluginManager.php(275): System\Classes\PluginManager->bootPlugin(Object(Esroyo\UserProfile\Plugin))
+#23 /Users/nash/work/_tl/web/web_advisory/html/modules/system/ServiceProvider.php(96): System\Classes\PluginManager->bootAll()
+#24 [internal function]: System\ServiceProvider->boot()
+#25 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(29): call_user_func_array(Array, Array)
+#26 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(87): Illuminate\Container\BoundMethod::Illuminate\Container\{closure}()
+#27 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(31): Illuminate\Container\BoundMethod::callBoundMethod(Object(October\Rain\Foundation\Application), Array, Object(Closure))
+#28 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Container/Container.php(549): Illuminate\Container\BoundMethod::call(Object(October\Rain\Foundation\Application), Array, Array, NULL)
+#29 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(792): Illuminate\Container\Container->call(Array)
+#30 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(775): Illuminate\Foundation\Application->bootProvider(Object(System\ServiceProvider))
+#31 [internal function]: Illuminate\Foundation\Application->Illuminate\Foundation\{closure}(Object(System\ServiceProvider), 25)
+#32 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(776): array_walk(Array, Object(Closure))
+#33 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/BootProviders.php(17): Illuminate\Foundation\Application->boot()
+#34 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(213): Illuminate\Foundation\Bootstrap\BootProviders->bootstrap(Object(October\Rain\Foundation\Application))
+#35 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(296): Illuminate\Foundation\Application->bootstrapWith(Array)
+#36 /Users/nash/work/_tl/web/web_advisory/html/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(119): Illuminate\Foundation\Console\Kernel->bootstrap()
+#37 /Users/nash/work/_tl/web/web_advisory/html/artisan(35): Illuminate\Foundation\Console\Kernel->handle(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#38 {main}  
+[2020-12-11 17:06:00] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:06:00] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:06:00] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:06:00] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:06:01] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:06:01] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:06:01] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:06:01] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:06:01] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:06:01] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:06:01] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:06:01] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:06:01] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:06:01] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:06:01] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:06:01] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:06:01] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:06:01] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:06:01] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:06:01] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:06:01] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:06:01] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:06:01] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:06:01] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:06:01] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:06:01] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:06:01] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:06:01] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:06:01] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:06:01] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:06:01] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:06:01] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:06:01] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:06:01] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:06:01] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:06:01] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:06:01] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:06:01] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:06:01] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:06:10] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:06:10] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:06:10] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:06:10] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:06:10] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:06:10] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:06:10] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:06:10] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:06:10] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:06:10] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:06:10] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:06:10] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:06:10] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:06:10] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:06:10] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:06:10] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:06:10] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:06:10] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:06:10] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:06:10] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:06:10] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:13:03] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:13:03] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:13:03] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:13:03] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:13:03] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:13:03] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:13:03] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:13:03] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:13:03] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:13:03] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:13:03] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:13:03] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:13:03] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:13:03] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:13:03] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:13:04] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:13:04] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:13:04] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:13:04] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:13:04] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:13:04] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:13:07] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Pages\Widgets\PageList  
+[2020-12-11 17:13:10] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:13:10] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:13:10] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:13:10] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:13:10] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:13:10] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:13:10] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:13:10] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:13:10] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:13:10] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:13:10] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:13:10] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:13:10] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:13:10] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:13:10] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:13:10] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:13:10] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:13:10] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:13:10] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:13:10] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  
+[2020-12-11 17:13:10] docker.INFO: getGroupStatus is deprecated. Please update getCollapseStatus instead. Class: RainLab\Builder\Widgets\ModelList  

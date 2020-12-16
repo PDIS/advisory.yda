@@ -1,0 +1,40 @@
+title = "chengchewu"
+url = "/chengchewu"
+layout = "default"
+is_hidden = 0
+robot_index = "index"
+robot_follow = "follow"
+
+[session]
+security = "all"
+==
+<?php
+use October\Rain\Auth\Models\User;
+function onInit()
+{
+    $user = Auth::getUser();
+    $this['activatedUsers'] = User::whereIsActivated(true)->get();
+    if($user){
+        $component = $this->addComponent(
+            'NetSTI\Uploader\Components\ImageUploader',
+            'imageUploader',
+            ['modelClass'=>'RainLab\User\Models\User','modelKeyColumn'=>'avatar', 'deferredBinding' => false]
+        );
+
+        $component->bindModel('avatar', $user);
+    }
+}
+function onRun() {
+   $name = $this->param('name');
+  }
+?>
+==
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-123352956-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-123352956-1');
+</script>

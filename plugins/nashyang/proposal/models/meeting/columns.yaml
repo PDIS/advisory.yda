@@ -1,0 +1,27 @@
+columns:
+    id:
+        label: 會議序號
+        type: number
+        searchable: true
+        width: 5%
+    name:
+        label: 會議名稱
+        type: text
+        searchable: true
+        width: 40%
+    time:
+        label: 時間
+        type: datetime
+        searchable: true
+        width: 20%
+    location:
+        label: 地點
+        type: text
+        width: 20%
+    content:
+        label: 發佈狀況操作
+        clickable: false
+        type: partial
+        path: ~/plugins/nashyang/proposal/models/meeting/_list_button.htm
+        sortable: false
+        width: 10%

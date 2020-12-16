@@ -1,0 +1,11 @@
+name: alluser
+items:
+    -
+        title: alluser
+        type: cms-page
+        code: ''
+        reference: test/test_post
+        viewBag:
+            isHidden: '0'
+            cssClass: ''
+            isExternal: '0'

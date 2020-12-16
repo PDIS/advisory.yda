@@ -1,0 +1,6 @@
+fields:
+    setressort:
+        label: 分案部會列表
+        span: full
+        type: setressort
+        commentAbove: 請在下列分案部會列表中，調整各部會順序。

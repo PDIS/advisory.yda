@@ -1,0 +1,128 @@
+<div class="relation-widget">
+    <div class="field-checkboxlist ">
+        <div class="toolbar-widget list-header">
+            <div class="control-toolbar">
+                <div class="toolbar-item toolbar-primary">
+                    <a href="javascript:;" class="btn btn-primary icon-stack-overflow" data-request-confirm="所有已匯入的列管問題與回覆等內容將重置，確定要執行匯入功能？"
+                       data-request-loading=".sendMailProcessing" data-request="onImportProposal">
+                        匯入列管中的提案與新增的提案
+                    </a>
+                    <a href="javascript:;" class="btn btn-primary icon-envelope-o"
+                       data-request-confirm="請確認是否已將各提案設定主責與主辦部會，信件將會發送至已設定的所有相關部會，確認是否要執行？"
+                       data-request-loading=".sendMailProcessing" data-request="onSendProposalEmail3">
+                        發送大會時通知信件至各部會
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal sendMailProcessing">
+    <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+</div>
+<style>
+    .sendMailProcessing {
+        display: none;
+        background: rgba(0, 0, 0, 0.7);
+    }
+    .sendMailProcessing > div {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        margin-left: -100px;
+        margin-top: -100px;
+        display:flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-content: center;
+        align-items: center;
+        color: #3c3c3c;
+        font-size: large;
+    }
+    .lds-roller {
+        display: inline-block;
+        position: relative;
+        width: 64px;
+        height: 64px;
+    }
+    .lds-roller div {
+        animation: lds-roller 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+        transform-origin: 32px 32px;
+    }
+    .lds-roller div:after {
+        content: " ";
+        display: block;
+        position: absolute;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #fff;
+        margin: -3px 0 0 -3px;
+    }
+    .lds-roller div:nth-child(1) {
+        animation-delay: -0.036s;
+    }
+    .lds-roller div:nth-child(1):after {
+        top: 50px;
+        left: 50px;
+    }
+    .lds-roller div:nth-child(2) {
+        animation-delay: -0.072s;
+    }
+    .lds-roller div:nth-child(2):after {
+        top: 54px;
+        left: 45px;
+    }
+    .lds-roller div:nth-child(3) {
+        animation-delay: -0.108s;
+    }
+    .lds-roller div:nth-child(3):after {
+        top: 57px;
+        left: 39px;
+    }
+    .lds-roller div:nth-child(4) {
+        animation-delay: -0.144s;
+    }
+    .lds-roller div:nth-child(4):after {
+        top: 58px;
+        left: 32px;
+    }
+    .lds-roller div:nth-child(5) {
+        animation-delay: -0.18s;
+    }
+    .lds-roller div:nth-child(5):after {
+        top: 57px;
+        left: 25px;
+    }
+    .lds-roller div:nth-child(6) {
+        animation-delay: -0.216s;
+    }
+    .lds-roller div:nth-child(6):after {
+        top: 54px;
+        left: 19px;
+    }
+    .lds-roller div:nth-child(7) {
+        animation-delay: -0.252s;
+    }
+    .lds-roller div:nth-child(7):after {
+        top: 50px;
+        left: 14px;
+    }
+    .lds-roller div:nth-child(8) {
+        animation-delay: -0.288s;
+    }
+    .lds-roller div:nth-child(8):after {
+        top: 45px;
+        left: 10px;
+    }
+    @keyframes lds-roller {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+</style>

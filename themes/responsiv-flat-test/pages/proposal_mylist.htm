@@ -1,0 +1,437 @@
+title = "我的提案列表"
+url = "/proposal/mylist"
+layout = "default"
+description = "我的提案列表"
+is_hidden = 0
+robot_index = "index"
+robot_follow = "follow"
+==
+use Nashyang\proposal\Models\Proposal_list;
+use October\Rain\Support\Facades\Flash;
+use Nashyang\Proposal\Models\ForumUser;
+use Nashyang\Proposal\Models\ProposalSendEmail;
+use Nashyang\proposal\Models\Countersign;
+function onStart() {
+$this->addJs('assets/select2tag/assets/js/select2.full.min.js');
+    if ( is_null( $this['user'] ) ) {
+        return Redirect::to('/');
+    }
+    $arr = [ 'committee-member' ];
+    $inGroup = FALSE;
+    foreach( $this['user']['groups']->toArray() AS $group ) {
+        if ( in_array( $group['code'], $arr ) ) {
+            $inGroup = TRUE;
+            break;
+        }
+    }
+    if ( !$inGroup ) {
+        return Redirect::to('/');
+    }
+    $taguser = '';
+    foreach( ForumUser::getGroupModel()->get()->toArray() AS $k => $v ) {
+        $taguser .= '<option value=' . $v->id . '>' . $v->name . '</option>';
+    }
+    $this['taguser'] = $taguser;
+    $this['listData'] = Proposal_list::where( 'user_id', $this['user']['id'] )->get();
+    $this['statusArr'] = Proposal_list::$statusArr;
+}
+
+function onSendUserRespondentUpdate() {
+    Proposal_list::updateProposalList();
+}
+
+function onSendUserRespondentCreate() {
+    Proposal_list::createProposalList();
+}
+
+function onSendCancelRespondent() {
+    Proposal_list::cancelProposalList();
+}
+
+function onSendProposalEmail1() {
+    ProposalSendEmail::onSendProposalEmail1();
+}
+
+function onGetCountersignList() {
+    $whyArr = [];
+    foreach( Countersign::where( 'list_id', post( 'list_id' ) )->get() AS $cou ) {
+        $whyArr[] = [
+            'name' => $cou->user->name,
+            'why' => nl2br( $cou->why ),
+        ];
+    }
+
+    return [
+        'res' => Countersign::where( 'list_id', post( 'list_id' ) )->where( 'user_id', post( 'user_id' ) )->first(),
+        'why' => $whyArr,
+    ];
+}
+==
+<link href="{{ 'assets/select2tag/assets/css/select2.css'|theme }}" rel="stylesheet">
+<div class="container" style="font-size: 1.2em;">
+    <a id="AC" accesskey="C" href="#AC" title="中央內容區塊" name="AC">:::</a>
+    <h1 class="headline"><span>我的提案列表</span></h1>
+    <div class="content">
+        <div class="row">
+            <div style="text-align:right; margin-bottom: 15px;">
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <a href="{{ url( 'proposal/list' ) }}" class="btn btn-default"><i class="fa fa-list-alt" aria-hidden="true"></i> 正在進行的提案列表</a>
+                    <a href="{{ url( 'proposal/iagree' ) }}" class="btn btn-default"><i class="fa fa-check-square" aria-hidden="true"></i> 我同意的提案列表</a>
+                    <a href="javascript:;" class="btn btn-default"><i class="fa fa-tags" aria-hidden="true"></i> 由我發起的提案</a>
+                    <a href="javascript:;" id="createProBtn" class="btn btn-default"><i class="fa fa-plus" aria-hidden="true"></i> 新增提案</a>
+                </div>
+            </div>
+        </div>
+        <table cellspacing="0" cellpadding="0" class="table" id="tbl2">
+            <thead>
+            <tr style="display: table-row;">
+                <td width="10%" style="text-align:center">提案人</td>
+                <td width="35%" style="text-align:center">案由</td>
+                <td width="20%" style="text-align:center">連署名單</td>
+                <td width="15%" style="text-align:center">提案狀態</td>
+                <td width="10%" style="text-align:center"></td>
+            </tr>
+            </thead>
+            <tbody>
+                {% for data in listData %}
+                <tr id="editProTr{{ data.id }}">
+                    <td style="text-align:center">{{ data.user.name }}</td>
+                    <td id="editProTdContent{{ data.id }}" data-content="{{ data.content }}">{{ str_limit( data.content|nl2br, 220 ) }}</td>
+                    <td id="editProTdDescription{{ data.id }}" data-description="{{ data.description }}">
+                        {% for detail in data.countersign %}
+                            {% if detail %}
+                            <a href="{{ 'test/userpost'|page({ id:detail.user.id }) }}">
+                                <img src="{{ detail.user.getAvatarThumb(50, {'extension': 'png'}) }}" style="border-radius:50%;"
+                                     title="{{ detail.user.name }}" alt="{{ detail.user.name }}">
+                            </a>
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                    <td style="text-align:center">
+                        {{ statusArr[ data.status ] }}
+                    </td>
+                    <td style="text-align:center">
+                        {{ data.expiration_at }}
+                    </td>
+                    <td style="text-align:center">
+                        <div class="btn-group" role="group">
+                            <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                進階操作
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="javascript:;" class="sendnoticeBtn"
+                                       data-request="onSendProposalEmail1"
+                                       data-request-data="id: {{ data.id }}"
+                                       data-request-loading=".sendMailProcessing"
+                                       data-request-confirm="確定要送出通知嗎？">
+                                        通知其他委員此提案
+                                    </a>
+                                </li>
+<!--                                <li><a href="javascript:;" class="editProBtn" data-listid="{{ data.id }}">編輯修改</a></li>-->
+                                <li><a href="javascript:;" class="seeBtn" data-listid="{{ data.id }}">查看同意原因</a></li>
+                                <li>
+                                    <a href="javascript:;" class="delProBtn"
+                                       data-request="onSendCancelRespondent"
+                                       data-request-data="id: {{ data.id }}"
+                                       data-request-redirect="{{ url( 'proposal/mylist' ) }}"
+                                       data-request-loading=".sendMailProcessing"
+                                       data-request-confirm="確定要送出撤銷嗎？">
+                                        撤銷此提案
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+                {% else %}
+                <tr><td class="text-center" colspan="6"><h4>目前暫無相關資料</h4></td></tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+    <div class="modal fade" id="proModal" tabindex="-1" role="dialog" aria-labelledby="proModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" style="width: 90%;" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="proModalLabel">修改提案內容與說明</h3>
+                </div>
+                <div class="modal-body" id="proModal-body">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                    <button type="button" id="submitProForm" class="btn btn-primary">送出</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="seeModal" tabindex="-1" role="dialog" aria-labelledby="seeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" style="width: 90%;" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="seeModalLabel">修改提案內容與說明</h3>
+                </div>
+                <div class="modal-body" id="seeModal-body">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">關閉</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal sendMailProcessing">
+    <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+</div>
+<style>
+    .sendMailProcessing {
+        display: none;
+        background: rgba(0, 0, 0, 0.7);
+    }
+    .sendMailProcessing > div {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        margin-left: -100px;
+        margin-top: -100px;
+        display:flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-content: center;
+        align-items: center;
+        color: #3c3c3c;
+        font-size: large;
+    }
+    .lds-roller {
+        display: inline-block;
+        position: relative;
+        width: 64px;
+        height: 64px;
+    }
+    .lds-roller div {
+        animation: lds-roller 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+        transform-origin: 32px 32px;
+    }
+    .lds-roller div:after {
+        content: " ";
+        display: block;
+        position: absolute;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #fff;
+        margin: -3px 0 0 -3px;
+    }
+    .lds-roller div:nth-child(1) {
+        animation-delay: -0.036s;
+    }
+    .lds-roller div:nth-child(1):after {
+        top: 50px;
+        left: 50px;
+    }
+    .lds-roller div:nth-child(2) {
+        animation-delay: -0.072s;
+    }
+    .lds-roller div:nth-child(2):after {
+        top: 54px;
+        left: 45px;
+    }
+    .lds-roller div:nth-child(3) {
+        animation-delay: -0.108s;
+    }
+    .lds-roller div:nth-child(3):after {
+        top: 57px;
+        left: 39px;
+    }
+    .lds-roller div:nth-child(4) {
+        animation-delay: -0.144s;
+    }
+    .lds-roller div:nth-child(4):after {
+        top: 58px;
+        left: 32px;
+    }
+    .lds-roller div:nth-child(5) {
+        animation-delay: -0.18s;
+    }
+    .lds-roller div:nth-child(5):after {
+        top: 57px;
+        left: 25px;
+    }
+    .lds-roller div:nth-child(6) {
+        animation-delay: -0.216s;
+    }
+    .lds-roller div:nth-child(6):after {
+        top: 54px;
+        left: 19px;
+    }
+    .lds-roller div:nth-child(7) {
+        animation-delay: -0.252s;
+    }
+    .lds-roller div:nth-child(7):after {
+        top: 50px;
+        left: 14px;
+    }
+    .lds-roller div:nth-child(8) {
+        animation-delay: -0.288s;
+    }
+    .lds-roller div:nth-child(8):after {
+        top: 45px;
+        left: 10px;
+    }
+    @keyframes lds-roller {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+</style>
+{% scripts %}
+<script>
+    $( function() {
+        var modalOption = {
+                keyboard: false,
+                backdrop: false,
+            },
+            taguser = '{{ taguser|raw }}',
+            userID = "{{ user.id }}",
+            redirectURL = "{{ url( 'proposal/mylist' ) }}";
+
+        $( "#editProModal" ).on(  "hide.bs.modal", function( e ) {
+            $( "#editProModal-body" ).html( "" );
+        } );
+
+        $( "#createProBtn" ).on( "click", function() {
+            var html = '<form id="sendUserRespondent" data-request="onSendUserRespondentCreate" data-request-data="user_id: ' + userID + '"\n' +
+                '              data-request-flash class="form-issue" data-request-confirm="確定要送出嗎？"\n' +
+                '              data-request-redirect="' + redirectURL + '"  >\n' +
+                '            <div class="row">\n' +
+                '                <div class="form-group col-md-12">\n' +
+                '                    <label for="addcontent">案由</label>\n' +
+                '                    <textarea class="form-control" name="content" id="addcontent" rows="5"></textarea>\n' +
+                '                </div>\n' +
+                '                <div class="form-group col-md-12">\n' +
+                '                    <label for="adddescription">說明</label>\n' +
+                '                    <textarea class="form-control" name="description" id="adddescription" rows="10"></textarea>\n' +
+                '                </div>\n' +
+                '                <div class="form-group col-md-12">\n' +
+                '                    <label for="adddsuggest">具體建議</label>\n' +
+                '                    <textarea class="form-control" name="suggest" id="adddsuggest" rows="5"></textarea>\n' +
+                '                </div>\n' +
+                '                <div class="col-md-12">\n' +
+                '                    <div class="form-group">' +
+                '                       <label for="adddauthority">主辦機關</label>' +
+                '                       <select style="width: 100%;" class="form-control select2taglists" multiple="multiple" name="authority[]" id="adddauthority">' + taguser +
+                '                       </select>' +
+                '                    </div>' +
+                '                </div>\n' +
+                '                <div class="col-md-12">\n' +
+                '                    <div class="form-group">' +
+                '                       <label for="adddcoauthority">主辦機關</label>' +
+                '                       <select style="width: 100%;" class="form-control select2taglists" multiple="multiple" name="coauthority[]" id="adddcoauthority">' + taguser +
+                '                       </select>' +
+                '                    </div>' +
+                '                </div>\n' +
+                '            </div>\n' +
+                '        </form>';
+            $( "#proModal" ).find( ".modal-title" ).text( "行政院青年諮詢委員會提案單" );
+            $( "#submitProForm" ).removeClass( "btn-warning" ).addClass( "btn-primary" ).text( "送出" );
+            $( "#proModal-body" ).html( html );
+            $( ".select2taglists" ).select2( {
+                "placeholder": "打完請按”空白鍵”",
+                "tags": true,
+                "createTag": function ( params ) {
+                    if ( /[,;，； ]/.test( params.term ) ) {
+                        var str = params.term.trim().replace( /[,;，；]*$/, "" );
+                        return {
+                            "id": str,
+                            "text": str
+                        }
+                    } else {
+                        return null;
+                    }
+                }
+            } ).on( "keyup", ".select2-selection--multiple .select2-search__field", function ( event ) {
+                if ( event.keyCode == 13 ) {
+                    var $this = $( this ),
+                        optionText = $this.val();
+                    if ( optionText != "" && $this.find( "option[value='" + optionText + "']" ).length === 0 ) {
+                        var $select = $this.parents( ".select2-container" ).prev( "select" ),
+                            newOption = new Option( optionText, optionText, true, true );
+                        $select.append( newOption ).trigger( "change" );
+                        $this.val( "" );
+                    }
+                }
+            } );
+
+            $( ".select2-search__field" ).css( "width", "100%" );
+
+            $( "#proModal" ).modal( modalOption );
+
+            $( "#submitProForm" ).off( "click" ).on( "click", function() {
+                $( "#sendUserRespondent" ).submit();
+            } );
+        } );
+
+        $( ".seeBtn" ).on( "click", function() {
+            var listID = $( this ).data( "listid" );
+            $.request( "onGetCountersignList", {
+                data: {
+                    list_id: listID,
+                    user_id: userID,
+                },
+                success: function( r ) {
+                    var res = r.res,
+                        html = '',
+                        whylist = r.why;
+                    $.each( whylist, function( index, value ) {
+                        value.why = value.why === "" ? '[未填寫同意原因]' : value.why;
+                        html += '<span class="badge badge-info">' + value.name + '</span><p>' + value.why + '</p><hr/>';
+                    } );
+                    $( "#seeModal" ).find( ".modal-title" ).text( "連署同意原因" );
+                    if ( html === "" ) {
+                        html = "[尚無任何人同意連署]";
+                    }
+                    $( "#seeModal-body" ).html( html );
+                    $( "#seeModal" ).modal( modalOption );
+                }
+            } );
+        } );
+        // $( ".editProBtn" ).on( "click", function() {
+        //     var id = $( this ).data( "listid" ),
+        //         content = $( "#editProTdContent" + id ).data( "content" ),
+        //         description = $( "#editProTdDescription" + id ).data( "description" ),
+        //         html = "";
+        //     html += '<form id="sendUserRespondent" data-request="onSendUserRespondentUpdate" data-request-data="listid: ' + id + '"\n' +
+        //         '              data-request-flash class="form-issue" data-request-confirm="確定要送出嗎？"\n' +
+        //         '              data-request-redirect="' + redirectURL + '"  >\n' +
+        //         '            <div class="row">\n' +
+        //         '                <div class="form-group col-md-6">\n' +
+        //         '                    <label for="addcontent">提案內容</label>\n' +
+        //         '                    <textarea class="form-control" name="content" id="addcontent" rows="15">' + content + '</textarea>\n' +
+        //         '                </div>\n' +
+        //         '                <div class="form-group col-md-6">\n' +
+        //         '                    <label for="adddescription">提案說明</label>\n' +
+        //         '                    <textarea class="form-control" name="description" id="adddescription" rows="15">' + description + '</textarea>\n' +
+        //         '                </div>\n' +
+        //         '            </div>\n' +
+        //         '        </form>';
+        //
+        //     $( "#proModal-body" ).html( html );
+        //
+        //     $( "#proModal" ).find( ".modal-title" ).text( "修改提案內容與說明" );
+        //     $( "#proModal" ).modal( modalOption );
+        //
+        //     $( "#submitEditProForm" ).off( "click" ).on( "click", function() {
+        //         $( "#sendUserRespondent" ).submit();
+        //     } );
+        // } );
+
+
+    } );
+</script>

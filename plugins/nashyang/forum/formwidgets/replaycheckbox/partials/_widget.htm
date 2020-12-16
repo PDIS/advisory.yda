@@ -1,0 +1,65 @@
+<div class="checkbox custom-checkbox" id="Form-issueForm-checkbox-Div" tabindex="0"></div>
+<script type="text/javascript">
+    $( function() {
+        var isReply = [],
+            isCancel = [],
+            jQueryUserIdObj = $( "#Form-issueForm-field-issue-user_id" ).length ? $( "#Form-issueForm-field-issue-user_id" ) : $( "#Form-issueUpdateForm-field-issueUpdate-user_id" ),
+            resList = <?= json_encode( $resList ) ?>;
+        if ( !$.isEmptyObject( resList ) ) {
+            $.each( resList, function( i, res ) {
+                if ( res.user ) {
+                    isReply.push( { id: res.user, text: res.username } );
+                    if ( !res.isReply ) {
+                        isCancel.push( res.user.toString() );
+                    }
+                }
+            } );
+            appendForm( isReply );
+        }
+        jQueryUserIdObj.off( "select2:select" );
+        jQueryUserIdObj.off( "select2:unselect" );
+        $( "#Form-issueForm-field-issue-reply_json-group" ).off( "click" );
+        $( "#Form-issueForm-field-issue-reply_json-group" ).on( "click", ".isReplayCheckboxEvent", function() {
+            var id = $( this ).data( "isreplayid" );
+            if ( $( this ).prop( "checked" ) ) {
+                if ( isCancel.indexOf( id.toString() ) >= 0 ) {
+                    isCancel.splice( isCancel.indexOf( id.toString() ), 1 );
+                }
+            } else {
+                if ( isCancel.indexOf( id ) < 0 ) {
+                    isCancel.push( id.toString() );
+                }
+            }
+        } );
+
+        jQueryUserIdObj.on( "select2:select", function( e ) {
+            isReply.push( e.params.data );
+            appendForm( isReply );
+        } );
+        jQueryUserIdObj.on( "select2:unselect", function( e ) {
+            var unSelect = e.params.data;
+            for ( var i = 0; i < isReply.length; i++ ) {
+                if ( isReply[ i ].id == unSelect.id ) {
+                    isReply.splice( i, 1 );
+                }
+            }
+            if ( isCancel.indexOf( unSelect.id.toString() ) >= 0 ) {
+                isCancel.splice( isCancel.indexOf( unSelect.id.toString() ), 1 );
+            }
+            appendForm( isReply );
+        } );
+
+        function appendForm( isReply ) {
+            var html = "";
+            $.each( isReply, function( index, val ) {
+                var isChecked = ( isCancel.indexOf( val.id.toString() ) >= 0 ) ? "" : "checked";
+                html += '<input type="checkbox" id="Form-issueForm-field-issue-checkbox' + val.id + '" name="reply_json[' + val.id + ']"' +
+                            'data-isreplayid="' + val.id + '" class="isReplayCheckboxEvent" ' + isChecked + ' />' +
+                    '<label for="Form-issueForm-field-issue-checkbox' + val.id + '" style="margin-left: 0px;">' + val.text + '</label>';
+            } );
+            $( "#Form-issueForm-checkbox-Div" ).html( html );
+        }
+
+        return false;
+    } );
+</script>

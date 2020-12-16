@@ -1,0 +1,25 @@
+.recent-tweets {
+  margin-bottom: 100px; }
+  .recent-tweets .headline {
+    text-align: center;
+    padding: 50px; }
+.recent-tweets .headline span {
+  background: none;
+  font-size: 1.3em; 
+}
+  .recent-tweets .headline:before {
+    border: 0px; }
+  .recent-tweets .panel {
+    text-align: center;
+    color: black;
+    background-color: rgba(238, 238, 238, 0.2);
+    border-radius: 0px; }
+    .recent-tweets .panel .panel-body h3 {
+      color: #666;
+      font-weight: normal; }
+    .recent-tweets .panel:hover {
+      background-color: white; }
+      .recent-tweets .panel:hover h3 {
+        color: black; }
+  .recent-tweets a:hover {
+    text-decoration: none; }

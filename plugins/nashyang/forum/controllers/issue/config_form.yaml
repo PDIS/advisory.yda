@@ -1,0 +1,11 @@
+name: Issue
+modelClass: Nashyang\Forum\Models\Issue
+form: $/nashyang/forum/models/issue/issue_form.yaml
+defaultRedirect: nashyang/forum/event_list
+create:
+    redirect: 'nashyang/forum/issue/update/:id'
+    redirectClose: nashyang/forum/issue
+update:
+    redirect: nashyang/forum/issue
+    redirectClose: nashyang/forum/issue
+preview: {  }

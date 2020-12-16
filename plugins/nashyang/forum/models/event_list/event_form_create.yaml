@@ -1,0 +1,52 @@
+fields:
+    name:
+        label: 座談會名稱
+        oc.commentPosition: ''
+        span: auto
+        placeholder: 請輸入座談會名稱
+        required: 1
+        context:
+            - create
+            - update
+        type: text
+    time:
+        label: 時間
+        oc.commentPosition: ''
+        mode: datetime
+        format: Y-m-d
+        span: auto
+        placeholder: 請輸入座談會時間
+        required: 1
+        context:
+            - create
+            - update
+        type: datepicker
+    location:
+        label: 地點
+        oc.commentPosition: ''
+        span: auto
+        placeholder: 請輸入座談會地點
+        required: 1
+        context:
+            - create
+            - update
+        type: text
+    debate_link:
+        label: 逐字稿連結
+        oc.commentPosition: ''
+        span: auto
+        placeholder: 若已有逐字稿連結，可於此填入
+        context:
+            - create
+            - update
+        type: text
+    etc:
+        label: 其他備註
+        span: auto
+        size: ''
+        oc.commentPosition: ''
+        placeholder: 如有其他注意項目可於此處填入。
+        context:
+            - create
+            - update
+        type: textarea

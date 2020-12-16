@@ -1,0 +1,23 @@
+1.0.1:
+    - 'Initialize plugin.'
+1.0.2:
+    - 'Created table nashyang_forum_event_list'
+    - builder_table_create_nashyang_forum_event_list.php
+1.0.3:
+    - 'Created table nashyang_forum_issue_list'
+    - builder_table_create_nashyang_forum_issue_list.php
+1.0.4:
+    - 'Created table nashyang_forum_tag_and_event'
+    - builder_table_create_nashyang_forum_tag_and_issue.php
+1.0.5:
+    - 'Created table nashyang_forum_respondent'
+    - builder_table_create_nashyang_forum_respondent.php
+1.0.6:
+    - 'Updated table nashyang_forum_issue_list'
+    - builder_table_update_nashyang_forum_issue_list.php
+1.0.7:
+    - 'Updated table nashyang_forum_respondent'
+    - builder_table_update_nashyang_forum_respondent.php
+1.0.8:
+    - 'Updated table nashyang_forum_respondent'
+    - builder_table_update_nashyang_forum_respondent_2.php

@@ -1,0 +1,20 @@
+columns:
+    id:
+        label: 序號
+        type: number
+        searchable: true
+        width: 5%
+    name:
+        label: 會前會名稱
+        type: text
+        searchable: true
+        width: 40%
+    time:
+        label: 時間
+        type: datetime
+        searchable: true
+        width: 20%
+    location:
+        label: 地點
+        type: text
+        width: 20%

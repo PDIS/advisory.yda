@@ -1,0 +1,12 @@
+list: $/markdai/sayitplugin/models/debate/columns.yaml
+modelClass: MarkDai\SayitPlugin\Models\Debate
+title: DebateController
+noRecordsMessage: 'backend::lang.list.no_records'
+showSetup: true
+showCheckboxes: true
+recordsPerPage: 20
+toolbar:
+    buttons: list_toolbar
+    search:
+        prompt: 'backend::lang.list.search_prompt'
+recordUrl: 'markdai/sayitplugin/debatecontroller/update/:id'

@@ -1,0 +1,47 @@
+[viewBag]
+==
+<?php
+use October\Rain\Auth\Models\User;
+function onInit()
+{
+    $user = Auth::getUser();
+    $this['activatedUsers'] = User::whereIsActivated(true)->get();
+    if($user){
+        $component = $this->addComponent(
+            'NetSTI\Uploader\Components\ImageUploader',
+            'imageUploader',
+            ['modelClass'=>'RainLab\User\Models\User','modelKeyColumn'=>'avatar', 'deferredBinding' => false]
+        );
+
+        $component->bindModel('avatar', $user);
+    }
+}
+function onRun() {
+   $name = $this->param('name');
+  }
+?>
+==
+<link href="{{ ['assets/css/user.css']|theme }}" rel="stylesheet">
+{% for users_picture in userpop %}
+
+{% if users_picture.attachment_id !=1%}
+
+
+<div class="tile"> 
+
+<img src="{{users_picture.path}}"  width="260" height="260">
+<a href="{{ 'test/userpost'|page({ id:users_picture.attachment_id }) }}">
+
+{% for users in activatedUsers%}
+{% if users.id ==users_picture.attachment_id%}
+  <div class="text">
+  <p class="animate-text">{{users.name}}</p>
+  </div>
+   {% endif %} 
+  {% endfor %}
+  
+  </a>
+  </a>
+ </div>
+    {% endif %} 
+    {% endfor %}

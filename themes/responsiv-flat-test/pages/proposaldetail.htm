@@ -1,0 +1,562 @@
+title = "座談會問題列表"
+url = "/proposal/admin/detail/:id"
+layout = "default"
+is_hidden = 0
+robot_index = "index"
+robot_follow = "follow"
+
+[builderDetails ForumIssueList]
+modelClass = "Nashyang\proposal\Models\Meeting"
+identifierValue = "{{ :id }}"
+modelKeyColumn = "id"
+displayColumn = "name"
+notFoundMessage = "此座談會還沒有任何提問問題。"
+==
+<?php
+use Nashyang\proposal\Models\Meeting;
+use Nashyang\proposal\Models\List_meeting;
+use Nashyang\proposal\Models\Respondents;
+function onStart() {
+    $this['allProList'] = Meeting::find( $this->param( 'id' ) );
+    $listmeetint = $this['allProList']->listmeetint->sortByDesc( function( $oo, $key ) {
+    return $oo->proposallist[0]['sort'];
+    } );
+    $this['listmeetint'] = $listmeetint;
+    $meetingList = List_meeting::where( 'meeting_id', $this->param( 'id' ) )->get();
+    $meetingDivisionalList = [];
+    foreach( $meetingList->lists( 'list_id' ) AS $listID ) {
+        $resObj = Respondents::where( 'meeting_id', $this->param( 'id' ) )
+                    ->where( 'list_id', $listID )->orderBy( 'res_sort', 'asc' )->get();
+        foreach( $resObj AS $row ) {
+            $id = $listID;
+            if ( !isset( $meetingDivisionalList[ $id ] ) ) {
+                $meetingDivisionalList[ $id ] = [];
+                $str = '';
+                $str .= is_null( $row->users['name'] ) ? $row->etc_name : $row->users['name'];
+            } else {
+                $str .= ' ,';
+                $str .= is_null( $row->users['name'] ) ? $row->etc_name : $row->users['name'];
+            }
+            $meetingDivisionalList[ $id ] = $str;
+        }
+    }
+    $this['meetingDivisionalList'] = $meetingDivisionalList;
+    $this['cancelStatusList'] = [2,4,6,7,8];
+}
+function onShowdetail() {
+return Respondents::getFrontRespondentByListId( post( 'id' ), true );
+}
+?>
+==
+<style>
+    .content {
+        text-align: justify;
+        word-break: break-all;
+    }
+    .tableTitle {
+        font-size: 22px;
+        margin-bottom: 10px;
+    }
+    .table {
+        margin-bottom: 40px;
+        border: 2px solid #ddd;
+    }
+</style>
+<div style="margin-top: 100px;">
+    <link href="{{ 'assets/css/proposal-page/proposal-page.css'|theme }}" rel="stylesheet">
+    <link href="{{ 'assets/css/proposal-page/proposal-info.css'|theme }}" rel="stylesheet">
+    <div class="container text-center" id="proposal-intro">
+        <div style="text-align:right">
+            <a href="{{ url( 'proposal/admin' ) }}"><i class="fa fa-undo" aria-hidden="true"></i>回青諮提案大會列表</a>
+        </div>
+        <h2>在 {{ record.name }} {% if record.name_as %} [{{ record.name_as }}] {% endif %} 中提出之具體提案列表</h2>
+        <h3>{{ record.location }} {% if record.time != '0000-00-00 00:00:00' %} {{ record.time }} {% endif %}</h3>
+    </div>
+    <div class="container">
+        <div class="tableTitle">列管中清單</div>
+        <table cellspacing="0" cellpadding="0" class="table">
+            <thead>
+            <tr style="display: table-row;">
+                <th width="8%" style="text-align:center">提案序號</th>
+                <th width="8%" style="text-align:center">排序用序號</th>
+                <th width="22%" style="text-align:center">案由</th>
+                <th width="12%" style="text-align:center">提案人</th>
+                <th width="12%" style="text-align:center">本次處理狀態</th>
+                <th width="28%" style="text-align:center">分案部會</th>
+                <th width="10%" style="text-align:center">檢視詳情</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% set hasdata = 0 %}
+            {% for lm in listmeetint %}
+                {% if lm.status == 5 %}
+                    {% for prolist in lm.proposallist %}
+                        {% set hasdata = 1 %}
+                        <tr>
+                            <td style="text-align:center">{{ prolist.CustomerMeetIndex }}</td>
+                            <td style="text-align:left">{{ prolist.sort }}</td>
+                            <td style="text-align:left">{{ prolist.content }}</td>
+                            <td style="text-align:center">{{ prolist.user.name }}</td>
+                            <td style="text-align:center">{{ lm.StatusTxt }}</td>
+                            <td style="text-align:center">
+                                {% if meetingDivisionalList[prolist.id] == '' %} -- 暫未分配 -- {% else %} {{ meetingDivisionalList[prolist.id] }} {% endif %}
+                            </td>
+                            <td style="text-align:center" align="center" valign="middle">
+                                <a href="javascript:;" class="btn btn-info btn-focus showProDetail"
+                                   data-listid="{{ prolist.id }}" style="text-decoration:none">提案詳情</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+            {% endfor %}
+            {% if hasdata == 0 %}
+            <tr>
+                <td style="text-align:center" colspan="6">暫無提案內容。</td>
+            </tr>
+            {% endif %}
+            </tbody>
+        </table>
+        <div class="tableTitle">本次成案清單</div>
+        <table cellspacing="0" cellpadding="0" class="table">
+            <thead>
+            <tr style="display: table-row;">
+                <th width="8%" style="text-align:center">提案序號</th>
+                <th width="8%" style="text-align:center">排序用序號</th>
+                <th width="22%" style="text-align:center">案由</th>
+                <th width="12%" style="text-align:center">提案人</th>
+                <th width="12%" style="text-align:center">本次處理狀態</th>
+                <th width="28%" style="text-align:center">分案部會</th>
+                <th width="10%" style="text-align:center">檢視詳情</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% set hasdata = 0 %}
+                {% for lm in allProList.listmeetint %}
+                    {% if lm.status == 3 %}
+                        {% for prolist in lm.proposallist %}
+                            {% set hasdata = 1 %}
+                            <tr>
+                                <td style="text-align:center">{% if prolist.meetingIndex.customer_index %} {{ prolist.meetingIndex.customer_index }} {% else %} {{ prolist.meetingIndex.meeting_index }}-{{ prolist.meetingIndex.list_index }} {% endif %}</td>
+                                <td style="text-align:left">{{ prolist.sort }}</td>
+                                <td style="text-align:left">{{ prolist.content }}</td>
+                                <td style="text-align:center">{{ prolist.user.name }}</td>
+                                <td style="text-align:center">{{ lm.StatusTxt }}</td>
+                                <td style="text-align:center">
+                                    {% if meetingDivisionalList[prolist.id] == '' %} -- 暫未分配 -- {% else %} {{ meetingDivisionalList[prolist.id] }} {% endif %}
+                                </td>
+                                <td style="text-align:center" align="center" valign="middle">
+                                    <a href="javascript:;" class="btn btn-info btn-focus showProDetail"
+                                       data-listid="{{ prolist.id }}" style="text-decoration:none">提案詳情</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
+                {% endfor %}
+            {% if hasdata == 0 %}
+            <tr>
+                <td style="text-align:center" colspan="6">暫無提案內容。</td>
+            </tr>
+            {% endif %}
+            </tbody>
+        </table>
+        <div class="tableTitle">不再追蹤列表</div>
+        <table cellspacing="0" cellpadding="0" class="table">
+            <thead>
+            <tr style="display: table-row;">
+                <th width="8%" style="text-align:center">提案序號</th>
+                <th width="8%" style="text-align:center">排序用序號</th>
+                <th width="22%" style="text-align:center">案由</th>
+                <th width="12%" style="text-align:center">提案人</th>
+                <th width="12%" style="text-align:center">本次處理狀態</th>
+                <th width="28%" style="text-align:center">分案部會</th>
+                <th width="10%" style="text-align:center">檢視詳情</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% set hasdata = 0 %}
+            {% for lm in allProList.listmeetint %}
+                {% set iscancel = 0 %}
+                {% for cancelStatus in cancelStatusList %}
+                    {% if lm.status == cancelStatus %}
+                        {% set iscancel = 1 %}
+                    {% endif %}
+                {% endfor %}
+                {% if iscancel == 1 %}
+                    {% for prolist in lm.proposallist %}
+                        {% set hasdata = 1 %}
+                        <tr>
+                            <td style="text-align:center">{% if prolist.meetingIndex.customer_index %} {{ prolist.meetingIndex.customer_index }} {% else %} {{ prolist.meetingIndex.meeting_index }}-{{ prolist.meetingIndex.list_index }} {% endif %}</td>
+                            <td style="text-align:left">{{ prolist.content }}</td>
+                            <td style="text-align:left">{{ prolist.sort }}</td>
+                            <td style="text-align:center">{{ prolist.user.name }}</td>
+                            <td style="text-align:center">{{ lm.StatusTxt }}</td>
+                            <td style="text-align:center">
+                                {% if meetingDivisionalList[prolist.id] == '' %} -- 暫未分配 -- {% else %} {{ meetingDivisionalList[prolist.id] }} {% endif %}
+                            </td>
+                            <td style="text-align:center" align="center" valign="middle">
+                                <a href="javascript:;" class="btn btn-info btn-focus showProDetail"
+                                   data-listid="{{ prolist.id }}" style="text-decoration:none">提案詳情</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+            {% endfor %}
+            {% if hasdata == 0 %}
+            <tr>
+                <td style="text-align:center" colspan="6">暫無提案內容。</td>
+            </tr>
+            {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<!-- modal Start-->
+<style>
+    .modal-body, .modal-title {
+        text-align: left;
+    }
+
+    .modal-title {
+        font-size: 1.8em;
+        line-height: 1.5em;
+    }
+
+    .modal-body .row {
+        margin-top: 0px !important;
+    }
+
+    .modal-body .meeting-title {
+        color: #ad4900;
+        font-size: 1.5em;
+        line-height: 1.5em;
+    }
+
+    .modal-body .meeting-datetime {
+        color: #3194ff;
+        font-size: 1.0em;
+        line-height: 1.0em;
+    }
+
+    .modal-body blockquote > p {
+        font-size: 1.3em;
+        line-height: 1.8em;
+    }
+
+    .modal-body blockquote .info-box {
+        background: #d8d8d8;
+        padding: 5px 10px 15px;
+        font-size: 1.2em;
+    }
+
+    .modal-body blockquote .info-box .person {
+        display: inline-block;
+        vertical-align: top;
+        width: 75px;
+        text-align: center;
+        font-size: 0.9em;
+        margin: 4px;
+    }
+
+    .modal-body blockquote .info-box p {
+        width: 100%;
+        font-size: 1rem;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+
+    .modal-body blockquote .info-box::after {
+        content: '';
+        display: block;
+        clear: both;
+    }
+
+    .modal-body .section_title {
+        width: 100%;
+        font-size: 1.8em;
+        margin-bottom: 15px;
+    }
+
+    .modal-body p {
+        font-size: 1.2em;
+        line-height: 1.5em;
+    }
+
+    .person > div {
+        width: 80px;
+        border-radius: 50%;
+        height: 80px;
+        background-size: cover !important;
+    }
+</style>
+<div class="modal fade in" id="resModal" tabindex="-1" role="dialog" aria-labelledby="resModalLabel"
+     aria-hidden="true" style=" padding-left: 17px;">
+    <div class="modal-dialog modal-lg" style="width: 95%;" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close focus-outline" data-dismiss="modal" aria-hidden="true">×</button>
+                <h2 class="modal-title" id="resModal-title"></h2>
+            </div>
+            <div class="modal-body" id="resModal-body">
+                <hr>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="section_title">提案連署委員：</div>
+                                <div class="content">
+                                    <blockquote xml:lang="zh">
+                                        <p id="resModal-content"></p>
+                                        <div class="info-box">
+                                            <div class="col-md-4" id="resModal-cou">
+                                            </div>
+                                            <div class="col-md-8" id="resModal-countersign">
+                                            </div>
+                                        </div>
+                                    </blockquote>
+                                </div>
+                                <div class="section_title">青年委員提案內容：</div>
+                                <div class="content">
+                                    <p>(一)提案說明：</p>
+                                    <p id="resModal-description"></p>
+                                    <p>(二)具體建議：</p>
+                                    <p id="resModal-suggest"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <style>
+                        ul.tabs {
+                            margin-bottom: 0;
+                            padding-left: 0;
+                        }
+
+                        ul.tabs li {
+                            color: #007bff;
+                            list-style: none;
+                            border: 1px solid #007bff;
+                            border-bottom: none;
+                            border-top-left-radius: 5px;
+                            border-top-right-radius: 5px;
+                            padding: 5px 10px;
+                            display: inline-block;
+                            vertical-align: top;
+                            position: relative;
+                            cursor: pointer;
+                        }
+
+                        ul.tabs li.active {
+                            background: #007bff;
+                            color: #fff;
+                        }
+
+                        .response_records {
+                            border: 1px solid #007bff;
+                            border-radius: 3px;
+                            border-top-left-radius: 0;
+                            padding: 20px 15px;
+                        }
+
+                        .response_records .from {
+                            font-size: 1.3em;
+                            padding-left: 5px;
+                            border-left: 2px solid #ad4900;
+                            margin-top: 20px;
+                        }
+
+                        .modal-body .badge {
+                            font-size: 1rem;
+                            padding: 6px 12px;
+                            display: inline-block;
+                            vertical-align: middle;
+                            margin-top: -6px;
+                        }
+
+                        /* 重複的 */
+                        .status_processing .badge {
+                            background: #007bff;
+                        }
+
+                        .status_active .badge {
+                            background: #777;
+                        }
+
+                        .status_done .badge {
+                            background: #28a745;
+                        }
+
+                        .status_almost .badge {
+                            background: #f5b800;
+                        }
+
+                        .status_notok .badge {
+                            background: #dc3545;
+                        }
+                    </style>
+                    <div class="col-md-6">
+                        <div class="col-md-12" id="resModal-responsibilityDiv">
+                        </div>
+
+                        <div class="col-md-12" id="resModal-statusdiv">
+                            <div class="section_title">辦理情形：<span class="badge" id="resModal-statusspan"></span></div>
+                            <div class="content">
+                                <ul class="tabs" id="resModal-tabs">
+                                </ul>
+                                <div class="response_records" id="resModal-records">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12" id="resModal-resolutiondiv">
+
+                        </div>
+                    </div>
+                </div>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+                <script>
+                    $( 'ul.tabs li' ).click( function () {
+                        $( 'ul.tabs li' ).removeClass( 'active' );
+                        $( this ).addClass( 'active' );
+                        var tar = $( this ).data( 'depart' );
+                        if ( tar == 0 ) {
+                            $( '.response_records .depart' ).removeClass( 'hide' );
+                        } else {
+                            $( '.response_records .depart' ).addClass( 'hide' );
+                            $( '.response_records .depart' ).each( function () {
+                                if ( $( this ).data( 'depart' ) == tar ) {
+                                    $( this ).removeClass( 'hide' );
+                                }
+                            } )
+                        }
+                    } )
+                </script>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $( ".showProDetail" ).on( "click", function () {
+            var id = $( this ).data( "listid" );
+            $.request( "onShowdetail", {
+                "data": { "id": id },
+                "success": function ( res ) {
+                    $( "#resModal-title" ).html( res.index + " " + res.content );
+                    // $( "#resModal-content" ).html( res.content );
+                    $( "#resModal-description" ).html( res.description );
+                    $( "#resModal-suggest" ).html( res.suggest );
+                    var html = "",
+                        recordshtml = "",
+                        recordsHosthtml = "",
+                        resolutionHtml = "",
+                        vvvrecordshtml = "",
+                        meetingNameHtml = "",
+                        responsibilityHtml = "";
+                    nameList = [];
+                    if ( $.isEmptyObject( res.res ) ) {
+                        $( "#resModal-statusdiv" ).hide();
+                    } else {
+                        $( "#resModal-statusdiv" ).show();
+                    }
+                    var _size = 0, _key;
+                    for ( _key in res.resMeetingName ) {
+                        if ( res.resMeetingName.hasOwnProperty( _key ) )
+                            _size++;
+                        if ( _size == 1 ) {
+                            if ( !$.isEmptyObject( res.resolution.responsibility[ _key ] ) ) {
+                                responsibilityHtml = '<div class="section_title">' + '主責部會：' + res.resolution.responsibility[ _key ].responsibility + '</div>';
+                            }
+                        }
+                    }
+                    if ( _size == 0 ) {
+                        for ( _key in res.resolution.responsibility ) {
+                            responsibilityHtml = '<div class="section_title">' + '主責部會：' + res.resolution.responsibility[ _key ].responsibility + '</div>';
+                            break;
+                        }
+                        if ( responsibilityHtml == "" ) {
+                            responsibilityHtml = '<div class="section_title">' + '主責部會：</div>';
+                        }
+                        $( "#resModal-statusdiv" ).show();
+                    }
+                    var resMeetingObj = [];
+                    $.each( res.resMeetingName, function( k, v ) {
+                        resMeetingObj.push( {
+                            "name": v,
+                            "id": k,
+                        } );
+                    } );
+                    resMeetingObj.reverse();
+                    $.each( resMeetingObj, function( k, v ) {
+                        var _i = k;
+                        k = v.id;
+                        v = v.name;
+                        var _active = html === "" ? 'class="active"' : "",
+                            _hide = html !== "" ? "hide" : "";
+                        html += '<li data-depart="' + k + '" ' + _active + ' tabindex="' + k + '">' + res.resMeetingAsName[ k ] + '</li>';
+                        meetingNameHtml = '<div class="meeting depart ' + _hide + '" data-depart="' + k + '">' +
+                            '<p class="meeting-title">' + res.resMeetingName[ k ] + '' +
+                            '<p class="meeting-datetime">日期：' + res.resMeetingTime[ k ] + '</p>' +
+                            '</p>';
+                        recordshtml = '<div class="depart" data-depart="' + k + '">';
+                        recordsHosthtml = '<p class="from" style="font-weight: bold;">大會研處情形</p><p style="margin-left: 30px;">';
+                        $.each( res.res[ k ], function( i, r ) {
+                            recordsHosthtml += '<span style="font-weight: bold;">' + r.name + ':</span><br>' + r.res + '<br/><br/>';
+                        } );
+                        resolutionHtml = '<p class="from" style="font-weight: bold;">會前會研處情形</p><p style="margin-left: 30px;">';
+                        $.each( res.res[ k ], function( i, r ) {
+                            resolutionHtml += '<span style="font-weight: bold;">' + r.name + ':</span><br>' + r.res2 + '<br/><br/>';
+                        } );
+
+                        vvvrecordshtml += meetingNameHtml + recordshtml + recordsHosthtml + resolutionHtml + '</p></div></div>'
+                    } );
+
+                    $( "#resModal-tabs" ).html( html );
+                    if ( vvvrecordshtml == "" ) {
+                        $( "#resModal-records" ).hide();
+                        vvvrecordshtml = "尚未安排會議研討。";
+                    } else {
+                        $( "#resModal-records" ).show();
+                    }
+                    $( "#resModal-records" ).html( vvvrecordshtml );
+                    $( "#resModal-statusdiv" ).removeClass().addClass( res.statuscss ).addClass( "col-md-12" );
+                    $( "#resModal-statusspan" ).text( res.statusstr );
+                    // $( "#resModal-resolutiondiv" ).html( resolutionHtml );
+                    $( "#resModal-responsibilityDiv" ).html( responsibilityHtml );
+
+                    html = "<p>連署委員</p>";
+                    $.each( res.countersignlist, function( key, value ) {
+                        html += '<div class="person">' +
+                            '<div title="' + value.name + '" style="background: url(' + value.thumb + ') center center no-repeat;"></div>' +
+                            '<p title="' + value.name + '">' + value.name + '</p>' +
+                            '</div>';
+                    } );
+                    $( "#resModal-countersign" ).html( html );
+
+                    html = "<p>提案委員</p>";
+                    $.each( res.corganiserlist, function( key, value ) {
+                        html += '<div class="person">' +
+                            '<div title="' + value.name + '" style="background: url(' + value.thumb + ') center center no-repeat;"></div>' +
+                            '<p title="' + value.name + '">' + value.name + '</p>' +
+                            '</div>';
+                    } );
+                    $( "#resModal-cou" ).html( html );
+
+                    $( "#resModal" ).modal();
+                    $( 'ul.tabs li' ).click( function () {
+                        $( 'ul.tabs li' ).removeClass( 'active' );
+                        $( this ).addClass( 'active' );
+                        var tar = $( this ).data( 'depart' );
+                        if ( tar == 0 ) {
+                            $( '.response_records .depart' ).removeClass( 'hide' );
+                        } else {
+                            $( '.response_records .depart' ).addClass( 'hide' );
+                            $( '.response_records .depart' ).each( function () {
+                                if ( $( this ).data( 'depart' ) == tar ) {
+                                    $( this ).removeClass( 'hide' );
+                                }
+                            } );
+                        }
+                    } );
+                }
+            } );
+        } );
+</script>

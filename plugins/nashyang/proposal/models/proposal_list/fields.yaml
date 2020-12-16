@@ -1,0 +1,62 @@
+fields:
+    sort:
+        label: 前台排序用序號
+        oc.commentPosition: ''
+        span: left
+        type: number
+        min: 100
+        max: 99999
+    content:
+        label: 案由
+        oc.commentPosition: ''
+        span: full
+        type: textarea
+    user_id:
+        label: 提案人
+        type: dropdown
+        span: auto
+        emptyOption: -- 請選擇提案人 --
+        options: getNameuser_idOptions
+    corganiseruser:
+        label: 共同提案人
+        type: corganiser
+        span: auto
+        placeholder: 如有共同提案人可於此選入
+    plusoneuser:
+            label: 連署名單
+            type: plusone
+            span: full
+            customTags: false
+            placeholder: 請選擇連署人
+            useKey: true
+            options: getNameuser_idOptions
+    description:
+        label: 說明
+        oc.commentPosition: ''
+        span: full
+        type: textarea
+    suggest:
+        label: 具體建議
+        oc.commentPosition: ''
+        span: full
+        type: textarea
+    expiration_at:
+        label: 到期日 (若為空將預設為建立日期後的 14 天。)
+        span: auto
+        type: datepicker
+
+#    status:
+#        label: 提案狀態
+#        span: auto
+#        placeholder: 如有需要調整狀態，請選擇
+#        type: dropdown
+#        options:
+#            0: 委員提案
+#            1: 自行撤案
+#            2: 暫不提大會
+#            3: 送部會研處
+#            4: 大會否決
+#            5: 辦理中
+#            6: 完全參採
+#            7: 部分參採
+#            8: 暫不參採

@@ -1,0 +1,11 @@
+fields:
+    name:
+        label: tag
+        oc.commentPosition: ''
+        span: auto
+        placeholder: '請輸入 tag'
+        required: 1
+        context:
+            - create
+            - update
+        type: text

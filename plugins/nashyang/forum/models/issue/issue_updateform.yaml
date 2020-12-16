@@ -1,0 +1,75 @@
+fields:
+    questioner_sort:
+        label: 問題序號
+        placeholder: 如有需要，請輸入問題序號
+        span: full
+    questioner_company:
+        label: 提問者單位
+        span: left
+        placeholder: 請輸入提問者單位
+        required: 1
+        type: text
+    questioner_jobtitle:
+        label: 提問者職稱
+        span: right
+        placeholder: 請輸入提問者職稱
+        required: 1
+        type: text
+    questioner_name:
+        label: 提問者姓名(請填全名)，打完請按”空白鍵”
+        span: left
+        placeholder: 請輸入提問者姓名
+        required: 1
+        type: taglist
+        cssClass: tagBugFix
+    questioner_email:
+        label: 提問者信箱，打完請按”空白鍵”
+        span: right
+        placeholder: 請輸入提問者信箱
+        required: 1
+        type: taglist
+        cssClass: tagBugFix
+    questioner:
+        label: 問題 / 需求
+        placeholder: 請輸入問題 / 需求
+        required: 1
+        type: textarea
+        size: small
+    user_id:
+        label: 指定回答者
+        span: left
+        type: taglist
+        separator: space
+        customTags: false
+        mode: array
+        useKey: true
+        options: getRespondentList
+        placeholder: 請選擇回答者，可多選
+    etc_name:
+        label: 指定地方政府回答者，打完請按”空白鍵”
+        placeholder: 地方政府區
+        type: taglist
+        span: right
+        cssClass: tagBugFix
+    reply_json:
+        label: 是否派員出席參與座談會及回覆問題？
+        span: full
+        type: replaycheckbox
+    tag:
+        label: 文字雲標籤，打完請按”空白鍵”
+        type: select2tag
+        span: left
+        cssClass: tagBugFix
+    status:
+        label: 請選擇分案狀態
+        span: right
+        type: dropdown
+        placeholder: -- 請選擇分案類別 --
+        options:
+            0: 已回覆
+            1: 處理中
+#            0: 提案
+#            1: 進行中
+#            2: 部分參採
+#            3: 完全參採
+#            4: 暫不參採

@@ -1,0 +1,37 @@
+<style>
+    body.dragging, body.dragging * {
+        cursor: move !important
+    }
+    .dragged {
+        position: absolute; opacity: 0.5; z-index: 2000;
+    }
+    #resSort li {
+        margin-bottom: 5px;
+    }
+    #resSort li.placeholder {
+        position: relative;
+    }
+</style>
+<?php
+    $sortHtml = '<div class="checkbox custom-checkbox"><ol id="resSort">';
+    $i = 0;
+    $html = '';
+    foreach( $allList As $id => $list ) {
+        $html .= '<div class="checkbox custom-checkbox">
+                <input type="checkbox" id="checkbox_Form-sethostform-field-sethostform-hostrespondent_' . $id . '"
+                       name="sethostid[]" value="' . $id . '"' . $list['checked'] . '>
+                <label for="checkbox_Form-sethostform-field-sethostform-hostrespondent_' . $id . '">' . $list['name'] . '</label>
+            </div>';
+        $sortHtml .= '<li><input type="hidden" name="ressort[]" value="' . $id . '" /><a class="btn btn-sm btn-default">' . $list['name'] . '</a></li>';
+    }
+    $sortHtml .= '</ol></div>';
+    if ( $html === '' ) {
+        echo '未設定主責機關。';
+    } else {
+        echo '<div class="field-checkboxlist" style="margin-bottom: 10px;">' . $sortHtml . '</div>';
+        echo '<div class="field-checkboxlist ">' . $html . '</div>';
+    }
+?>
+<script>
+    $('#resSort').sortable();
+</script>

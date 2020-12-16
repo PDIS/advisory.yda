@@ -1,0 +1,13 @@
+title: 檢視座談會問題
+modelClass: Nashyang\Forum\Models\Issue
+list: $/nashyang/forum/models/issue/issue_list_forevent.yaml
+recordUrl: 'nashyang/forum/issue/update/:id'
+noRecordsMessage: 'backend::lang.list.no_records'
+recordsPerPage: 20
+showCheckboxes: true
+showSorting: false
+showSetup: false
+toolbar:
+    buttons: list_toolbar
+    search:
+        prompt: 'backend::lang.list.search_prompt'

@@ -1,0 +1,382 @@
+title = "座談會"
+url = "/forumreply"
+layout = "default"
+is_hidden = 0
+robot_index = "index"
+robot_follow = "follow"
+
+[builderList forumList]
+modelClass = "Nashyang\Forum\Models\Event_list"
+scope = "-"
+displayColumn = "name"
+noRecordsMessage = "No records found"
+detailsPage = "forumissuelist"
+detailsKeyColumn = "id"
+detailsUrlParameter = "id"
+pageNumber = "{{ :page }}"
+==
+<?php
+use Nashyang\Forum\Models\Issue;
+use October\Rain\Support\Facades\Flash;
+
+function onStart(){
+    if ( is_null( $this['user'] ) ) {
+        return Redirect::to( '/' );
+    }
+    $userRes = Issue::getRespondentListByUserID( $this['user']['id'], $this->param( 'id' ) );
+    $issueList = [];
+    foreach( $userRes AS $res ) {
+        if ( $res->is_show == 0 ) {
+            if ( $res->status !== 0 ) {
+                $issueList[] = $res;
+            }
+        } else {
+            if ( $res->status !== 5 && $res->status !== 0 ) {
+                $issueList[] = $res;
+            }
+        }
+    }
+    $this['userRespondent'] = $issueList;
+}
+
+function onSendUserRespondent() {
+    $res = Issue::frontUpdateRespondent();
+    if ( $res['result'] ) {
+        Flash::success( $res['message'] );
+    } else {
+        Flash::error( $res['message'] );
+    }
+}
+function onSendKeepRespondent() {
+    $res = Issue::frontUpdateKeepRespondent();
+    if ( $res['result'] ) {
+        Flash::success( $res['message'] );
+    } else {
+        Flash::error( $res['message'] );
+    }
+}
+?>
+==
+<style>
+    .form-issue {
+        padding: 1.5rem;
+        margin-right: 0;
+        margin-left: 0;
+        margin-top: 10px;
+        margin-bottom: 20px;
+        position: relative;
+        border: 1px solid #bbbbbb;
+        border-radius: 5px;
+    }
+</style>
+<div class="container">
+    {% flash %}
+    <p data-control="flash-message" class="flash-message fade {{ type }}" data-interval="5">
+        {{ message }}
+    </p>
+    {% endflash %}
+	<a id="AC" accesskey="C" href="#AC" title="中央內容區塊" name="AC">:::</a>
+    {% if user %}
+        <h1 class="headline"><span>要求部會回復的座談會提問問題列表</span></h1>
+        <style>
+        .que_filter .btn{
+            color: #007bff;
+            border-color: #007bff;
+        }
+        .que_meeting{
+            font-size: 20px;
+            color: rgb(129, 47, 0);
+        }
+        .que_from span{
+            color: rgb(32, 103, 196);
+            margin-left: 10px;
+        }
+        .que_info .que_header{
+            width: 100%;
+            border: 1px solid #ccc;
+            text-align: left;
+            margin: 0;
+            color: #337ab7;
+            cursor: pointer;
+            padding: 7px 15px;
+            font-size: 25px;
+        }
+        .que_info .que_header::after{
+            display: inline-block;
+            vertical-align: middle;
+            margin-left: 10px;
+            margin-top: -3px;
+            content: '';
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 7.5px 0 7.5px 15px;
+            border-color: transparent transparent transparent #337ab7;
+        }
+        .que_info .que_header:hover, #que_info .que_header.show{
+            background: #eee;
+            color: #29679c;
+        }
+        .que_info .que_header.show::after{
+            border-color: transparent transparent transparent #29679c;
+            transform: rotateZ(90deg)
+        }
+        .que_info .que_content{
+            border: 1px solid #ccc;
+            display: none;
+            padding: 15px;
+            line-height: 1.5em;
+        }
+        .que_info .que_content.show{
+            display: block;
+        }
+        .mt20{
+            margin-top: 20px;
+        }
+        #depart_ans{
+            width: 100%;
+            padding: 0;
+        }
+        #depart_ans .section_title{
+            margin: 20px 0;
+        }
+        ul.tabs{
+            margin-bottom: 0;
+            padding-left: 0;
+        }
+        ul.tabs li{
+            color: #007bff;
+            list-style: none;
+            border: 1px solid #007bff;
+            border-bottom: none;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+            padding: 5px 10px;
+            display: inline-block;
+            vertical-align: top;
+            position: relative;
+            cursor: pointer;
+        }
+        ul.tabs li.active::after{
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -1px;
+            width: 100%;
+            height: 2px;
+            background: #FFF;
+        }
+
+        .response_records{
+            border: 1px solid #007bff;
+            border-radius: 3px;
+            border-top-left-radius: 0;
+            padding: 20px 15px;
+        }
+        .response_records .from{
+            font-size: 1.3em;
+            padding-left: 5px;
+            border-left: 2px solid #ad4900;
+            margin-top: 20px;
+        }
+        .modal-body .badge{
+            font-size: 1rem;
+            padding: 6px 12px;
+            display: inline-block;
+            vertical-align: middle;
+            margin-top: -6px;
+        }
+        .textareaDisabled {
+            border: none;
+            pointer-events: none;
+            box-shadow: none !important;
+        }
+    </style>
+        <div style="text-align:right">
+            <a href="{{ url( 'forum' ) }}"><i class="fa fa-undo" aria-hidden="true"></i>回座談會列表</a>
+        </div>
+        <div class="que_filter">
+            {% for res in userRespondent %}
+            <button class="btn" data-issue-sn="{{ loop.index }}">提問者: {{ res.questioner_name|raw }}</button>
+            {% endfor %}
+        </div>
+
+
+        {% for res in userRespondent %}
+        <form data-request="onSendUserRespondent" data-request-loading=".sendMailProcessing" data-request-flash
+              class="form-issue {% if loop.index != 1 %}hide{% endif %}"
+              data-issue-sn="{{ loop.index }}">
+            <p>座談場次:</p>
+            <p class="que_meeting">{{ res.eventname|raw }} ({{ res.location|raw }} {{ res.eventtime }})</p>
+            <p class="que_from"> 提問者:<span>{{ res.questioner_name|raw }}</span></p>
+            <div class="collapse_group que_info">
+                <div class="que_header show">提問內容:</div>
+                <div class="que_content show">{{ res.questioner|nl2br }}</div>
+            </div>
+            <div class="form-group mt20">
+                <label for="respondents{{ res.issueid }}">回復內容</label>
+                <textarea class="form-control" id="respondents{{ res.issueid }}" placeholder="請輸入回復內容"
+                          name="respondents" style="height: 100px;">{% if res.keep_respondents %}{{ res.keep_respondents|raw }}{% else %}{{ res.respondents|raw }}{% endif %}</textarea>
+                {% if res.is_reply %}
+                <label for="prints{{ res.issueid }}">已被指定需要出席巡迴座談會，請於此依序填入您的「姓名/單位/職稱/聯絡電話/聯絡信箱」，謝謝您的協助。</label>
+                <textarea class="form-control" id="prints{{ res.issueid }}" placeholder="已指定需要於座談會中回復，請於此填入到席人員的稱呼與職稱。"
+                          name="prints" style="height: 100px;">{% if res.keep_prints %}{{ res.keep_prints|raw }}{% else %}{{ res.prints|raw }}{% endif %}</textarea>
+
+                {% endif %}
+            </div>
+            <input type="hidden" name="issueid" value="{{ res.issueid }}" />
+            <input type="hidden" name="userid" value="{{ user.id }}" />
+            <input type="hidden" name="resid" value="{{ res.resid }}" />
+            <button type="submit" class="btn btn-info">送出</button>
+            <button type="button" class="btn btn-info keepBtn" data-request="onSendKeepRespondent"
+                    data-request-success="location.reload();"
+                    class="btn btn-info">暫存</button>
+        </form>
+        {% else %}
+        <p>沒有需要回復的內容</p>
+        {% endfor %}
+    {% endif %}
+</div>
+<div class="modal sendMailProcessing">
+    <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+</div>
+<script>
+    $('.que_filter .btn').click(function(){
+        var tar = $(this).data('issue-sn');
+        $('form.form-issue').each(function(){
+            if ($(this).data('issue-sn') == tar){
+                $(this).removeClass('hide');
+            }else{
+                $(this).addClass('hide');
+            }
+        })
+    });
+    $('.que_header').click(function(){
+        var tar = $(this).next('.que_content');
+        tar.toggleClass('show');
+        $(this).toggleClass('show');
+    });
+    $('ul.tabs li').click(function(){
+        $('ul.tabs li').removeClass('active');
+        $(this).addClass('active');
+        var tar = $(this).data('depart');
+        if (tar == 0){
+            $('.response_records .depart').removeClass('hide');
+        }else{
+            $('.response_records .depart').addClass('hide');
+            $('.response_records .depart').each(function(){
+                if ($(this).data('depart') == tar){
+                    $(this).removeClass('hide');
+                }
+            })
+        }
+    });
+    // $( 'textarea' ).addClass( 'textareaDisabled' );
+
+</script>
+<style>
+    .sendMailProcessing {
+        display: none;
+        background: rgba(0, 0, 0, 0.7);
+    }
+    .sendMailProcessing > div {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        margin-left: -100px;
+        margin-top: -100px;
+        display:flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-content: center;
+        align-items: center;
+        color: #3c3c3c;
+        font-size: large;
+    }
+    .lds-roller {
+        display: inline-block;
+        position: relative;
+        width: 64px;
+        height: 64px;
+    }
+    .lds-roller div {
+        animation: lds-roller 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+        transform-origin: 32px 32px;
+    }
+    .lds-roller div:after {
+        content: " ";
+        display: block;
+        position: absolute;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #fff;
+        margin: -3px 0 0 -3px;
+    }
+    .lds-roller div:nth-child(1) {
+        animation-delay: -0.036s;
+    }
+    .lds-roller div:nth-child(1):after {
+        top: 50px;
+        left: 50px;
+    }
+    .lds-roller div:nth-child(2) {
+        animation-delay: -0.072s;
+    }
+    .lds-roller div:nth-child(2):after {
+        top: 54px;
+        left: 45px;
+    }
+    .lds-roller div:nth-child(3) {
+        animation-delay: -0.108s;
+    }
+    .lds-roller div:nth-child(3):after {
+        top: 57px;
+        left: 39px;
+    }
+    .lds-roller div:nth-child(4) {
+        animation-delay: -0.144s;
+    }
+    .lds-roller div:nth-child(4):after {
+        top: 58px;
+        left: 32px;
+    }
+    .lds-roller div:nth-child(5) {
+        animation-delay: -0.18s;
+    }
+    .lds-roller div:nth-child(5):after {
+        top: 57px;
+        left: 25px;
+    }
+    .lds-roller div:nth-child(6) {
+        animation-delay: -0.216s;
+    }
+    .lds-roller div:nth-child(6):after {
+        top: 54px;
+        left: 19px;
+    }
+    .lds-roller div:nth-child(7) {
+        animation-delay: -0.252s;
+    }
+    .lds-roller div:nth-child(7):after {
+        top: 50px;
+        left: 14px;
+    }
+    .lds-roller div:nth-child(8) {
+        animation-delay: -0.288s;
+    }
+    .lds-roller div:nth-child(8):after {
+        top: 45px;
+        left: 10px;
+    }
+    @keyframes lds-roller {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+</style>

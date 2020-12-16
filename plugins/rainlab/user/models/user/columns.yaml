@@ -1,0 +1,38 @@
+columns:
+    id:
+        label: 'rainlab.user::lang.user.id'
+        type: number
+        invisible: true
+    username:
+        label: 'rainlab.user::lang.user.username'
+        type: text
+        searchable: true
+        invisible: true
+    name:
+        label: 'rainlab.user::lang.user.name'
+        type: text
+        searchable: true
+    surname:
+        label: 'rainlab.user::lang.user.surname'
+        type: text
+        searchable: true
+        invisible: true
+    email:
+        label: 'rainlab.user::lang.user.email'
+        type: text
+        searchable: true
+    created_at:
+        label: 'rainlab.user::lang.user.created_at'
+        type: timetense
+    last_seen:
+        label: 'rainlab.user::lang.user.last_seen'
+        type: timetense
+    is_guest:
+        label: 'rainlab.user::lang.user.is_guest'
+        type: switch
+        invisible: true
+    sort_num:
+        label: Sort
+        type: number
+        searchable: false
+        sortable: true

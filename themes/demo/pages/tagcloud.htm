@@ -1,0 +1,52 @@
+title = "tag_cloud"
+url = "/tagcloud"
+layout = "default"
+is_hidden = 0
+robot_index = "index"
+robot_follow = "follow"
+
+[blogCategories]
+slug = "{{ :slug }}"
+displayEmpty = 0
+categoryPage = "blog/category"
+
+[blogPosts]
+pageNumber = "{{ :page }}"
+postsPerPage = 10
+noPostsMessage = "No posts found"
+sortOrder = "published_at desc"
+categoryPage = "blog/category"
+postPage = "blog/post"
+
+[blogTags]
+results = 5
+direction = "desc"
+
+[account]
+paramCode = "code"
+forceSecure = 0
+==
+<p class="lead">
+
+<div class="container">
+<!-- //文字雲 -->
+<ul class="cloud">
+{% for tag in blogTag.tags %}
+    {% set tag_ratio = posts.total / tag.posts|length %}
+    {% set tag_size = 32 - tag_ratio*2 %}
+    {% if tag_size < 10 %}
+        {% set tag_size = 10 %}
+    {% endif %}
+        <a title="{{'Posts found'|_}}: {{ tag.posts|length }}" style="white-space:nowrap; font-size: {{ tag_size }}px" href="/tags/{{ tag.name }}">{{ tag.name }}</a>
+{% endfor %}
+</ul>
+
+<ul>
+    {% for user in users %}
+        <li>{{ user.username }}</li>
+    {% endfor %}
+</ul>
+
+{% component 'blogCategories' %}{% component 'blogPosts' %}
+</p>
+</div>

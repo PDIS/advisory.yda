@@ -1,0 +1,20 @@
+plugin:
+    name: 'nashyang.forum::lang.plugin.name'
+    description: 'nashyang.forum::lang.plugin.description'
+    author: NashYang
+    icon: oc-icon-comments
+    homepage: ''
+navigation:
+    main-menu-nav_top:
+        label: 巡迴座談
+        url: nashyang/forum/event_list
+        icon: icon-comments
+        sideMenu:
+            side-menu-event_list:
+                label: 巡迴座談會
+                url: nashyang/forum/event_list
+                icon: icon-comments
+            side-menu-tags:
+                label: '管理文字雲 Tag'
+                url: nashyang/forum/tags
+                icon: icon-tags

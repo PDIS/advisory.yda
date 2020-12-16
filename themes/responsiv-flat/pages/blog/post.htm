@@ -1,0 +1,271 @@
+title = "Post"
+url = "/blog/post/:slug?"
+layout = "default"
+description = "Viewing a single blog post"
+is_hidden = 0
+robot_index = "index"
+robot_follow = "follow"
+
+[blogPost]
+slug = "{{ :slug }}"
+categoryPage = "blog/category"
+
+[blogTags]
+results = 5
+direction = "desc"
+
+[PostForm]
+use_authors = 1
+restrict_owner = 1
+backUser = 1
+allowpublish = 1
+allow_images = 1
+slug = "{{ :slug }}"
+listPage = "blog/list"
+postPage = "blog/post"
+==
+<?php
+use RainLab\User\Models\User as UserModel;
+function onStart()
+{
+   
+  
+  
+    $this["user_model"] = UserModel::find($this->param('id'));
+
+  
+}
+?>
+==
+<div class="container">   
+</br>
+        {% for category in post.categories %}
+
+            {% if category.id == 3 %}
+            <div align="center">   
+            <a href="{{ 'test/userpost'|page({ id:post.author.id}) }}"> <img src="{{post.author.getAvatarThumb(100)}}"width="100" height="100" style="border-radius:50%;"></a> 
+            <p>
+            {% for tag in post.author.tags %}
+            <a href="../index.php/tag/{{tag.name}}">#{{tag.name}}#</a> {% endfor %}
+            </p>
+            <a href="{{ post.author.facebook}}"><img src="{{ 'assets/images/logo-facebook.png'|theme }}"  width="65" height="65"></a>
+            <a href="{{post.author.instagram}}"><img src="{{ 'assets/images/logo-ig.png'|theme }}" width="65" height="65"></a>
+            <a href="{{ post.author.twitter}}"><img src="{{ 'assets/images/logo-twi.png'|theme }}"  width="65" height="65" ></a>
+            <a href="{{ post.author.website}}"><img src="{{ 'assets/images/logo-ww.png'|theme }}" width="65" height="65"></a>
+            <a href="mailto:{{post.author.email}}"><img src="{{'assets/images/email.png'|theme}}"width="60" height="60"></a>
+        </div>
+        {% endif %}
+        {% endfor %}
+</div>
+
+    <div class="container">
+        <h3>{{ post.title }}</h3>
+    </div>
+
+<div class="container">
+     {% if post.categories.count %} 
+      {% for category in post.categories %}
+                {% if category.id != 3 %}
+                  <div class="col-sm-8">   
+                  {%else%}
+                  <div class="col-sm-12">
+            {% endif %}
+    {% endfor %}
+     
+            {% for category in post.categories %}
+            
+                {% if category.id == 1 %}
+                
+
+ 
+        
+          {% if post.level == 1 %}
+                <div  class="col-md-12">
+                  <li align="center" class="list-group-item col-md-3">
+                        提案</br> 
+            <span  class="icon-play" align="left" style="font-size:20px;color:#BBFF66"></span>
+            <span  class="icon-play" align="left" style="font-size:20px;color:#d9d9d9"></span>
+            <span  class="icon-circle" align="left" style="font-size:20px;color:#d9d9d9"></span>
+            <span  class="icon-circle" align="left" style="font-size:20px;color:#d9d9d9"></span>
+            <span  class="icon-circle" align="left" style="font-size:20px;color:#d9d9d9"></span>
+                    </br>
+                  </li> 
+                </div>
+               {%elseif  post.level==2%}
+                 <div  class="col-md-12">
+                    <li align="center" class="list-group-item col-md-3">
+                         進行中</br> 
+              <span  class="icon-play" align="left" style="font-size:20px;color:#BBFF66"></span>
+              <span  class="icon-play" align="left" style="font-size:20px;color:#77FF00"></span> 
+              <span  class="icon-circle" align="left" style="font-size:20px;color:#d9d9d9"></span>
+              <span  class="icon-circle" align="left" style="font-size:20px;color:#d9d9d9"></span>
+              <span  class="icon-circle" align="left" style="font-size:20px;color:#d9d9d9"></span>
+                    </br>
+                    </li> 
+                 </div>
+                {%elseif  post.level==3%}
+                  <div  class="col-md-12">
+                     <li align="center" class="list-group-item col-md-3">
+                         部分落實</br> 
+              <span  class="icon-play" align="left" style="font-size:20px;color:#BBFF66"></span>
+              <span  class="icon-play" align="left" style="font-size:20px;color:#77FF00"></span>
+              <span  class="icon-circle" align="left" style="font-size:20px;color:#66DD00"></span> 
+               <span  class="icon-circle" align="left" style="font-size:20px;color:#d9d9d9"></span>
+                <span  class="icon-circle" align="left" style="font-size:20px;color:#d9d9d9"></span>
+
+                       </br>
+                     </li> 
+                  </div>
+                {%elseif  post.level==4%}
+                    <div  class="col-md-12">
+                        <li align="center" class="list-group-item col-md-3">
+                         全部落實</br> 
+              <span  class="icon-play" align="left" style="font-size:20px;color:#BBFF66"></span>
+              <span  class="icon-play" align="left" style="font-size:20px;color:#77FF00"></span>
+               <span  class="icon-circle" align="left" style="font-size:20px;color:#d9d9d9"></span>
+              <span  class="icon-circle" align="left" style="font-size:20px;color:#55AA00"></span>
+               <span  class="icon-circle" align="left" style="font-size:20px;color:#d9d9d9"></span>
+                          </br>
+                       </li> 
+                   </div>
+                {%elseif  post.level==5%}
+                    <div  class="col-md-12">
+                        <li align="center" class="list-group-item col-md-3">
+                         暫不採用</br> 
+              <span  class="icon-play" align="left" style="font-size:20px;color:#d9d9d9"></span>
+              <span  class="icon-play" align="left" style="font-size:20px;color:#d9d9d9"></span>
+               <span  class="icon-circle" align="left" style="font-size:20px;color:#d9d9d9"></span>
+                <span  class="icon-circle" align="left" style="font-size:20px;color:#d9d9d9"></span>
+              <span  class="icon-circle" align="left" style="font-size:20px;color:#FF5511"></span> 
+                        </br>
+                        </li> 
+                   </div>
+            {% endif %}
+        
+                         {% endif %}
+                {% endfor %}
+                
+            {% endif %}
+            <!-- Blog Post #1 -->
+   
+            <div class="blog">
+    {% for category in post.categories %}
+        {% if category.id == 1 %}
+            <p>提案內容:</p>
+        {%elseif category.id==4%}
+         <p>活動敘述:</p>
+        {%elseif category.id==5%}
+         <p>會議敘述:</p>
+         {% endif %}
+     {% endfor %}
+            <!--     <img src="{{ 'assets/images/team/aleksey.png'|theme }}" alt=""> -->
+                <div class="blog-desc">
+                    <div class="content">{{ post.content_html|raw }}</div>
+
+                    {% if post.featured_images.count %}
+                        <div class="featured-images text-center">
+                            {% for image in post.featured_images %}
+                                <p>
+                                    <img
+                                        data-src="{{ image.filename }}"
+                                        src="{{ image.path }}"
+                                        alt="{{ image.description }}"
+                                        style="max-width: 100%" />
+                                </p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    
+                    <!-- <p class="info">
+                        Posted
+                        {% if post.categories.count %} in
+                            {% for category in post.categories %}
+                                <a href="{{ category.url }}">{{ category.name }}</a>{% if not loop.last %}, {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                        on {{ post.published_at|date('M d, Y') }}
+                    </p> -->
+                </div>
+
+            </div>
+
+            <!-- Pagination -->
+            <ul class="pager pull-right">
+
+            </ul>
+            
+            <div class="clearfix"> 
+                
+                    {% for tag in post.tags %}
+                       <a href="{{ 'blog/tag'|page }}/{{ tag.name }}"># {{ tag.name }}  </a>
+                    {% endfor %}
+               
+            </div>
+        </div>
+        <br>
+        {% if post.categories.count %} 
+            {% for category in post.categories %}
+                {% if category.id == 5 %}
+                    <div  class="col-sm-4">
+                       
+                            <ul class="list-group filter-list-group">
+                                <li class="list-group-item"><a href="#">日期</a> <span class="badge">{{ post.event_date }}</span></li>
+                                <li class="list-group-item"><a href="#">主席</a> <span class="badge">{{ post.preside }}</span></li>
+                                <li class="list-group-item"><a href="#">出席委員<br></a> <span class="badge"></span>
+                                 {% for user in post.getUsers %}
+                                 <a href="{{ 'test/userpost'|page({ id:user.id }) }}"> <img src="{{user.getAvatarThumb(60)}}"width="75" height="75" style="border-radius:50%;"></a>
+                                 {% endfor %}
+                                </li>
+                            </ul>
+                       
+                    </div>
+                {% elseif category.id == 4 %}
+                    <div class="col-sm-4">
+                        
+                            <ul class="list-group filter-list-group">
+                                <li class="list-group-item"><a href="#">日期</a> <span class="badge">{{ post.event_date }}</span></li>
+                                <li class="list-group-item"><a href="#">地點</a> <span class="badge">{{ post.location }}</span></li>
+                                <li class="list-group-item"><a href="#">主辦單位</a> <span class="badge">{{ post.organizer }}</span></li>
+                                <li class="list-group-item"><a href="#">聯絡方式</a> <span class="badge">{{ post.contact }}</span></li>
+                            </ul>
+                       
+                    </div>
+                {% elseif category.id == 1 %}
+                    <div class="col-sm-4">
+
+                        <div>
+                           <li class="list-group-item">  提案委員:<br>
+                            {% for user in post.getUsers %}
+                                 <a href="{{ 'test/userpost'|page({ id:user.id }) }}"> <img src="{{user.getAvatarThumb(60)}}"width="75" height="75" style="border-radius:50%;"></a>
+                            {% endfor %}</li>
+                        </div>
+                        <div>
+                            <li class="list-group-item"> 連署委員<br>
+                                {% for user in post.getTrackUsers %}
+                                     <a href="{{ 'test/userpost'|page({ id:user.id }) }}"><img src="{{user.getAvatarThumb(60)}}" width="50" height="50" style="border-radius:50%;"></a>
+                                {% endfor %}
+                            </li>
+                        </div>
+                        <div>
+                            Track : 
+                            <div>
+                                {% for childPost in post.getChildPosts %}                                    
+                                        <div class="thumbnail">
+                                          <div class="caption">
+                                            <p class="card-description"><a href="{{ childPost.slug }}">{{ childPost.title }}</a></p>
+                                            {% for user in childPost.getUsers %}
+                                            <img src="{{user.getAvatarThumb(60)}}"width="50" height="50"  style="border-radius:50%;">
+                                            {% endfor %}
+                                      </div>
+                                    </div>
+                                 
+                                {% endfor %}
+                            </div>
+                            
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+   
+</div>

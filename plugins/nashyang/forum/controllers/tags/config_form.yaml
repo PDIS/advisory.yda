@@ -1,0 +1,14 @@
+name: Tags
+modelClass: Nashyang\Forum\Models\Tags
+form: $/nashyang/forum/models/tags/tag_form.yaml
+defaultRedirect: nashyang/forum/tags
+create:
+    title: '建立 tag'
+    redirect: 'nashyang/forum/tags/update/:id'
+    redirectClose: nashyang/forum/tags
+update:
+    title: '修改 tag'
+    redirect: nashyang/forum/tags
+    redirectClose: nashyang/forum/tags
+preview:
+    title: 預覽

@@ -1,0 +1,120 @@
+title = "首頁-青年諮詢委員會"
+url = "/"
+layout = "default"
+is_hidden = 0
+robot_index = "index"
+robot_follow = "follow"
+
+[blogTags]
+results = 0
+direction = "desc"
+
+[session]
+security = "all"
+
+[RainLab\User\Components\Account account]
+paramCode = "code"
+forceSecure = 0
+
+[blogPosts]
+pageNumber = "{{ :page }}"
+postsPerPage = 100
+noPostsMessage = "No posts found"
+sortOrder = "published_at desc"
+categoryPage = "blog/category"
+postPage = "blog/post"
+==
+<?php
+use RainLab\User\Models\User;
+function onInit()
+{    
+    $user = Auth::getUser(true);
+    $this['users_committee'] = User::whereIsActivated(true)->where('sort_num', '!=' , 0)->where('name', 'not like', '測試')->where('name','not like','%測試%')->whereHas('groups', function($q) { $q->where('code', '=', 'committee-member'); })->orderByRaw("RAND()")->get();
+    $this['users_coordinator'] = User::whereIsActivated(true)->where('sort_num', '==' , 0)->whereHas('groups', function($q) { $q->where('code', '=', 'committee-member'); })->get();
+    $this['chiefUsers'] = User::whereIsActivated(true)->orderBy('sort_num')->whereHas('groups', function($q) { $q->where('code', '=', 'chief'); })->get();
+}
+?>
+==
+<link href="{{ 'assets/css/home/home.css'|theme }}" rel="stylesheet">
+<link href="{{ 'assets/css/home/fields.css'|theme }}" rel="stylesheet">
+<link href="{{ 'assets/css/home/docs.css'|theme }}" rel="stylesheet">
+<section class="home-title">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4">
+                <a href="{{ '#'|page }}">
+                    <img src="{{ 'assets/images/logo.jpg'|theme }}" style="width:70%; height: 70%" alt="青諮會網站LOGO">
+                </a>
+                <h2>行政院青年諮詢委員會</h2>
+                {% set flag = false %}
+                {% for post in posts %}
+                    {% if flag == false%}
+                        {% for category in post.categories %}
+                            {% if category.name == "前台頁面" and post.slug == "abstract" %}
+                                {{ post.content_html|raw }}
+                            {% set flag = true %}
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <div class="col-sm-8">
+                {% partial 'sirs' %}
+                {% partial 'user' %}
+            </div>
+        </div>
+    </div>
+</section>
+<section class="fields">
+    <div class="row" style="margin-right:0;margin-left:0;">
+        <div class="col-sm-12">
+            <h2 class="headline">
+                <span>我們關心的領域</span>
+            </h2>
+            {% partial 'tagcloud' %}
+        </div>
+    </div>
+</section>
+<div class="recent-tweets" font-family="sans-serif">
+    <div class="container">
+        <div class="row">
+            <a id="AC" accesskey="C" href="#AC" title="中央內容區塊" name="AC">:::</a>
+            <h2 class="headline">
+                <span>關於行政院青年諮詢委員會</span>
+            </h2>
+        </div>
+        <div class="row">
+            <div class=" col-sm-4 card">
+                <a href="{{ 'yda_open'|page }}" class="display-block">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <h3>行政院青諮會簡介</h3>
+                        </div>
+                        <div class="panel-footer" style="background-color:#79ffcb"> </div>
+                    </div>
+                </a>
+            </div>
+            <div class=" col-sm-4 card">
+                <a href="{{ 'yda_points'|page }}" class="display-block">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <h3>行政院青諮會設置要點</h3>
+                        </div>
+                        <div class="panel-footer" style="background-color:#59C7BD"> </div>
+                    </div>
+                </a>
+            </div>
+            <div class=" col-sm-4 card">
+                <a href="{{ 'yda_types'|page }}" class="display-block">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <h3>行政院青諮會委員名冊</h3>
+                        </div>
+                        <div class="panel-footer" style="background-color:#16a598"> </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+</div>

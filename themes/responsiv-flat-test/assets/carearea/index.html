@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>青年發展議題</title>
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+		integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+	<link rel="stylesheet" href="./styles/index.css">
+	<link rel="stylesheet" href="./styles/countingCase.css">
+</head>
+
+<body>
+	<div id="ydp_index"></div>
+</body>
+
+</html>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+<script type="text/javascript" src="./d3/d3.js"></script>
+<script type="text/javascript" src="./d3/d3.geom.js"></script>
+<script type="text/javascript" src="./d3/d3.layout.js"></script>
+<script type="text/javascript" src="./js/d3_CareAreaD3.js"></script>
+<script type="text/javascript" src="./js/d3_dataConverter.js"></script>
+
+
+<!-- load static json [start] -->
+<script src="./data/countingCaseInfo.js"></script>
+
+<script src="./data/YouthDevPJs.js"></script>
+<script src="./data/color.js"></script>
+<!-- load static json [end] -->
+
+<!-- load js fn [start] -->
+<script src="./js/render_bodyInner.js"></script>
+<script src="./js/countingCase.js"></script>
+
+<script src="./js/hexagon_chart.js"></script>
+<script src="./js/d3_chart.js"></script>
+<script src="./js/careArea.js"></script>
+<!-- load js fn [end] -->
+
+
+<script>
+
+	render_bodyInner("careArea")
+
+
+	//關鍵字搜尋 listen keypress enter to search
+	// $(document).keypress(function (e) {
+	// 	if (e.keyCode == 13 & $('.cs_bar_search_input').val() !== '') {
+	// 		ydp_search()
+	// 	}
+	// });
+
+
+</script>

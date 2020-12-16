@@ -1,0 +1,94 @@
+fields:
+    name:
+        label: 'rainlab.user::lang.user.name'
+        span: auto
+        type: text
+    surname:
+        label: 'rainlab.user::lang.user.surname'
+        oc.commentPosition: ''
+        span: auto
+        disabled: 1
+        hidden: 1
+        type: text
+tabs:
+    fields:
+        email:
+            label: 'rainlab.user::lang.user.email'
+            tab: 'rainlab.user::lang.user.account'
+            span: full
+            type: text
+        send_invite:
+            label: 'rainlab.user::lang.user.send_invite'
+            span: left
+            default: 0
+            disabled: 1
+            hidden: 1
+            context: create
+            type: checkbox
+            comment: 'rainlab.user::lang.user.send_invite_comment'
+            tab: 'rainlab.user::lang.user.account'
+        is_activated:
+            label: 'rainlab.user::lang.users.activate_confirm'
+            span: left
+            default: 1
+            type: checkbox
+            comment: 是否激活該使用者(激活才會被顯示)
+            tab: 'rainlab.user::lang.user.account'
+        block_mail:
+            label: 'rainlab.user::lang.user.block_mail'
+            span: full
+            default: 0
+            cssClass: field-align-above
+            context: update
+            type: checkbox
+            tab: 'rainlab.user::lang.user.account'
+        password@create:
+            label: 'rainlab.user::lang.user.create_password'
+            comment: 'rainlab.user::lang.user.create_password_comment'
+            tab: 'rainlab.user::lang.user.account'
+            type: password
+            span: left
+        password@update:
+            label: 'rainlab.user::lang.user.reset_password'
+            comment: 'rainlab.user::lang.user.reset_password_comment'
+            tab: 'rainlab.user::lang.user.account'
+            type: password
+            span: left
+        password_confirmation:
+            label: 'rainlab.user::lang.user.confirm_password'
+            comment: 'rainlab.user::lang.user.confirm_password_comment'
+            tab: 'rainlab.user::lang.user.account'
+            type: password
+            span: right
+            context:
+                - create
+                - update
+        username:
+            label: 'rainlab.user::lang.user.username'
+            oc.commentPosition: ''
+            span: left
+            hidden: true
+            type: text
+            tab: 'rainlab.user::lang.user.account'
+        groups:
+            label: 'rainlab.user::lang.user.groups'
+            tab: 'rainlab.user::lang.user.account'
+            type: relation
+            emptyOption: 'rainlab.user::lang.user.empty_groups'
+        sort_num:
+            label: Sort
+            span: left
+            placeholder: '1'
+            default: '1'
+            type: number
+            comment: '群組若是「Chief」sort越小排序越前面；若是「Committee Member」，則只有sort=0時會被顯示在所有委員最前面，其餘皆為隨機顯示'
+            tab: 'rainlab.user::lang.user.account'
+secondaryTabs:
+    fields:
+        avatar:
+            label: 'rainlab.user::lang.user.avatar'
+            type: fileupload
+            mode: image
+            imageHeight: 260
+            imageWidth: 260
+            tab: Misc

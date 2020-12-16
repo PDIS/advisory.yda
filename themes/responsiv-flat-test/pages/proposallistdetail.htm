@@ -1,0 +1,230 @@
+title = "座談會問題列表"
+url = "/proposallist/detail/:id"
+layout = "default"
+is_hidden = 0
+robot_index = "index"
+robot_follow = "follow"
+
+[builderDetails ForumIssueList]
+modelClass = "Nashyang\proposal\Models\Proposal_list"
+identifierValue = "{{ :id }}"
+modelKeyColumn = "id"
+displayColumn = "name"
+notFoundMessage = "此座談會還沒有任何提問問題。"
+==
+<?php
+function onStart() {
+}
+function onShowdetail() {
+}
+?>
+==
+<style>
+    .que_filter .btn {
+        color: #007bff;
+        border-color: #007bff;
+    }
+
+    .que_meeting {
+        font-size: 20px;
+        color: rgb(129, 47, 0);
+    }
+
+    .que_from span {
+        color: rgb(32, 103, 196);
+        margin-left: 10px;
+    }
+
+    .que_info .que_header {
+        width: 100%;
+        border: 1px solid #ccc;
+        text-align: left;
+        margin: 0;
+        color: #337ab7;
+        cursor: pointer;
+        padding: 7px 15px;
+        font-size: 25px;
+    }
+
+    .que_info .que_header::after {
+        display: inline-block;
+        vertical-align: middle;
+        margin-left: 10px;
+        margin-top: -3px;
+        content: '';
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 7.5px 0 7.5px 15px;
+        border-color: transparent transparent transparent #337ab7;
+    }
+
+    .que_info .que_header:hover, #que_info .que_header.show {
+        background: #eee;
+        color: #29679c;
+    }
+
+    .que_info .que_header.show::after {
+        border-color: transparent transparent transparent #29679c;
+        transform: rotateZ(90deg)
+    }
+
+    .que_info .que_content {
+        border: 1px solid #ccc;
+        display: none;
+        padding: 15px;
+        line-height: 1.5em;
+        text-align: justify;
+    }
+
+    .que_info .que_content.show {
+        display: block;
+    }
+
+    .mt20 {
+        margin-top: 20px;
+    }
+
+    #depart_ans {
+        width: 100%;
+        padding: 0;
+    }
+
+    #depart_ans .section_title {
+        margin: 20px 0;
+    }
+
+    ul.tabs {
+        margin-bottom: 0;
+        padding-left: 0;
+    }
+
+    ul.tabs li {
+        color: #007bff;
+        list-style: none;
+        border: 1px solid #007bff;
+        border-bottom: none;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+        padding: 5px 10px;
+        display: inline-block;
+        vertical-align: top;
+        position: relative;
+        cursor: pointer;
+    }
+
+    ul.tabs li.active::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: -1px;
+        width: 100%;
+        height: 2px;
+        background: #FFF;
+    }
+
+    .response_records {
+        border: 1px solid #007bff;
+        border-radius: 3px;
+        border-top-left-radius: 0;
+        padding: 20px 15px;
+    }
+
+    .response_records .from {
+        font-size: 1.3em;
+        padding-left: 5px;
+        border-left: 2px solid #ad4900;
+        margin-top: 20px;
+    }
+
+    .modal-body .badge {
+        font-size: 1rem;
+        padding: 6px 12px;
+        display: inline-block;
+        vertical-align: middle;
+        margin-top: -6px;
+    }
+
+    .textareaDisabled {
+        border: none;
+        pointer-events: none;
+        box-shadow: none !important;
+    }
+
+    .table {
+        margin-bottom: 40px;
+        border: 2px solid #ddd;
+    }
+
+    .table > tr > td {
+        border: 1px solid #ddd;
+    }
+</style>
+<div class="container text-center" id="proposal-intro">
+    <div style="text-align:right">
+        <a href="{{ url( 'proposal/admin' ) }}"><i class="fa fa-undo" aria-hidden="true"></i>回青諮提案大會列表</a>
+    </div>
+    <h2>提案詳情</h2>
+</div>
+<div class="container">
+
+    <p>提案序號 {{ record.id }}</p>
+    <p class="que_from">提案人:<span>{{ record.user.name }}</span></p>
+    <p class="que_from">共同提案人:<span>{% for r in record.corganiser %} {{ r.user.name }} {% endfor %}</span></p>
+    <p class="que_from">最後狀態:<span>{{ record.statusStr }}</span></p>
+    <div class="collapse_group que_info">
+        <div class="que_header show">案由</div>
+        <div class="que_content show">{{ record.content|nl2br }}</div>
+        <div class="que_header show">說明</div>
+        <div class="que_content show">{{ record.description|nl2br }}</div>
+        <div class="que_header show">具體建議</div>
+        <div class="que_content show">{{ record.suggest|nl2br }}</div>
+        <div class="que_header show">連署委員列表</div>
+        <div class="que_content show">
+            {% for r in record.countersign %}
+                {{ r.user.name }}:
+                {% if r.why %}
+                    {{ r.why }}
+                {% else %}
+                    -- 未填寫原因 --
+                {% endif %}
+                <hr>
+            {% endfor %}
+        </div>
+    </div>
+
+</div>
+<script>
+    $( '.que_filter .btn' ).click( function () {
+        var tar = $( this ).data( 'issue-sn' );
+        $( 'form.form-issue' ).each( function () {
+            if ( $( this ).data( 'issue-sn' ) == tar ) {
+                $( this ).removeClass( 'hide' );
+            } else {
+                $( this ).addClass( 'hide' );
+            }
+        } )
+    } );
+    $( '.que_header' ).click( function () {
+        var tar = $( this ).next( '.que_content' );
+        tar.toggleClass( 'show' );
+        $( this ).toggleClass( 'show' );
+    } );
+    $( 'ul.tabs li' ).click( function () {
+        $( 'ul.tabs li' ).removeClass( 'active' );
+        $( this ).addClass( 'active' );
+        var tar = $( this ).data( 'depart' );
+        if ( tar == 0 ) {
+            $( '.response_records .depart' ).removeClass( 'hide' );
+        } else {
+            $( '.response_records .depart' ).addClass( 'hide' );
+            $( '.response_records .depart' ).each( function () {
+                if ( $( this ).data( 'depart' ) == tar ) {
+                    $( this ).removeClass( 'hide' );
+                }
+            } )
+        }
+    } );
+    // $( 'textarea' ).addClass( 'textareaDisabled' );
+
+</script>

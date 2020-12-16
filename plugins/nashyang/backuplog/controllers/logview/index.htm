@@ -1,0 +1,27 @@
+
+<?php Block::put('breadcrumb') ?>
+<ul>
+    <li><a href="<?= Backend::url('nashyang/backuplog/logview') ?>">查閱備份</a></li>
+    <li>檢視紀錄</li>
+</ul>
+<?php Block::endPut() ?>
+
+<?php Block::put('body') ?>
+
+<p>Change: 備份完成時間。</p>
+<p>Size: 檔案大小。</p>
+<p>File: 檔案路徑。</p>
+
+<?php
+    $logFile = base_path( 'cms' . DIRECTORY_SEPARATOR . 'logs' . DIRECTORY_SEPARATOR . 'bak_log.log' );
+    if ( file_exists( $logFile ) ) {
+        $file = fopen( $logFile, 'r' );
+        $html = '';
+        while ( !feof( $file ) ) {
+            $html = fgets( $file ) . "<br />" . $html;
+        }
+        fclose( $file );
+        echo $html;
+    }
+?>
+<?php Block::endPut() ?>

@@ -1,0 +1,99 @@
+title = "提案-ALL"
+url = "/proposal/admin"
+layout = "default"
+is_hidden = 0
+robot_index = "index"
+robot_follow = "follow"
+
+[builderList forumList]
+modelClass = "Nashyang\proposal\Models\Meeting"
+scope = "-"
+displayColumn = "name"
+noRecordsMessage = "查無資料。"
+detailsPage = "proposaldetail"
+detailsKeyColumn = "id"
+detailsUrlParameter = "id"
+pageNumber = "{{ :page }}"
+sortColumn = "id"
+sortDirection = "desc"
+==
+<?php
+use Nashyang\proposal\Models\Proposal_list;
+
+function onStart()
+{
+//  \Nashyang\Proposal\Models\Meeting::where( 'id', 32 )->update( [ 'is_pre' => 1 ] );
+    
+    $this['isadmin'] = is_null( $this->user ) ? FALSE : in_array( 'froum-admin', $this->user->groups->lists('code') );
+    if ( !$this['isadmin'] ) {
+        return Redirect::to('/');
+    }
+    $this['proList'] = Proposal_list::all();
+}
+?>
+==
+<style>
+    .form-issue {
+        padding: 1.5rem;
+        margin-right: 0;
+        margin-left: 0;
+        margin-top: 10px;
+        position: relative;
+        border: 1px solid #999;
+    }
+    .meetingHidden {
+        visibility: hidden;
+        pointer-events: none;
+    }
+    .btn-focus:focus {
+        outline: 5px dotted red;
+    }
+</style>
+<div class="container">
+
+    <a id="AC" accesskey="C" href="#AC" title="中央內容區塊" name="AC">:::</a>
+
+    <h1 class="headline"><span>青諮提案大會列表</span></h1>
+    <div class="content">
+        <table cellspacing="0" cellpadding="0" class="table" id="tbl2">
+            <thead>
+            <tr style="display: table-row;">
+                <th id="e1" headers="e" width="30%" style="text-align:center">會議名稱</th>
+                <th id="e2" headers="e" width="30%" style="text-align:center">會議地點</th>
+                <th id="e3" headers="e" width="10%" style="text-align:center">日期</th>
+                <th id="e4" headers="e" width="10%" style="text-align:center">時間</th>
+                <th id="e6" headers="e" width="10%" style="text-align:center">發佈狀況</th>
+                <th id="e5" headers="e" width="10%" style="text-align:center">會議詳情</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% set isNoData = TRUE %}
+            {% for record in records %}
+            <tr>
+                <td headers="e e1" style="text-align:center">{{ record.name|raw }}</td>
+                <td headers="e e2" style="text-align:center">{{ record.location|raw }}</td>
+                <td headers="e e3" style="text-align:center">{{ record.ForumDate }}</td>
+                <td headers="e e4" style="text-align:center">{{ record.ForumTime }}</td>
+                <td headers="e e6" style="text-align:center">
+                    {% if record.is_show %}
+                        已發佈
+                    {% else %}
+                        關閉
+                    {% endif %}
+                </td>
+                <td headers="e e5" style="text-align:center" align="center" valign="middle">
+                    <a href="{{ detailsPage|page({ (detailsUrlParameter): attribute(record, detailsKeyColumn) }) }}"
+                       class="btn btn-info btn-focus" style="text-decoration:none"
+                       title="{{ record.name|raw }}會議詳情">會議詳情</a>
+                </td>
+            </tr>
+
+            {% set isNoData = FALSE %}
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% if isNoData %}
+    <h2 class="text-center">目前暫無相關資料</h2>
+    {% endif %}
+</div>

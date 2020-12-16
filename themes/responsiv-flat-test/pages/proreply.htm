@@ -1,0 +1,458 @@
+title = "青諮提案部會回復"
+url = "/proreply"
+layout = "default"
+is_hidden = 0
+robot_index = "index"
+robot_follow = "follow"
+
+[builderList forumList]
+modelClass = "Nashyang\Proposal\Models\Proposal_list"
+scope = "-"
+displayColumn = "name"
+noRecordsMessage = "No records found"
+detailsPage = "forumissuelist"
+detailsKeyColumn = "id"
+detailsUrlParameter = "id"
+pageNumber = "{{ :page }}"
+==
+<?php
+use Nashyang\Proposal\Models\Proposal_list;
+use Nashyang\Proposal\Models\Respondents AS Respondents;
+use October\Rain\Support\Facades\Flash;
+
+function onStart(){
+    if ( is_null( $this['user'] ) ) {
+        return Redirect::to('/');
+    }
+    $arr = [ 'froum-member' ];
+    $inGroup = FALSE;
+    foreach( $this['user']['groups']->toArray() AS $group ) {
+        if ( in_array( $group['code'], $arr ) ) {
+            $inGroup = TRUE;
+            break;
+        }
+    }
+    if ( !$inGroup ) {
+        return Redirect::to('/');
+    }
+    $this['isProReply'] = in_array( '座談會群組', $this->user->groups->lists('name') );
+    if ( !$this['isProReply'] ) {
+        return Redirect::to( '/' );
+    }
+    $this['userRespondent'] = Respondents::getRespondentListByUserID( $this['user']['id'] );
+}
+
+function onSendUserRespondent() {
+    $res = Respondents::frontUpdateRespondent();
+    if ( $res['result'] ) {
+        Flash::success( $res['message'] );
+    } else {
+        Flash::error( $res['message'] );
+    }
+}
+?>
+==
+<style>
+    .form-issue {
+        padding: 1.5rem;
+        margin-right: 0;
+        margin-left: 0;
+        margin-top: 10px;
+        margin-bottom: 20px;
+        position: relative;
+        border: 1px solid #bbbbbb;
+        border-radius: 5px;
+    }
+</style>
+<div class="container">
+    {% flash %}
+    <p data-control="flash-message" class="flash-message fade {{ type }}" data-interval="5">
+        {{ message }}
+    </p>
+    {% endflash %}
+	<a id="AC" accesskey="C" href="#AC" title="中央內容區塊" name="AC">:::</a>
+    <div style="text-align:right">
+        <a href="{{ url( 'proposal/default' ) }}"><i class="fa fa-undo" aria-hidden="true"></i>回青諮提案列表</a>
+    </div>
+    {% if user %}
+        <h1 class="headline"><span>要求部會回復的青諮提案問題列表</span></h1>
+    <style>
+        .que_filter .btn{
+            color: #007bff;
+            border-color: #007bff;
+        }
+        .que_meeting{
+            font-size: 20px;
+            color: rgb(129, 47, 0);
+        }
+        .que_from span{
+            color: rgb(32, 103, 196);
+            margin-left: 10px;
+        }
+        .que_info .que_header{
+            width: 100%;
+            border: 1px solid #ccc;
+            text-align: left;
+            margin: 0;
+            color: #337ab7;
+            cursor: pointer;
+            padding: 7px 15px;
+            font-size: 25px;
+        }
+        .que_info .que_header::after{
+            display: inline-block;
+            vertical-align: middle;
+            margin-left: 10px;
+            margin-top: -3px;
+            content: '';
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 7.5px 0 7.5px 15px;
+            border-color: transparent transparent transparent #337ab7;
+        }
+        .que_info .que_header:hover, #que_info .que_header.show{
+            background: #eee;
+            color: #29679c;
+        }
+        .que_info .que_header.show::after{
+            border-color: transparent transparent transparent #29679c;
+            transform: rotateZ(90deg)
+        }
+        .que_info .que_content{
+            border: 1px solid #ccc;
+            display: none;
+            padding: 15px;
+            line-height: 1.5em;
+        }
+        .que_info .que_content.show{
+            display: block;
+        }
+        .mt20{
+            margin-top: 20px;
+        }
+        #depart_ans{
+            width: 100%;
+            padding: 0;
+        }
+        #depart_ans .section_title{
+            margin: 20px 0;
+        }
+        ul.tabs{
+            margin-bottom: 0;
+            padding-left: 0;
+        }
+        ul.tabs li{
+            color: #007bff;
+            list-style: none;
+            border: 1px solid #007bff;
+            border-bottom: none;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+            padding: 5px 10px;
+            display: inline-block;
+            vertical-align: top;
+            position: relative;
+            cursor: pointer;
+        }
+        ul.tabs li.active::after{
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -1px;
+            width: 100%;
+            height: 2px;
+            background: #FFF;
+        }
+
+        .response_records{
+            border: 1px solid #007bff;
+            border-radius: 3px;
+            border-top-left-radius: 0;
+            padding: 20px 15px;
+        }
+        .response_records .from{
+            font-size: 1.3em;
+            padding-left: 5px;
+            border-left: 2px solid #ad4900;
+            margin-top: 20px;
+        }
+        .modal-body .badge{
+            font-size: 1rem;
+            padding: 6px 12px;
+            display: inline-block;
+            vertical-align: middle;
+            margin-top: -6px;
+        }
+        .textareaDisabled {
+            border: none;
+            pointer-events: none;
+            box-shadow: none !important;
+        }
+    </style>
+        <div class="que_filter">
+            {% for res in userRespondent %}
+            <button class="btn" data-issue-sn="{{ loop.index }}">提案 {{ res.list.index }}</button>
+            {% endfor %}
+        </div>
+
+        {% for res in userRespondent %}
+    <!--              data-request-success="$( 'textarea' ).addClass( 'textareaDisabled' );" -->
+        <form data-request="onSendUserRespondent" data-request-loading=".sendMailProcessing" data-request-flash=""
+              class="form-issue {% if loop.index != 1 %}hide{% endif %}" data-issue-sn="{{ loop.index }}">
+            <p>提案 {{ res.list.index }}</p>
+
+            <p class="que_meeting">{{ res.meeting.name|raw }} ({{ res.meeting.location|raw }} {{ res.meeting.time }} {% if res.meeting.time == '' %} 時間未定 {% endif %} )</p>
+            <p class="que_from">提案人:<span>{{ res.list.listuser|raw }}</span></p>
+
+            <div class="collapse_group que_info">
+                <div class="que_header show">案由</div>
+                <div class="que_content show">{{ res.list.content|nl2br }}</div>
+                <div class="que_header">說明</div>
+                <div class="que_content">{{ res.list.description|nl2br }}</div>
+                <div class="que_header">具體建議</div>
+                <div class="que_content">{{ res.list.suggest|nl2br }}</div>
+            </div>
+
+            {% if res.res.ishost %}
+            <div class="form-group mt20">
+                <label for="respondentshost{{ res.res.resid }}">●主辦綜合辦理意見-大會</label>
+                <textarea class="form-control" id="respondentshost{{ res.res.resid }}" placeholder="請輸入主辦綜合辦理意見-大會"
+                          name="respondentshost" style="height: 100px;">{{ res.res.hostres.respondents|raw }}</textarea>
+
+                <label for="hostother_reply{{ res.res.resid }}">●主辦綜整裁示參考-大會</label>
+                <textarea class="form-control" id="hostother_reply{{ res.res.resid }}" placeholder="請輸入主辦綜整裁示參考-大會"
+                          name="hostother_reply" style="height: 100px;">{{ res.res.hostres.other_reply|raw }}</textarea>
+            </div>
+            {% endif %}
+            {% if res.meeting.is_pre == 1 %}
+            <div class="form-group mt20">
+
+                <label for="other_reply1{{ res.res.resid }}">1.主要業務聯繫人(機關名稱/連絡人/電話/E-mail)-會前會</label>
+                <textarea class="form-control" id="other_reply1{{ res.res.resid }}" placeholder="請輸入聯絡窗口-會前會"
+                          name="other_reply1" style="height: 100px;">{{ res.res.respondents.other_reply1|raw }}</textarea>
+
+                <label for="other_reply2{{ res.res.resid }}">2.研處情形-會前會</label>
+                <textarea class="form-control" id="other_reply2{{ res.res.resid }}" placeholder="請輸入研處情形-會前會"
+                          name="other_reply2" style="height: 100px;">{{ res.res.respondents.other_reply2|raw }}</textarea>
+
+                <label for="other_reply3{{ res.res.resid }}">3.出席人員(單位/職稱/姓名)-會前會</label>
+                <textarea class="form-control" id="other_reply3{{ res.res.resid }}" placeholder="請輸入出席人員(單位/職稱/姓名)-會前會"
+                          name="other_reply3" style="height: 100px;">{{ res.res.respondents.other_reply3|raw }}</textarea>
+
+            </div>
+            {% else %}
+            <div class="form-group mt20">
+
+               <label for="other_reply4{{ res.res.resid }}">1.主要業務聯繫人(機關名稱/連絡人/電話/E-mail)-大會</label>
+                <textarea class="form-control" id="other_reply4{{ res.res.resid }}" placeholder="請輸入聯絡窗口-大會"
+                          name="other_reply4" style="height: 100px;">{{ res.res.respondents.other_reply4|raw }}</textarea>
+
+                <label for="respondents{{ res.res.resid }}">2.研處情形-大會</label>
+                <textarea class="form-control" id="respondents{{ res.res.resid }}" placeholder="請輸入主責回復內容"
+                          name="respondents" style="height: 100px;">{{ res.res.respondents.respondents|raw }}</textarea>
+
+                <label for="other_reply6{{ res.res.resid }}">3.裁示參考內容-大會</label>
+                <textarea class="form-control" id="other_reply6{{ res.res.resid }}" placeholder="請輸入裁示參考內容-大會"
+                          name="other_reply6" style="height: 100px;">{{ res.res.respondents.other_reply6|raw }}</textarea>
+
+                <label for="other_reply7{{ res.res.resid }}">4.出席人員(單位/職稱/姓名)-大會</label>
+                <textarea class="form-control" id="other_reply7{{ res.res.resid }}" placeholder="請輸入出席人員(單位/職稱/姓名)-大會"
+                          name="other_reply7" style="height: 100px;">{{ res.res.respondents.other_reply7|raw }}</textarea>
+
+                <label for="other_reply8{{ res.res.resid }}">5.辦理進度-大會(辦理中/已完成,完全參採/已完成部分參採/已完成,暫不參採)</label>
+                <textarea class="form-control" id="other_reply8{{ res.res.resid }}" placeholder="請輸入辦理進度-大會(辦理中/已完成,完全參採/已完成,部分參採/已完成,暫不參採)"
+                          name="other_reply8" style="height: 100px;">{{ res.res.respondents.other_reply8|raw }}</textarea>
+
+            </div>
+            {% endif %}
+            <input type="hidden" name="listid" value="{{ res.list.listID }}" />
+            <input type="hidden" name="resid" value="{{ res.res.resid }}" />
+<!--            <button type="button" onclick="$( 'textarea' ).removeClass( 'textareaDisabled' );" class="btn btn-warning">修改</button>-->
+            <button type="submit" class="btn btn-info">送出</button>
+
+
+            <div id="depart_ans">
+                <div class="section_title">其他部會回復內容:</div>
+                <div class="content">
+                    <ul class="tabs">
+                        {% for otherRes in res.otherRes %}
+                        <li data-depart="{{ loop.index }}" class="{% if loop.index == 1 %}active{% endif %}">{{ otherRes.name }}</li>
+                        {% endfor %}
+                    </ul>
+                    <div class="response_records">
+                        <div class="meeting">
+                            {% for otherRes in res.otherRes %}
+                            <div class="depart {% if loop.index != 1 %}hide{% endif %}" data-depart="{{ loop.index }}">
+                                {% if res.meeting.is_pre == 0 %}
+                                {% if otherRes.ishost %}
+                                <p class="from">綜合研處意見</p>
+                                    {% if otherRes.hostobj.other_reply %}
+                                        <p>{% if otherRes.hostobj.other_reply %} {{ otherRes.hostobj.other_reply|nl2br }} {% else %} 尚未填寫。 {% endif %}</p>
+                                    {% else %}
+                                        <p>{% if otherRes.hostobj.respondents %} {{ otherRes.hostobj.respondents|nl2br }} {% else %} 尚未填寫。 {% endif %}</p>
+                                    {% endif %}
+                                {% endif %}
+                                <p class="from">大會研處情形</p>
+                                <p>{% if otherRes.resobj.respondents %} {{ otherRes.resobj.respondents|nl2br }} {% else %} 尚未填寫。 {% endif %}</p>
+                                <p class="from">裁示參考內容-大會</p>
+                                <p>{% if otherRes.resobj.other_reply6 %} {{ otherRes.resobj.other_reply6|nl2br }} {% else %} 尚未填寫。 {% endif %}</p>
+                                {% else %}
+                                <p class="from">會前會研處情形</p>
+                                <p>{% if otherRes.resobj.other_reply2 %} {{ otherRes.resobj.other_reply2|nl2br }} {% else %} 尚未填寫。 {% endif %}</p>
+                                {% endif %}
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        {% else %}
+        <p>沒有需要回復的內容</p>
+        {% endfor %}
+    {% endif %}
+</div>
+<div class="modal sendMailProcessing">
+    <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+</div>
+<script>
+    $('.que_filter .btn').click(function(){
+        var tar = $(this).data('issue-sn');
+        $('form.form-issue').each(function(){
+            if ($(this).data('issue-sn') == tar){
+                $(this).removeClass('hide');
+            }else{
+                $(this).addClass('hide');
+            }
+        })
+    });
+    $('.que_header').click(function(){
+        var tar = $(this).next('.que_content');
+        tar.toggleClass('show');
+        $(this).toggleClass('show');
+    });
+    $('ul.tabs li').click(function(){
+        $('ul.tabs li').removeClass('active');
+        $(this).addClass('active');
+        var tar = $(this).data('depart');
+        if (tar == 0){
+            $('.response_records .depart').removeClass('hide');
+        }else{
+            $('.response_records .depart').addClass('hide');
+            $('.response_records .depart').each(function(){
+                if ($(this).data('depart') == tar){
+                    $(this).removeClass('hide');
+                }
+            })
+        }
+    });
+    // $( 'textarea' ).addClass( 'textareaDisabled' );
+
+</script>
+<style>
+    .sendMailProcessing {
+        display: none;
+        background: rgba(0, 0, 0, 0.7);
+    }
+    .sendMailProcessing > div {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        margin-left: -100px;
+        margin-top: -100px;
+        display:flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-content: center;
+        align-items: center;
+        color: #3c3c3c;
+        font-size: large;
+    }
+    .lds-roller {
+        display: inline-block;
+        position: relative;
+        width: 64px;
+        height: 64px;
+    }
+    .lds-roller div {
+        animation: lds-roller 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+        transform-origin: 32px 32px;
+    }
+    .lds-roller div:after {
+        content: " ";
+        display: block;
+        position: absolute;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #fff;
+        margin: -3px 0 0 -3px;
+    }
+    .lds-roller div:nth-child(1) {
+        animation-delay: -0.036s;
+    }
+    .lds-roller div:nth-child(1):after {
+        top: 50px;
+        left: 50px;
+    }
+    .lds-roller div:nth-child(2) {
+        animation-delay: -0.072s;
+    }
+    .lds-roller div:nth-child(2):after {
+        top: 54px;
+        left: 45px;
+    }
+    .lds-roller div:nth-child(3) {
+        animation-delay: -0.108s;
+    }
+    .lds-roller div:nth-child(3):after {
+        top: 57px;
+        left: 39px;
+    }
+    .lds-roller div:nth-child(4) {
+        animation-delay: -0.144s;
+    }
+    .lds-roller div:nth-child(4):after {
+        top: 58px;
+        left: 32px;
+    }
+    .lds-roller div:nth-child(5) {
+        animation-delay: -0.18s;
+    }
+    .lds-roller div:nth-child(5):after {
+        top: 57px;
+        left: 25px;
+    }
+    .lds-roller div:nth-child(6) {
+        animation-delay: -0.216s;
+    }
+    .lds-roller div:nth-child(6):after {
+        top: 54px;
+        left: 19px;
+    }
+    .lds-roller div:nth-child(7) {
+        animation-delay: -0.252s;
+    }
+    .lds-roller div:nth-child(7):after {
+        top: 50px;
+        left: 14px;
+    }
+    .lds-roller div:nth-child(8) {
+        animation-delay: -0.288s;
+    }
+    .lds-roller div:nth-child(8):after {
+        top: 45px;
+        left: 10px;
+    }
+    @keyframes lds-roller {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+</style>

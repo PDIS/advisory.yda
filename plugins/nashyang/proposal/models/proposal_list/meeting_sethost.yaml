@@ -1,0 +1,6 @@
+fields:
+    sethostres:
+        label: 主責機關列表
+        span: full
+        type: sethost
+        commentAbove: 請在下列主責機關列表中，調整各機關順序與勾選主辦機關。

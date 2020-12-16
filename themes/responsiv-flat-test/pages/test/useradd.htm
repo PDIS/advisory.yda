@@ -1,0 +1,65 @@
+title = "useradd"
+url = "/useradd/:id"
+layout = "default"
+is_hidden = 0
+robot_index = "index"
+robot_follow = "follow"
+
+[session]
+security = "all"
+==
+<?php
+use October\Rain\Auth\Models\User;
+function onInit()
+{
+    $user = Auth::getUser();
+    
+    $this['activatedUsers'] = User::whereIsActivated(true)->get();
+    if($user){
+        $component = $this->addComponent(
+            'NetSTI\Uploader\Components\ImageUploader',
+            'imageUploader',
+            ['modelClass'=>'RainLab\User\Models\User','modelKeyColumn'=>'avatar', 'deferredBinding' => false]
+        );
+
+        $component->bindModel('avatar', $user);
+    }
+}a
+?>
+==
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-123352956-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-123352956-1');
+</script>
+
+{% for user in activatedUsers%}
+
+<div class="col-md-2 portfolio-item nature people">
+            <div class="picture">
+                <div class="description">
+                       <img src="{{avatar_id}}" alt="{{ file_name }}" style="width:100%; height: 100%"/>
+                     <a href="{{ 'test/userpost'|page({ id:user.id }) }}" class="btn btn-info btn-block">{{ tag.name }}</a>
+                </div>
+            </div>
+        </div>
+{% endfor %}
+
+
+<div class="tile"> 
+<a href="{{ 'test/userpost'|page({ id:user.id }) }}" >
+<div>
+  <div class="col-sm-4">
+        
+<img src="{{ user.avatar.path }}" alt="{{ user.avatar.file_name }}" style="width:35%; height: 35%"/>
+ </div>
+
+</div>
+  <div class="text">
+  <p class="animate-text">{{user.name}}</p>
+  </div></a>
+ </div>

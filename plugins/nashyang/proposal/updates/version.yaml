@@ -1,0 +1,62 @@
+1.0.1:
+    - 'Initialize plugin.'
+1.0.2:
+    - 'Created table nashyang_proposal_list'
+    - builder_table_create_nashyang_proposal_list.php
+1.0.3:
+    - 'Created table nashyang_proposal_countersign'
+    - builder_table_create_nashyang_proposal_countersign.php
+1.0.4:
+    - 'Created table nashyang_proposal_respondents'
+    - builder_table_create_nashyang_proposal_respondents.php
+1.0.5:
+    - 'Created table nashyang_proposal_meeting'
+    - builder_table_create_nashyang_proposal_meeting.php
+1.0.6:
+    - 'Created table nashyang_proposal_list_meeting'
+    - builder_table_create_nashyang_proposal_list_meeting.php
+1.0.7:
+    - 'Created table nashyang_proposal_list_department'
+    - builder_table_create_nashyang_proposal_list_department.php
+1.0.8:
+    - 'Created table nashyang_proposal_index'
+    - builder_table_create_nashyang_proposal_index.php
+1.0.9:
+    - 'Created table nashyang_proposal_co_rganiser'
+    - builder_table_create_nashyang_proposal_co_rganiser.php
+1.0.10:
+    - 'Created table nashyang_proposal_hostrespondents'
+    - builder_table_create_nashyang_proposal_hostrespondents.php
+1.0.11:
+    - 'Updated table nashyang_proposal_meeting'
+    - builder_table_update_nashyang_proposal_meeting.php
+1.0.12:
+    - 'Updated table nashyang_proposal_respondents'
+    - builder_table_update_nashyang_proposal_respondents.php
+1.0.13:
+    - 'Updated table nashyang_proposal_hostrespondents'
+    - builder_table_update_nashyang_proposal_hostrespondents.php
+1.0.14:
+    - 'Created table nashyang_proposal_list_meeting_resolution'
+    - builder_table_create_nashyang_proposal_list_meeting_resolution.php
+1.0.15:
+    - 'Updated table nashyang_proposal_meeting'
+    - builder_table_update_nashyang_proposal_meeting_2.php
+1.0.16:
+    - 'Updated table nashyang_proposal_meeting'
+    - builder_table_update_nashyang_proposal_meeting_3.php
+1.0.17:
+    - 'Updated table nashyang_proposal_respondents'
+    - builder_table_update_nashyang_proposal_respondents_2.php
+1.0.18:
+    - 'Updated table nashyang_proposal_list'
+    - builder_table_update_nashyang_proposal_list.php
+1.0.19:
+    - 'Updated table nashyang_proposal_list_department'
+    - builder_table_update_nashyang_proposal_list_department.php
+1.0.20:
+    - 'Updated table nashyang_proposal_meeting'
+    - builder_table_update_nashyang_proposal_meeting_4.php
+1.0.21:
+    - 'Updated table nashyang_proposal_list'
+    - builder_table_update_nashyang_proposal_list_2.php

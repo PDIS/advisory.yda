@@ -1,0 +1,154 @@
+title = "17happygreen"
+url = "/17happygreen"
+layout = "default"
+is_hidden = 0
+robot_index = "index"
+robot_follow = "follow"
+
+[session]
+security = "all"
+
+[blogPosts]
+pageNumber = "{{ :page }}"
+postsPerPage = 10
+noPostsMessage = "No posts found"
+sortOrder = "published_at desc"
+categoryPage = "blog/category"
+postPage = "blog/post"
+
+[blogCategories]
+slug = "{{ :slug }}"
+displayEmpty = 0
+categoryPage = "blog/category"
+
+[fanpageFacebook]
+nameFanFace = "itplusvn"
+==
+<?php
+use October\Rain\Auth\Models\User;
+function onInit()
+{
+    $user = Auth::getUser();
+    $this['activatedUsers'] = User::whereIsActivated(true)->get();
+    if($user){
+        $component = $this->addComponent(
+            'NetSTI\Uploader\Components\ImageUploader',
+            'imageUploader',
+            ['modelClass'=>'RainLab\User\Models\User','modelKeyColumn'=>'avatar', 'deferredBinding' => false]
+        );
+
+        $component->bindModel('avatar', $user);
+    }
+}
+function onRun() {
+   $name = $this->param('name');
+  }
+?>
+==
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-123352956-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-123352956-1');
+</script>
+
+<style>
+#mwt_mwt_slider_scroll
+{
+top:120;
+ left:-255px;
+ width:255px; 
+position:fixed;
+z-index:9999;
+}
+
+#mwt_slider_content{
+background:#ffffff;
+text-align:center;
+padding-top:20px;
+}
+
+#mwt_fb_tab {
+position:absolute;
+top:20px;
+right:-24px;
+width:24px;
+
+background:#3c5a98;
+color:#ffffff;
+font-family:Arial, Helvetica, sans-serif;
+text-align:center;
+padding:9px 0;
+
+-moz-border-radius-topright:10px;
+-moz-border-radius-bottomright:10px;
+-webkit-border-top-right-radius:10px;
+-webkit-border-bottom-right-radius:10px;
+}
+#mwt_fb_tab span {
+display:block;
+height:12px;
+padding:1px 0;
+line-height:12px;
+text-transform:uppercase;
+font-size:12px;
+}
+</style>
+
+<script type='text/javascript' src='https://code.jquery.com/jquery-1.9.1.min.js'></script>
+<script type='text/javascript'>
+$(function(){
+var w = $("#mwt_slider_content").width();
+$('#mwt_slider_content').css('height', ($(window).height() - 20) + 'px' ); //將區塊自動撐滿畫面高度
+
+$("#mwt_fb_tab").mouseover(function(){ //滑鼠滑入時
+if ($("#mwt_mwt_slider_scroll").css('left') == '-'+w+'px')
+{
+$("#mwt_mwt_slider_scroll").animate({ left:'0px' }, 600 ,'swing');
+}
+});
+
+
+$("#mwt_slider_content").mouseleave(function(){　//滑鼠離開後
+$("#mwt_mwt_slider_scroll").animate( { left:'-'+w+'px' }, 600 ,'swing');
+});
+});
+
+</script>
+<div id="mwt_mwt_slider_scroll">
+ <div id="mwt_fb_tab">
+    <span>F</span>
+    <span>a</span>
+    <span>c</span>
+    <span>e</span>
+    <span>b</span>
+    <span>o</span>
+    <span>o</span>
+    <span>o</span>
+    <span>k</span>
+</div>
+<div id="mwt_slider_content">
+   <div class="sidebar-item" style="width: 100%">
+<div class="fb-page"
+     data-tabs="timeline,events,messages"
+     data-href="https://www.facebook.com/%E9%96%8B%E7%99%BC%E6%B8%AC%E8%A9%A6-154170738587375/?modal=admin_todo_tour"
+     data-width="380"
+     data-hide-cover="false"></div>
+
+</div>
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = 'https://connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v2.10&appId=1407200105973597';
+    fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+</div>
+
+</div>

@@ -1,0 +1,32 @@
+<a href="javascript:void(0);"
+   data-request="onSendNotificationDepartmentReply"
+   data-request-confirm="是否確認由系統發送信件給相關部會？ 只會針對未寄送過的座談會問題進行發送。"
+   data-request-loading=".sendMailProcessing"
+   data-request-data="id:<?=$record->id?>"
+   <?php /* =$record->is_send1?'disabled':'' */ ?>
+   class="btn btn-primary btn-sm">
+    通知部會回覆
+</a>
+<!--<a href="javascript:void(0);"-->
+<!--   data-request="onSendNotificationDepartmentReplyTwo"-->
+<!--   data-request-confirm="是否確認由系統發送信件給相關部會？"-->
+<!--   data-request-loading=".sendMailProcessing"-->
+<!--   data-request-data="id:<?=$record->id?>" <?php /* =$record->is_send2?'disabled':'' */ ?>-->
+<!--   class="btn btn-primary btn-sm">-->
+<!--    第二次通知部會回覆-->
+<!--</a>-->
+<a href="javascript:void(0);"
+   data-request="onSendShowAndClose"
+   data-request-confirm="是否要變更發佈狀態？發佈問題的同時將會由系統發送信件給相關部會及提問者。"
+   data-request-loading=".sendMailProcessing"
+   data-request-success="$('#sendMailProcessing').hide();"
+   data-request-data="id:<?=$record->id?>"
+   class="btn btn-primary btn-sm">
+    <?= $record->is_show ? '關閉發佈' : '發佈問題回覆' ?>
+</a>
+<a href="<?= Backend::url( 'nashyang/forum/event_list/exportexcel', [ $record->id ] ); ?>"
+   data-request-confirm="請確認是否要匯出此活動的 Excel 檔案？"
+   data-request-loading=".sendMailProcessing"
+   class="btn btn-primary btn-sm">
+    匯出座談會活動 Excel 資料
+</a>

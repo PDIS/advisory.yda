@@ -1,0 +1,14 @@
+name: 會前會處理
+modelClass: Nashyang\Proposal\Models\Meeting
+form: $/nashyang/proposal/models/meeting/prefields.yaml
+defaultRedirect: nashyang/proposal/premeeting
+create:
+    title: 會前會處理
+    redirect: 'nashyang/proposal/premeeting/update/:id'
+    redirectClose: nashyang/proposal/premeeting
+update:
+    title: 會前會處理
+    redirect: nashyang/proposal/premeeting
+    redirectClose: nashyang/proposal/premeeting
+preview:
+    title: 會前會處理

@@ -1,0 +1,9 @@
+<a href="javascript:void(0);"
+   data-request="onSendShowAndClose"
+   data-request-confirm="是否要變更發佈狀態？"
+   data-request-loading=".sendMailProcessing"
+   data-request-success="$('#sendMailProcessing').hide();"
+   data-request-data="id:<?=$record->id?>"
+   class="btn <?= $record->is_show ? 'btn-primary' : 'btn-default' ?> btn-sm">
+    <?= $record->is_show ? '關閉發佈' : '發佈大會' ?>
+</a>

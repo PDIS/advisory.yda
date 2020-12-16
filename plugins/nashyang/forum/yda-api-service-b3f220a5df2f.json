@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "yda-api-service",
+  "private_key_id": "b3f220a5df2fce4efde39f5e6b1bd50174dfd10e",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDUU42bsCVdhjOh\nv/nqzDvD5+Z0HXJMrOXei82fENiqMyDjj0QhGDnSJYKxGJXN7SBXKQO/9ykR1WAJ\nFTxPYe8ApI1vqlsdpBaofee8K4LMKLvJrQqgkcDFqAbCqjqemlVeAqvX0K4mc1O/\n/WNuLIVdpaPkjyNYMlWWJL30B6Hktjy6/CQBddsoOkWOxqi7rDxWOma3SD7THr1H\ntLiK8q+JMwgk64lj7W/Yv3Z6IQ8paKWPXlTjVI3kAij+qDffIAxLAKrKpcIy2YsQ\nck7TBLC4e/4LSDUnBwXRd3eYXcXjb91tLzpWS3baCQv4TGz09l+HpoMDDlCLy8gS\ndsB4klnbAgMBAAECggEAWBsvyOoIJ034AOfD0g3bwwho1cgeVPjuDjIfKiF4du/u\ndt9NWxpNbAmKuOhFyYTbha+MUc1DKpZLWpmIRDyUS8T8t9iOJLehe1t7nNbFWOiS\nPDblEQpKXvrBi2fOGWBbij47hrueeHAk0adY6i/pS5nfb4mCFigU4c/vTuMX5+qB\nj5ROBTEd4U+uXCSVHf5YBCUL5qqNdQkygftTUySVPxzYRVPJ7yEdGkahejtxnjj5\nziW4lS7HPAGprxz11jO5bRbGXu0bYSxHkP+ctIITGqjqdXzet6OJd+++IBVbNSs7\nEHt98jBGhMb3LpAEWxCOW5kDEIwAZch/4TcjXaLZ0QKBgQDzXSROF4gD4EViZ2PD\nsnU1Ot43WzYBH1jEqgg2YVZ1+LW2lrQT/ZdeYb/yCxCjeBuB4QhlQP5gth8B361Q\nCajntq47F1ExMADddERUYh5ucaB4NpIWTI5QXoOjSrQ4sOErY/WZQ2tUcov5h7hP\nuVhLxrcYK5/bt76ertzytd4t+QKBgQDfWdphihuZaVwcAOxd7ZdnLSkRvPNffbvT\n5GYmK2F/87T3sVQSum+Ybo6FIbk+Y3lwY/H+202/WqFwq7cXXG5JzVZxMM7HayHe\n296gFGn3fTOQ6oww3bUV/7EPDfwiJtVeqdU68LilxOJ751GK794wQZrUs0+vJZ7N\nEG6xopoLcwKBgEkkeFHkLqQDlrbxngFmNGXwMHNwvXVu524MMHWvoZ3JR0v+VVcg\nw4rBVEA55SFMavAJI03TT+DfO8iDYoKItLQXqpvl8SgYZloopJS7/KtzCSi4NgXv\nsmIjVesQ+8OCHdq9q0YKBksWNk2j5dhIO2pi6gqgqeYOfoMQySVFVeZ5AoGADtan\nXYeRYdXQGsQs7+iTAHXNnrIQ8S0nR2KLLsn/BkMoqLQNQ9lDBLuDmHCvH+f373GU\naDwlpCrfQt8FoPWxFhIgRhDaDAGgFHBDEBuLFrgort4GRlDUcQu1taxWLeaqkkly\nMyI/AjRcX6L0lehtuIMDSFJJXvd+31zSHdcRqOUCgYBhaV03LGh5xfzJ6w6VaNws\nDP71n7SQE7v3eBU5Lfryv2Xq9gqQG6qhsHnUfIp7GoG3x0LYUkDLdc67imEQM96V\nkvfZE0WIOJVTYnCg9CGpCVG8FXkj/E9judv5xuwlP3CIkg+tex+f06Wndc3V2mEM\nVGpeMMyp+yVL02KBKzz7Eg==\n-----END PRIVATE KEY-----\n",
+  "client_email": "yda-api-service@yda-api-service.iam.gserviceaccount.com",
+  "client_id": "112509309748474519360",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/yda-api-service%40yda-api-service.iam.gserviceaccount.com"
+}

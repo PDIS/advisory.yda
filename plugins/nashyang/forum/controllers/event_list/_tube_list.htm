@@ -1,0 +1,122 @@
+<div class="list-preview list-flush">
+    <div class="control-list">
+        <table class="table data" data-control="rowlink">
+            <thead>
+            <tr>
+                <th width="30%"><span>問題 / 需求</span></th>
+                <th width="10%"><span>提問者稱呼</span></th>
+                <th width="20%"><span>分案部會</span></th>
+                <th><span>問題狀態</span></th>
+                <th><span>已回答數</span></th>
+                <th><span>信件通知</span></th>
+                <th width="20%"><span>編輯</span></th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php $counts = 0; ?>
+            <?php foreach ( $issueList as $issue ): ?>
+                <?php if ( $issue['status'] !== 5 ): ?>
+                    <?php $counts++; ?>
+                    <tr>
+                        <td>
+                            <?= strlen( $issue['questioner'] ) > 30 ? mb_substr( $issue['questioner'], 0, 30, 'utf-8' ) . '...' : $issue['questioner']; ?>
+                        </td>
+                        <td>
+                            <?= strlen( $issue['questioner_name'] ) > 20 ? mb_substr( $issue['questioner_name'], 0, 20, 'utf-8' ) . '...' : $issue['questioner_name']; ?>
+                        </td>
+                        <td>
+                            <?php
+                            $resNameStr = '';
+                            foreach( $issue->respondents AS $res ) {
+                                if ( is_null( $res->users ) ) {
+                                    $resNameStr .= empty( $resNameStr ) ? $res->etc_name : ', ' . $res->etc_name;
+                                } else {
+                                    $resNameStr .= empty( $resNameStr ) ? $res->users->name : ', ' . $res->users->name;
+                                }
+                            }
+                            echo strlen( $resNameStr ) > 30 ? mb_substr( $resNameStr, 0, 20, "utf-8" ) . '...' : $resNameStr;
+                            ?>
+                        </td>
+                        <td>
+                            <?= $this->issueFormWidget->model->getStatusStr( $issue['status'] ) ?>
+                        </td>
+                        <td>
+                            <?php
+                                $resCount = 0;
+                                foreach( $issue['respondents'] AS $res ) {
+                                    if ( $res['respondents'] ) {
+                                        $resCount++;
+                                    }
+                                }
+                                echo $resCount;
+                            ?>
+                        </td>
+                        <td>
+                            <?= $issue['is_sendmail'] ? '是' : '否' ?>
+                        </td>
+                        <td class="nolink">
+                            <a
+                                href="javascript:;"
+                                data-request="onSendMailFormTubeOne"
+                                data-request-data="issue_id: <?= $issue['id'] ?>"
+                                data-request-loading=".sendMailProcessing"
+                                class="oc-icon-envelope<?= $issue['is_sendmail'] ? '' : '-o' ?> icon-2x"
+                                data-keyboard="false"
+                                data-toggle="tooltip"
+                                title="寄送信件">
+                            </a>
+                            <a
+                                href="javascript:;"
+                                data-control="popup"
+                                data-size="giant"
+                                data-handler="onLoadUpdateIssueForm"
+                                data-extra-data="issue_id: <?= $issue['id'] ?>"
+                                class="oc-icon-pencil-square-o icon-2x"
+                                data-keyboard="false"
+                                data-toggle="tooltip"
+                                title="修改">
+                            </a>
+                            <a
+                                    href="javascript:;"
+                                    data-control="popup"
+                                    data-size="giant"
+                                    data-keyboard="false"
+                                    data-handler="onLoadSetResSortForm"
+                                    data-extra-data="issue_id: <?= $issue['id'] ?>"
+                                    class="oc-icon-thumb-tack icon-2x"
+                                    data-toggle="tooltip"
+                                    title="設定部會順序">
+                            </a>
+                            <a
+                                href="javascript:;"
+                                data-control="popup"
+                                data-size="giant"
+                                data-keyboard="false"
+                                data-handler="onLoadRespondentsForm"
+                                data-extra-data="issueid: '<?= $issue['id'] ?>'"
+                                class="oc-icon-commenting-o icon-2x"
+                                data-toggle="tooltip"
+                                title="查看問題回覆">
+                            </a>
+                            <a
+                                href="javascript:;"
+                                data-request="onDeleteIssue"
+                                data-request-data="issueid: '<?= $issue['id'] ?>'"
+                                data-request-confirm="確定要將[ <?= $issue['questioner_name'] ?> ]的問題刪除嗎？"
+                                class="oc-icon-remove icon-2x"
+                                data-toggle="tooltip"
+                                title="刪除">
+                            </a>
+                        </td>
+                    </tr>
+                <?php endif ?>
+            <?php endforeach ?>
+            <?php if ( $counts === 0 ): ?>
+                <tr>
+                    <td colspan="6" style="text-align: center;">尚未新增問題。</td>
+                </tr>
+            <?php endif ?>
+            </tbody>
+        </table>
+    </div>
+</div>

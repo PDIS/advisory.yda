@@ -1,0 +1,8 @@
+name: 提案連署管理
+modelClass: Nashyang\Proposal\Models\Proposal_list
+form: $/nashyang/proposal/models/proposal_list/fields.yaml
+defaultRedirect: nashyang/proposal/proposal_list
+update:
+    title: 提案連署
+    redirect: nashyang/proposal/proposal_list
+    redirectClose: nashyang/proposal/proposal_list

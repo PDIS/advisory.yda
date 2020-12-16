@@ -1,0 +1,14 @@
+name: 大會處理
+modelClass: Nashyang\Proposal\Models\Meeting
+form: $/nashyang/proposal/models/meeting/fields.yaml
+defaultRedirect: nashyang/proposal/meeting
+create:
+    title: 大會處理
+    redirect: 'nashyang/proposal/meeting/update/:id'
+    redirectClose: nashyang/proposal/meeting
+update:
+    title: 大會處理
+    redirect: nashyang/proposal/meeting
+    redirectClose: nashyang/proposal/meeting
+preview:
+    title: 大會處理

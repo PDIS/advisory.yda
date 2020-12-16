@@ -1,0 +1,26 @@
+<div class="relation-widget" >
+    <!-- Checkbox List -->
+    <script>
+        function tubeListHide() {
+            $( "#tubeList" ).toggle( 500 );
+        }
+    </script>
+    <div class="field-checkboxlist ">
+        <div class="toolbar-widget list-header">
+            <div class="control-toolbar">
+                <div class="toolbar-item toolbar-primary">
+                    <a href="javascript:;" class="btn btn-primary oc-icon-plus" data-control="popup" data-size="giant"
+                       data-handler="onLoadCreateIssueForm">
+                        新增列管問題
+                    </a>
+                    <a href="javascript:;" onclick="tubeListHide();" class="btn btn-primary oc-icon-eye">
+                        切換 顯示/隱藏 列表
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div id="tubeList">
+            <?= $this->makePartial('tube_list', ['issueList' => $model->issues]); ?>
+        </div>
+    </div>
+</div>

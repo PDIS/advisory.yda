@@ -1,0 +1,18 @@
+<select class="corgamoser form-control custom-select select2-hidden-accessible" name="<?php echo $formSendName ?>" multiple>
+    <?php foreach($committeeMember as $key => $value): ?>
+    <option value="<?php echo $key ?>"
+        <?php echo in_array( $key, $selectedValues ) ? 'selected="selected"' : '' ?> >
+        <?php echo $value ?>
+    </option>
+    <?php endforeach; ?>
+</select>
+
+
+<script type="text/javascript">
+    $(document).on('render',function () {
+        $('.corgamoser').select2({
+            placeholder: '如有共同提案人，請於清單中選擇。',
+            tags: false
+        })
+    });
+</script>

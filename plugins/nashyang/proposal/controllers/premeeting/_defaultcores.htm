@@ -1,0 +1,21 @@
+<?php
+    $str = '';
+    $r = $model->department->where( 'list_id', post( 'listid' ) )->where( 'isco', 1 );
+if ( $r->count() > 0 ) {
+$counts = 0;
+foreach ( $r AS $k => $res ) {
+if ( $counts > 0 ) {
+$str .= '、';
+}
+$counts++;
+$name = is_null( $res->user['name'] ) ? $res['etc_name'] : $res->user['name'];
+$str .= $name;
+echo '<input type="hidden" name="defaultres[]" value="' . $name . '"  />';
+}
+} else {
+$str = '-- 委員未設定 --';
+}
+?>
+<p class="form-control">
+    <?= $str; ?>
+</p>

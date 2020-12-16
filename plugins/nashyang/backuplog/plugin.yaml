@@ -1,0 +1,16 @@
+plugin:
+    name: 'nashyang.backuplog::lang.plugin.name'
+    description: 'nashyang.backuplog::lang.plugin.description'
+    author: NashYang
+    icon: oc-icon-clock-o
+    homepage: ''
+navigation:
+    main-menu-item:
+        label: 查閱備份
+        url: nashyang/backuplog/logview
+        icon: icon-clock-o
+        sideMenu:
+            side-menu-item:
+                label: 備份紀錄
+                url: nashyang/backuplog/logview
+                icon: icon-clock-o

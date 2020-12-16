@@ -1,0 +1,26 @@
+columns:
+    id:
+        label: 提案序號
+        type: text
+    sort:
+        label: 前台排序用序號
+        type: text
+    content:
+        label: 案由
+        type: text
+        searchable: true
+        width: 40%
+    name:
+        label: 提案人
+        type: text
+        relation: user
+        select: name
+    status:
+        label: 狀態
+        type: getproposalstatus
+    created_at:
+        label: 提案建立時間
+        type: text
+    expiration_at:
+        label: 提案到期時間
+        type: getexpirationat

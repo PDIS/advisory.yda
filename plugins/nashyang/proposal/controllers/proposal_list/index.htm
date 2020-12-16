@@ -1,0 +1,7 @@
+<?php Block::put('breadcrumb') ?>
+<ul>
+    <li><a href="<?= Backend::url('nashyang/proposal/proposal_list') ?>"><?= e($this->pageTitle) ?></a></li>
+    <li><?= e($this->pageTitle) ?></li>
+</ul>
+<?php Block::endPut() ?>
+<?= $this->listRender() ?>

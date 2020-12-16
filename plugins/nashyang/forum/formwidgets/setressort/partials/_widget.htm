@@ -1,0 +1,31 @@
+<style>
+    body.dragging, body.dragging * {
+        cursor: move !important
+    }
+    .dragged {
+        position: absolute; opacity: 0.5; z-index: 2000;
+    }
+    #resSort li {
+        margin-bottom: 5px;
+    }
+    #resSort li.placeholder {
+        position: relative;
+    }
+</style>
+<?php
+    $sortHtml = '<div class="checkbox custom-checkbox"><ol id="resSort">';
+    $i = 0;
+    foreach( $allList As $id => $list ) {
+        $i++;
+        $sortHtml .= '<li><input type="hidden" name="ressort[]" value="' . $id . '" /><a class="btn btn-sm btn-default">' . $list['show_name'] . '</a></li>';
+    }
+    $sortHtml .= '</ol></div>';
+    if ( $i === 0 ) {
+        echo '未設定分案部會。';
+    } else {
+        echo '<div class="field-checkboxlist" style="margin-bottom: 10px;">' . $sortHtml . '</div>';
+    }
+?>
+<script>
+    $('#resSort').sortable();
+</script>

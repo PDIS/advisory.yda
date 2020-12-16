@@ -1,0 +1,33 @@
+<?= Form::open() ?>
+
+<input type="hidden" name="id" value="<?= $eventListID ?>" />
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="popup">×</button>
+    <h4 class="modal-title">新增問題</h4>
+</div>
+
+<div class="modal-body">
+    <?= $issueFormWidget->render() ?>
+</div>
+
+<div class="modal-footer">
+    <button
+            type="submit"
+            data-request="onCreateIssue"
+            data-request-data="redirect:0"
+            data-hotkey="ctrl+s, cmd+s"
+            data-popup-load-indicator
+            class="btn btn-primary">
+        新增
+    </button>
+
+    <button
+            type="button"
+            class="btn btn-default"
+            data-dismiss="popup">
+        取消
+    </button>
+</div>
+
+<?= Form::close() ?>

@@ -1,0 +1,6 @@
+columns:
+    name:
+        label: 'tag 名稱'
+        type: text
+        searchable: true
+        sortable: true

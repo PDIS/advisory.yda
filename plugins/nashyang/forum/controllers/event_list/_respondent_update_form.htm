@@ -1,0 +1,59 @@
+<?= Form::open() ?>
+<input type="hidden" name="issue_id" value="<?= $issueID ?>" />
+<input type="hidden" name="id" value="<?= $eventListID ?>" />
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="popup">×</button>
+    <h4 class="modal-title">查看問題列表</h4>
+</div>
+
+<div class="modal-body">
+    <div class="article doc-contents form-widget form-elements layout">
+        <h3 class="header-h2"><?= $this->vars['eventList']['name'] ?>( <?= $this->vars['eventList']['location'] ?> )</h3>
+        <hr class="my-4">
+
+        <div class="form-group span-full">
+            <label>提問者：</label>
+            <p class="br-a-s10"><?= $this->vars['issueData']['questioner_name']; ?></p>
+        </div>
+
+        <div class="form-group span-full">
+            <label>問題內容：</label>
+            <p class="br-a-s10"><?= nl2br( $this->vars['issueData']['questioner'] ); ?></p>
+        </div>
+
+        <?php foreach( $this->vars['respondentList'] AS $res ) { ?>
+        <div class="form-group span-left">
+            <label><?= $res->name ? $res->name : $res->etc_name; ?> 答案內容：(最後修改: <?= $res->updated_at ?>)</label>
+            <textarea class="form-control" placeholder="請輸入回覆內容"
+                name="content[<?=$res->id?>]"><?= $res->respondents ? $res->respondents : ''; ?></textarea>
+        </div>
+            <?php if ( $res->is_reply ) { ?>
+                <div class="form-group span-right">
+                    <label><?= $res->name ? $res->name : $res->etc_name; ?> 出席人員：</label>
+                    <textarea class="form-control" placeholder="請輸入出席人員"
+                              name="prints[<?=$res->id?>]"><?= $res->prints ? $res->prints : ''; ?></textarea>
+                </div>
+            <?php } ?>
+        <?php } ?>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button
+        type="submit"
+        data-request="onUpdateRespondent"
+        data-hotkey="ctrl+s, cmd+s"
+        data-popup-load-indicator
+        class="btn btn-primary">
+        儲存
+    </button>
+
+    <button
+        type="button"
+        class="btn btn-default"
+        data-dismiss="popup">
+        取消
+    </button>
+</div>
+
+<?= Form::close() ?>

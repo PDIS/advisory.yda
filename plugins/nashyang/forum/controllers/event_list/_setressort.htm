@@ -1,0 +1,31 @@
+<?= Form::open() ?>
+<div class="modal-header">
+
+    <button type="button" class="close" data-dismiss="popup">×</button>
+    <h4 class="modal-title">設定回覆順序</h4>
+</div>
+
+<div class="modal-body">
+    <div class="layout-row">
+        <?= $formWidget->render(); ?>
+    </div>
+</div>
+<div class="modal-footer">
+    <button
+            type="submit"
+            data-request="onSaveSetSort"
+            data-request-data="issue_id:<?= $issue_id ?>"
+            data-hotkey="ctrl+s, cmd+s"
+            data-popup-load-indicator
+            class="btn btn-primary">
+        儲存
+    </button>
+
+    <button
+            type="button"
+            class="btn btn-default"
+            data-dismiss="popup">
+        取消
+    </button>
+</div>
+<?= Form::close() ?>

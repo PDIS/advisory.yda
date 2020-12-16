@@ -1,0 +1,82 @@
+title = "提案-ALL"
+url = "/proposallist/admin"
+layout = "default"
+is_hidden = 0
+robot_index = "index"
+robot_follow = "follow"
+
+[builderList forumList]
+modelClass = "Nashyang\proposal\Models\Proposal_list"
+scope = "-"
+displayColumn = "name"
+noRecordsMessage = "查無資料。"
+detailsPage = "proposallistdetail"
+detailsKeyColumn = "id"
+detailsUrlParameter = "id"
+pageNumber = "{{ :page }}"
+sortColumn = "id"
+sortDirection = "desc"
+==
+<?php
+use Nashyang\proposal\Models\Proposal_list;
+
+function onStart()
+{
+    $this['isadmin'] = is_null( $this->user ) ? FALSE : in_array( 'froum-admin', $this->user->groups->lists('code') );
+if ( !$this['isadmin'] ) {
+return Redirect::to('/');
+}
+$this['proList'] = Proposal_list::all();
+}
+
+?>
+==
+<style>
+    .btn-focus:focus {
+        outline: 5px dotted red;
+    }
+    .table {
+        margin-bottom: 40px;
+        border: 2px solid #ddd;
+    }
+</style>
+<div class="container">
+
+    <a id="AC" accesskey="C" href="#AC" title="中央內容區塊" name="AC">:::</a>
+
+    <h1 class="headline"><span>青諮提案列表</span></h1>
+    <div class="content">
+        <table cellspacing="0" cellpadding="0" class="table" id="tbl2">
+            <thead>
+            <tr style="display: table-row;">
+                <th id="e1" headers="e" width="10%" style="text-align:center">提案序號</th>
+                <th id="e2" headers="e" width="40%" style="text-align:center">案由</th>
+                <th id="e3" headers="e" width="15%" style="text-align:center">提案人</th>
+                <th id="e4" headers="e" width="10%" style="text-align:center">狀態</th>
+                <th id="e5" headers="e" width="15%" style="text-align:center">提案建立時間</th>
+                <th id="e6" headers="e" width="10%" style="text-align:center">提案詳情</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% set isNoData = TRUE %}
+            {% for record in records %}
+            <tr>
+                <td headers="e e1" style="text-align:center">{{ record.id|raw }}</td>
+                <td headers="e e2" style="text-align:left;">{{ record.content|raw }}</td>
+                <td headers="e e3" style="text-align:center">{{ record.user.name }}</td>
+                <td headers="e e4" style="text-align:center">{{ record.statusStr }}</td>
+                <td headers="e e5" style="text-align:center">{{ record.created_at }}</td>
+                <td headers="e e6" style="text-align:center">
+                    <a href="{{ detailsPage|page({ (detailsUrlParameter): attribute(record, detailsKeyColumn) }) }}"
+                       class="btn btn-info btn-focus" style="text-decoration:none">提案詳情</a>
+                </td>
+            </tr>
+            {% set isNoData = FALSE %}
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% if isNoData %}
+    <h2 class="text-center">目前暫無相關資料</h2>
+    {% endif %}
+</div>

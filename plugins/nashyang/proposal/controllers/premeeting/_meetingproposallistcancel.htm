@@ -1,0 +1,125 @@
+<div class="relation-widget">
+    <div class="list-preview list-flush">
+        <div class="control-list">
+            <table class="table data" data-control="rowlink">
+                <thead>
+                <tr>
+                    <th width="8%"><span style="text-align: center;">提案序號</span></th>
+                    <th width="8%"><span style="text-align: center;">排序用序號</span></th>
+                    <th><span style="text-align: center;">案由</span></th>
+                    <th width="10%"><span style="text-align: center;">提案人</span></th>
+                    <th width="10%"><span style="text-align: center;">本次處理狀態</span></th>
+                    <th width="20%"><span style="text-align: center;">分案部會</span></th>
+                    <th width="15%"><span style="text-align: center;">功能操作</span></th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php $counts = 0; ?>
+                <?php $ooo = $model->listmeetint->sortByDesc( function( $oo, $key ) {
+                return $oo->proposallist[0]['sort'];
+                } );  ?>
+                <?php foreach ( $ooo as $lists ): ?>
+                <?php foreach ( $lists->proposallist as $list ): ?>
+                <?php if ( in_array( $lists['status'], [1,2,4,6,7,8] ) ) : ?>
+                <?php $counts++; ?>
+                <tr>
+                    <td align="center">
+                        <?php
+                        if ( is_null( $list->meetingIndex['customer_index'] ) )
+                        echo $list->meetingIndex['meeting_index'] . '-' . $list->meetingIndex['list_index'];
+                        else
+                        echo $list->meetingIndex['customer_index'];
+                        ?>
+                    </td>
+                    <td align="center">
+                        <?= $list['sort'] ?>
+                    </td>
+                    <td>
+                        <?= $list['content']; ?>
+                    </td>
+                    <td align="center">
+                        <?= $list->user->name; ?>
+                    </td>
+                    <td align="center">
+                        <?= Nashyang\proposal\Models\Proposal_list::$preStatusArr[ $lists['status'] ]; ?>
+                    </td>
+                    <td align="center">
+                        <?php
+                        $r = $list->respondents->where( 'meeting_id', $model->id )->sortBy( 'res_sort' );
+                                        if ( $r->count() > 0 ) {
+                        $str = '';
+                        $counts = 0;
+                        foreach ( $r AS $k => $res ) {
+                        if ( $counts > 0 ) {
+                        $str .= ' ,';
+                        }
+                        $counts++;
+                        $str .= is_null( $res->users['name'] ) ? $res['etc_name'] : $res->users['name'];
+                        }
+                        echo $str;
+                        } else {
+                        echo '-- 暫未分配 --';
+                        }
+                        ?>
+                    </td>
+                    <td class="nolink" align="center">
+                        <a
+                                href="javascript:;"
+                                data-control="popup"
+                                data-size="giant"
+                                data-keyboard="false"
+                                data-handler="onLoadProposalForm"
+                                data-extra-data="listid: '<?= $list['id'] ?>', meetingid: '<?= $model->id ?>'"
+                                class="oc-icon-pencil-square-o icon-2x"
+                                data-toggle="tooltip"
+                                title="提案處理及修改">
+                        </a>
+                        <a
+                                href="javascript:;"
+                                data-control="popup"
+                                data-size="giant"
+                                data-keyboard="false"
+                                data-handler="onLoadSetDepartmentForm"
+                                data-extra-data="listid: '<?= $list['id'] ?>', meetingid: '<?= $model->id ?>'"
+                                class="oc-icon-thumb-tack icon-2x"
+                                data-toggle="tooltip"
+                                title="設定主辦">
+                        </a>
+                        <a
+                                href="javascript:;"
+                                data-control="popup"
+                                data-size="giant"
+                                data-keyboard="false"
+                                data-handler="onLoadRespondentsForm"
+                                data-extra-data="listid: '<?= $list['id'] ?>'"
+                                class="oc-icon-commenting-o icon-2x"
+                                data-toggle="tooltip"
+                                title="部會回覆">
+                        </a>
+                        <a
+                                href="javascript:;"
+                                data-control="popup"
+                                data-size="giant"
+                                data-keyboard="false"
+                                data-handler="onLoadResolutionForm"
+                                data-extra-data="listid: '<?= $list['id'] ?>', meetingid: '<?= $model->id ?>'"
+                                class="oc-icon-gavel icon-2x"
+                                data-toggle="tooltip"
+                                title="設定主責與決議">
+                        </a>
+                    </td>
+                </tr>
+                <?php endif; ?>
+
+                <?php endforeach ?>
+                <?php endforeach ?>
+                <?php if ( $counts === 0 ): ?>
+                <tr>
+                    <td colspan="6" style="text-align: center;">暫無提案內容。</td>
+                </tr>
+                <?php endif ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

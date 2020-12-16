@@ -1,0 +1,28 @@
+columns:
+    name:
+        label: 活動名稱
+        type: text
+        searchable: true
+        sortable: true
+    time:
+        label: 時間
+        type: datetime
+        format: Y-m-d H:i:s
+        searchable: true
+        sortable: true
+    location:
+        label: 地點
+        type: text
+        searchable: true
+        sortable: true
+    is_show:
+        label: 發佈狀況
+        type: switch
+        sortable: true
+    content:
+        label: 其他功能操作
+        clickable: false
+        type: partial
+        path: ~/plugins/nashyang/forum/models/event_list/_list_button.htm
+        sortable: false
+

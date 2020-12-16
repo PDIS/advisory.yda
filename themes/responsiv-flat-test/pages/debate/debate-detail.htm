@@ -1,0 +1,123 @@
+title = "Debate Detail"
+url = "/debate/:debate_id"
+layout = "default"
+is_hidden = 0
+robot_index = "index"
+robot_follow = "follow"
+==
+<?php
+use MarkDai\SayitPlugin\Models\DebateSectionSpeech;
+use MarkDai\SayitPlugin\Models\DebateSection;
+use MarkDai\SayitPlugin\Models\Debate;
+use RainLab\User\Models\User;
+
+function onStart()
+{
+    $debate_id = $this->param('debate_id');
+    $debate = Debate::find($debate_id);
+    $this['sections'] = $debate->sections()->get();
+    $users = User::all();
+    $user_list = array();
+
+    foreach ($users as $user){
+        $user_list[$user->name]=$user->getAvatarThumb(60,null);
+    };
+
+    $this['userlist'] = $user_list;
+    
+}
+?>
+==
+
+<style>
+    .speaker-name{
+        font-size: 1.5em;
+        color:#008685;
+        font-weight: 700;
+    }
+    .speech{
+        font-size: 1.5em;
+        line-height: 1.5em;
+        padding-bottom: 10px;
+    }
+    .text-content{
+        position: relative;
+        display: block;
+        padding-left: 80px;
+    }
+    .avatar{
+        position: absolute;
+        display: inline;
+    }
+    .avatar img{
+        border-radius: 50%;
+        width: 60px;
+    }
+    .record-list{
+        list-style: none;
+        padding: 0px;
+        width:100% ;
+    }
+    
+    .record-list hr{
+        margin-bottom: 0px;
+    }
+    
+    .record-list .block{
+        position: relative;
+        width: 100%;
+        max-width: 1000px;
+        padding: 15px 15px 0;
+    }
+    
+    .record-list li:target .block{
+        background-color:#79ffcb;
+    }
+    
+    .record-list li:target:before {
+    content:"";
+    display:block;
+    height:120px; /* fixed header height*/
+    margin:-120px 0 0; /* negative fixed header height */
+    }
+    
+    .link-text a{
+        color: #008685;
+    }
+</style>
+  
+<div class="container">
+    {% for section in sections %}
+        <h1 class="headline">
+            <span>
+                {{section.heading}}
+            </span>
+        </h1>
+        <ul class="record-list">
+            {% for speech in section.speeches %}
+            <li id="{{speech.id}}">
+                <div class="block">
+                    <div class="avatar">
+                        <img src="{{ attribute(userlist, speech.speaker | preg_replace('/-\\d/','',1) | preg_replace('/#/','',1) ) | default('assets/images/users/nopicture.jpg'|theme)}}" alt="">
+                    </div>
+                    <div class="text-content">
+                        <div class="speaker-name">
+                            {{speech.speaker | preg_replace('/-\\d/','',1) | preg_replace('/#/','',1) }}
+                        </div>
+                        <div class="speech">
+                            {{speech.speech|raw}}
+                        </div>
+                        <div class="pull-right link-text">
+                            <a href="#{{speech.id}}">Link in context</a>
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+            </li>
+            {% else %}
+            <li class="no-data">No Debate Section Found !</li>
+            {% endfor %}
+        </ul>
+    {% endfor %}
+</div>
+

@@ -1,0 +1,112 @@
+title = "youth-policy"
+url = "/youth-policy"
+layout = "default"
+description = "國發會 青年政策 Yda/Gpivp plugin"
+is_hidden = 0
+robot_index = "index"
+robot_follow = "follow"
+==
+<?php
+function onStart()
+{ 
+  use Yda\Gpvip\Controllers\GpvipController;
+
+  $gpvip = new GpvipController();
+  $result = $gpvip->index();
+  
+  $this['error'] = GpvipController::$msgError;
+  $this['title'] = $result[0];
+  $this['items'] = array_slice($result, 1);
+}
+?>
+==
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+      integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+<link href="{{ 'assets/carearea/styles/index.css'|theme }}" rel="stylesheet">
+<link href="{{ 'assets/carearea/styles/countingCase.css'|theme }}" rel="stylesheet">
+
+
+
+<div id="ydp_index"></div>
+<!--<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>-->
+<script src="{{ ['assets/carearea/d3/d3.js']|theme }}"></script>
+<script src="{{ ['assets/carearea/d3/d3.geom.js']|theme }}"></script>
+<script src="{{ ['assets/carearea/d3/d3.layout.js']|theme }}"></script>
+<script src="{{ ['assets/carearea/js/d3_CareAreaD3.js']|theme }}"></script>
+<script src="{{ ['assets/carearea/js/d3_dataConverter.js']|theme }}"></script>
+
+
+<!-- load static json [start] -->
+<script src="{{ ['assets/carearea/data/countingCaseInfo.js']|theme }}"></script>
+
+<script src="{{ ['assets/carearea/data/YouthDevPJs.js']|theme }}"></script>
+<script src="{{ ['assets/carearea/data/color.js']|theme }}"></script>
+<!-- load static json [end] -->
+
+<!-- load js fn [start] -->
+<script src="{{ ['assets/carearea/js/render_bodyInner.js']|theme }}"></script>
+<script src="{{ ['assets/carearea/js/countingCase.js']|theme }}"></script>
+
+<script src="{{ ['assets/carearea/js/hexagon_chart.js']|theme }}"></script>
+<script src="{{ ['assets/carearea/js/d3_chart.js']|theme }}"></script>
+<script src="{{ ['assets/carearea/js/careArea.js']|theme }}"></script>
+<!-- load js fn [end] -->
+
+
+<script>
+
+  render_bodyInner("careArea");
+
+
+
+
+  //關鍵字搜尋 listen keypress enter
+  // $(document).keypress(function (e) {
+  // 	if (e.keyCode == 13 & $('.cs_bar_search_input').val() !== '') {
+  // 		ydp_search()
+  // 	}
+  // });
+
+  // [N]listen checkbox onchange
+  $('input[name=select_pj]').change(
+          function () {
+            ydp_search()
+          }
+  );
+
+
+</script>
+
+<div class="container yda-container" id="youth-policy">
+  <div class="row">
+    <div class="col-lg-12">
+      <a id="AC" accesskey="C" href="#AC" title="中央內容區塊" name="AC">:::</a>
+      <div class="text-center">
+
+        <h2 sytle="font-size: 2.5em;">青年政見追蹤事項各機關辦理情形摘要表</h2>
+        {% if title == '[ERROR]' %}
+          <h2>無資料</h2>
+        {% else %}
+        <table class="break-table table text-left">
+          <thead>
+              <tr class="table-success">
+                  {% for val in title %}
+                  <th>{{ val }}</th>
+                  {% endfor %}
+              </tr>
+          </thead>
+          <tbody>  
+            {% for item in items %}
+              <tr>
+                {% for val in item %}
+                  <td data-title="{{title[loop.index-1]}}">{{ val }}</td>
+                {% endfor %}
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>

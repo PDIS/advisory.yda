@@ -1,0 +1,303 @@
+title = "提案列表"
+url = "/proposal/list"
+layout = "default"
+description = "提案列表"
+is_hidden = 0
+robot_index = "index"
+robot_follow = "follow"
+==
+use Nashyang\proposal\Models\Proposal_list;
+use Nashyang\proposal\Models\Countersign;
+use October\Rain\Support\Facades\Flash;
+use Nashyang\Proposal\Models\ForumUser;
+
+function onStart() {
+$this->addJs('assets/select2tag/assets/js/select2.full.min.js');
+
+    if ( is_null( $this['user'] ) ) {
+        return Redirect::to('/');
+    }
+    $arr = [ 'committee-member' ];
+    $inGroup = FALSE;
+    foreach( $this['user']['groups']->toArray() AS $group ) {
+        if ( in_array( $group['code'], $arr ) ) {
+            $inGroup = TRUE;
+            break;
+        }
+    }
+    if ( !$inGroup ) {
+        return Redirect::to('/');
+    }
+    $this['listData'] = Proposal_list::whereRaw( 'IFNULL( expiration_at, DATE_ADD( created_at, INTERVAL 14 DAY ) ) >= now()' )->get();
+    $this['statusArr'] = Proposal_list::$statusArr;
+    $taguser = '';
+    foreach( ForumUser::getGroupModel()->get()->toArray() AS $k => $v ) {
+        $taguser .= '<option value=' . $v->id . '>' . $v->name . '</option>';
+    }
+    $this['taguser'] = $taguser;
+}
+
+function onSendUserRespondentCreate() {
+    Proposal_list::createProposalList();
+}
+
+function onGetUserRespondent() {
+    $whyArr = [];
+    foreach( Countersign::where( 'list_id', post( 'list_id' ) )->get() AS $cou ) {
+        $whyArr[] = [
+            'name' => $cou->user->name,
+            'why' => nl2br( $cou->why ),
+        ];
+    }
+
+    return [
+        'res' => Countersign::where( 'list_id', post( 'list_id' ) )->where( 'user_id', post( 'user_id' ) )->first(),
+        'why' => $whyArr,
+    ];
+}
+
+function onSendUserRespondent() {
+    Countersign::userRespondent();
+}
+
+==
+<style>
+    .persondiv {
+        width: 35px;
+        border-radius: 50%;
+        height: 35px;
+        display: inline-block;
+        background-size: cover !important;
+    }
+
+    .hideWhyJoin {
+        display: none;
+    }
+</style>
+<link href="{{ 'assets/select2tag/assets/css/select2.css'|theme }}" rel="stylesheet">
+<div class="container" style="font-size: 1.2em;">
+    <a id="AC" accesskey="C" href="#AC" title="中央內容區塊" name="AC">:::</a>
+    <h1 class="headline"><span>提案列表</span></h1>
+    <div class="content" style="margin-bottom: 50px;">
+        <div class="row">
+            <div style="text-align:right; margin-bottom: 15px;">
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <a href="javascript:;" class="btn btn-default"><i class="fa fa-list-alt" aria-hidden="true"></i> 正在進行的連署列表</a>
+                    <a href="{{ url( 'proposal/iagree' ) }}" class="btn btn-default"><i class="fa fa-check-square" aria-hidden="true"></i> 我同意的連署列表</a>
+                    <a href="{{ url( 'proposal/mylist' ) }}" class="btn btn-default"><i class="fa fa-tags" aria-hidden="true"></i> 由我發起的提案</a>
+                    <a href="javascript:;" id="createProBtn" class="btn btn-default"><i class="fa fa-plus" aria-hidden="true"></i> 新增提案</a>
+                </div>
+            </div>
+        </div>
+        <table cellspacing="0" cellpadding="0" class="table" id="tbl2">
+            <thead>
+            <tr style="display: table-row;">
+                <td width="10%" style="text-align:center">提案人</td>
+                <td width="35%" style="text-align:center">案由</td>
+                <td width="20%" style="text-align:center">連署名單</td>
+                <td width="15%" style="text-align:center">提案狀態</td>
+                <td width="10%" style="text-align:center">到期時間</td>
+                <td width="10%" style="text-align:center"></td>
+            </tr>
+            </thead>
+            <tbody>
+                {% for data in listData %}
+                    {% set userStr = '' %}
+                    {% for dep in data.department %}
+                        {% if dep.user.name %}
+                            {% set userStr = userStr ~ dep.user.name ~ '&nbsp;&nbsp;&nbsp;&nbsp;' %}
+                        {% else %}
+                            {% set userStr = userStr ~ dep.etc_name ~ '&nbsp;&nbsp;&nbsp;&nbsp;' %}
+                        {% endif %}
+                    {% endfor %}
+                <tr id="editProTr{{ data.id }}">
+                    <td id="editProTdName{{ data.id }}" data-proposalname="{{ data.user.name }}" data-proposaluserid="{{ data.user_id }}" style="text-align:center">{{ data.user.name }}</td>
+                    <td id="editProTdContent{{ data.id }}" data-content="{{ data.content|nl2br }}">{{ str_limit( data.content|nl2br, 220 ) }}</td>
+                    <td id="editProTdDescription{{ data.id }}" data-description="{{ data.description|nl2br }}" data-suggest="{{ data.suggest|nl2br }}" data-department="{{ userStr }}" >
+                        {% for detail in data.countersign %}
+                        {% if detail %}
+                        <div class="persondiv" style="background: url({{ detail.user.getAvatarThumb(100)}}) center center no-repeat;" title="{{ detail.user.name }}"></div>
+                        {% endif %}
+                        {% endfor %}
+                    </td>
+                    <td style="text-align:center">
+                        {{ statusArr[ data.status ] }}
+                    </td>
+                    <td style="text-align:center">
+                        {{ data.expiration_at }}
+                    </td>
+                    <td style="text-align:center">
+                        <a href="javascript:;" class="btn btn-default detailProBtn" data-listid="{{ data.id }}">提案詳情</a>
+                    </td>
+                </tr>
+                {% else %}
+                <tr><td class="text-center" colspan="6"><h4>目前暫無相關資料</h4></td></tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+    <div class="modal fade" id="proModal" tabindex="-1" role="dialog" aria-labelledby="proModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" style="width: 90%;" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="proModalLabel">新增提案</h3>
+                </div>
+                <div class="modal-body" id="proModal-body">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">關閉</button>
+                    <button type="button" id="submitProForm" class="btn btn-primary">加入連署</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% scripts %}
+<script>
+    $( function() {
+        var modalOption = {
+                keyboard: false,
+                backdrop: false,
+            },
+            taguser = '{{ taguser|raw }}',
+            userID = "{{ user.id }}",
+            redirectURL = "{{ url( 'proposal/list' ) }}";
+
+        $( "#editProModal" ).on(  "hide.bs.modal", function( e ) {
+            $( "#editProModal-body" ).html( "" );
+            $( "#submitEditProForm" ).off( "click" );
+        } );
+
+        $( ".detailProBtn" ).on( "click", function() {
+            var id = $( this ).data( "listid" ),
+                contentStr = $( "#editProTdContent" + id ).data( "content" ),
+                proposalName = $( "#editProTdName" + id ).data( "proposalname" ),
+                proposalUserId = $( "#editProTdName" + id ).data( "proposaluserid" ),
+                description = $( "#editProTdDescription" + id ).data( "description" ),
+                suggest = $( "#editProTdDescription" + id ).data( "suggest" ),
+                department = $( "#editProTdDescription" + id ).data( "department" );
+            $.request( "onGetUserRespondent", {
+                data: {
+                    list_id: id,
+                    user_id: userID,
+                },
+                success: function( r ) {
+                    var res = r.res,
+                        whylist = r.why,
+                        hideWhyJoinClass = proposalUserId == userID ? "hideWhyJoin" : "",
+                        resChecked = !$.isEmptyObject( res ) ? "" : "checked",
+                        resWhy = $.isEmptyObject( res ) ? "" : $.isEmptyObject( res.why ) ? "" : res.why,
+                        html = '<span class="badge badge-info">提案人</span><p></p><p>' + proposalName + '</p><hr/>' +
+                        '<span class="badge badge-info">案由</span><p></p><p>' + contentStr + '</p><hr/>' +
+                        '<span class="badge badge-info">說明</span><p></p><p>' + description + '</p><hr/>' +
+                        '<span class="badge badge-info">具體建議</span><p></p><p>' + suggest + '</p><hr/>' +
+                        '<span class="badge badge-info">主辦機關</span><p></p><p>' + department + '</p><hr/>' +
+                        '<form id="sendUserRespondent" data-request="onSendUserRespondent" class="' + hideWhyJoinClass + '"\n' +
+                        '             data-request-flash data-request-success="alert(\'操作成功。\');" data-request-redirect="' + redirectURL + '" \n' +
+                        '             data-request-data="user_id: ' + userID + ', list_id: ' + id + '" >\n' +
+                        '            <label for="whyjoin" class="col-form-label">為什麼想連署的文字敘述</label>\n' +
+                        '            <textarea class="form-control" id="whyjoin" name="why" rows="5">' + resWhy + '</textarea><hr/>\n';
+
+                    $.each( whylist, function( index, value ) {
+                        if ( !$.isEmptyObject( value.why ) )
+                            html += '<span class="badge badge-info">' + value.name + '</span><p>' + value.why + '</p><hr/>';
+                    } );
+                    html += '<input type="checkbox" class="form-check-input form-control-lg" style="display: none;" ' +
+                        'name="is_true" id="joinRespondent" ' + resChecked + '></form>';
+                    if ( !$.isEmptyObject( res ) ) {
+                        $( "#submitProForm" ).removeClass( "btn-primary" ).removeClass( "hideWhyJoin" )
+                            .addClass( "btn-warning" ).text( "取消連署" );
+                    } else {
+                        $( "#submitProForm" ).removeClass( "btn-warning" ).removeClass( "hideWhyJoin" )
+                            .addClass( "btn-primary" ).text( "加入連署" );
+                    }
+                    if ( hideWhyJoinClass !== "" ) {
+                        $( "#submitProForm" ).addClass( hideWhyJoinClass );
+                    }
+                    $( "#proModal" ).find( ".modal-title" ).text( "提案詳情" );
+                    $( "#proModal-body" ).html( html );
+                    $( "#proModal" ).modal( modalOption );
+                    $( "#submitProForm" ).off( "click" ).on( "click", function() {
+                        $( "#sendUserRespondent" ).submit();
+                    } );
+                }
+            } );
+
+        } );
+
+        $( "#createProBtn" ).on( "click", function() {
+            var html = '<form id="sendUserRespondent" data-request="onSendUserRespondentCreate" data-request-data="user_id: ' + userID + '"\n' +
+                '              data-request-flash class="form-issue" data-request-confirm="確定要送出嗎？"\n' +
+                '              data-request-redirect="' + redirectURL + '"  >\n' +
+                '            <div class="row">\n' +
+                '                <div class="form-group col-md-12">\n' +
+                '                    <label for="addcontent">案由</label>\n' +
+                '                    <textarea class="form-control" name="content" id="addcontent" rows="5"></textarea>\n' +
+                '                </div>\n' +
+                '                <div class="form-group col-md-12">\n' +
+                '                    <label for="adddescription">說明</label>\n' +
+                '                    <textarea class="form-control" name="description" id="adddescription" rows="10"></textarea>\n' +
+                '                </div>\n' +
+                '                <div class="form-group col-md-12">\n' +
+                '                    <label for="adddsuggest">具體建議</label>\n' +
+                '                    <textarea class="form-control" name="suggest" id="adddsuggest" rows="5"></textarea>\n' +
+                '                </div>\n' +
+                '                <div class="col-md-12">\n' +
+                '                    <div class="form-group">' +
+                '                       <label for="adddauthority">主辦機關</label>' +
+                '                       <select style="width: 100%;" class="form-control select2taglists" multiple="multiple" name="authority[]" id="adddauthority">' + taguser +
+                '                       </select>' +
+                '                    </div>' +
+                '                </div>\n' +
+                '                <div class="col-md-12">\n' +
+                '                    <div class="form-group">' +
+                '                       <label for="adddcoauthority">協辦機關</label>' +
+                '                       <select style="width: 100%;" class="form-control select2taglists" multiple="multiple" name="coauthority[]" id="adddcoauthority">' + taguser +
+                '                       </select>' +
+                '                    </div>' +
+                '                </div>\n' +
+                '            </div>\n' +
+                '        </form>';
+            $( "#proModal" ).find( ".modal-title" ).text( "行政院青年諮詢委員會提案單" );
+            $( "#submitProForm" ).removeClass( "btn-warning" ).addClass( "btn-primary" ).text( "送出" );
+            $( "#proModal-body" ).html( html );
+            $( ".select2taglists" ).select2( {
+                "placeholder": "打完請按”空白鍵”",
+                "tags": true,
+                "createTag": function ( params ) {
+                    if ( /[,;，； ]/.test( params.term ) ) {
+                        var str = params.term.trim().replace( /[,;，；]*$/, "" );
+                        return {
+                            "id": str,
+                            "text": str
+                        }
+                    } else {
+                        return null;
+                    }
+                }
+            } ).on( "keyup", ".select2-selection--multiple .select2-search__field", function ( event ) {
+                if ( event.keyCode == 13 ) {
+                    var $this = $( this ),
+                        optionText = $this.val();
+                    if ( optionText != "" && $this.find( "option[value='" + optionText + "']" ).length === 0 ) {
+                        var $select = $this.parents( ".select2-container" ).prev( "select" ),
+                            newOption = new Option( optionText, optionText, true, true );
+                        $select.append( newOption ).trigger( "change" );
+                        $this.val( "" );
+                    }
+                }
+            } );
+
+            $( ".select2-search__field" ).css( "width", "100%" );
+
+            $( "#proModal" ).modal( modalOption );
+
+            $( "#submitProForm" ).off( "click" ).on( "click", function() {
+                $( "#sendUserRespondent" ).submit();
+            } );
+        } );
+
+    } );
+</script>

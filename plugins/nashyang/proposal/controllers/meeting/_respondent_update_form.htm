@@ -1,0 +1,133 @@
+<?= Form::open() ?>
+    <input type="hidden" name="meeting_id" value="<?= $meeting_id ?>"/>
+    <input type="hidden" name="list_id" value="<?= $list_id ?>"/>
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="popup">×</button>
+        <h4 class="modal-title">編輯部會回覆</h4>
+    </div>
+
+    <div class="modal-body">
+        <div class="article doc-contents form-widget form-elements layout">
+            <h3 class="header-h2"><?= $this->vars['meetingData']['name'] ?>
+                [<?= $this->vars['meetingData']['location'] ?>] [<?= $this->vars['meetingData']['time'] ?>]</h3>
+            <hr class="my-4">
+
+            <div class="form-group span-full">
+                <label>案由：</label>
+                <p class="br-a-s10"><?= $this->vars['content']; ?></p>
+            </div>
+            <div class="form-group span-full">
+                <label>說明：</label>
+                <p class="br-a-s10"><?= $this->vars['description']; ?></p>
+            </div>
+            <div class="form-group span-full">
+                <label>具體建議：</label>
+                <p class="br-a-s10"><?= $this->vars['suggest']; ?></p>
+            </div>
+            <div class="form-group span-full">
+                <div class="control-tabs content-tabs" data-control="tab">
+                    <ul class="nav nav-tabs">
+                        <?php
+                        $liHtml = '';
+                        $html = '';
+                        foreach ( $this->vars['resData'] AS $k => $res ) {
+                            if ( $k === 0 ) {
+                                $liHtml .= '<li class="active"><a href="#contentTab' . ( $k + 1 ) . '">' . $res['name'] . '</a></li>';
+                                $html .= '<div class="tab-pane active">';
+                            } else {
+                                $liHtml .= '<li><a href="#contentTab' . ( $k + 1 ) . '">' . $res['name'] . '</a></li>';
+                                $html .= '<div class="tab-pane">';
+                            }
+                            if ( $res['ishost'] ) {
+                                $html .= '
+                                <div class="form-group span-left">
+                                    <label>1.主要業務聯繫人(機關名稱/連絡人/電話/E-mail)-大會</label>
+                                    <textarea class="form-control" placeholder="請輸入聯絡窗口-大會" name="other_reply4[' . $res['resid'] . ']">' . $res['other_reply4'] . '</textarea>
+                                </div>
+                                <div class="form-group span-right">
+                                    <label>●主辦綜合辦理意見-大會</label>
+                                    <textarea class="form-control" placeholder="請輸入主辦綜合辦理意見-大會" name="hostres[' . $res['resid'] . ']">' . $res['hostres'] . '</textarea>
+                                </div>
+                                <div class="form-group span-left">
+                                    <label>2.研處情形-大會 / 辦理情形</label>
+                                    <textarea class="form-control" placeholder="請輸入研處情形-大會" name="respondents[' . $res['resid'] . ']">' . $res['respondents'] . '</textarea>
+                                </div>
+                                <div class="form-group span-right">
+                                    <label>●主辦綜整裁示參考-大會</label>
+                                    <textarea class="form-control" placeholder="請輸入綜整裁示參考-大會" name="hostres_other_reply[' . $res['resid'] . ']">' . $res['hostres_other_reply'] . '</textarea>
+                                </div>
+                            <div class="form-group span-right">
+                                <label>最後修改時間：' . $res['updated_at'] . '</label>
+                            </div>
+                                <div class="form-group span-left">
+                                    <label>3.裁示參考內容-大會</label>
+                                    <textarea class="form-control" placeholder="請輸入裁示參考內容-大會" name="other_reply6[' . $res['resid'] . ']">' . $res['other_reply6'] . '</textarea>
+                                </div>
+                                <div class="form-group span-left">
+                                    <label>4.出席人員(單位/職稱/姓名)-大會</label>
+                                    <textarea class="form-control" placeholder="請輸入出席人員(單位/職稱/姓名)-大會" name="other_reply7[' . $res['resid'] . ']">' . $res['other_reply7'] . '</textarea>
+                                </div>
+                                <div class="form-group span-left">
+                                    <label>5.辦理進度-大會(辦理中/已完成,完全參採/已完成部分參採/已完成,暫不參採)</label>
+                                    <textarea class="form-control" placeholder="請輸入辦理進度-大會(辦理中/已完成,完全參採/已完成,部分參採/已完成,暫不參採)" name="other_reply8[' . $res['resid'] . ']">' . $res['other_reply8'] . '</textarea>
+                                </div>
+                                ';
+                            } else {
+                                $html .= '
+                                <div class="form-group span-full">
+                                    <label>1.主要業務聯繫人(機關名稱/連絡人/電話/E-mail)-大會</label>
+                                    <textarea class="form-control" placeholder="請輸入聯絡窗口-大會" name="other_reply4[' . $res['resid'] . ']">' . $res['other_reply4'] . '</textarea>
+                                </div>
+                                <div class="form-group span-full">
+                                    <label>2.研處情形-大會 / 辦理情形</label>
+                                    <textarea class="form-control" placeholder="請輸入研處情形-大會" name="respondents[' . $res['resid'] . ']">' . $res['respondents'] . '</textarea>
+                                </div>
+                                <div class="form-group span-full">
+                                    <label>3.裁示參考內容-大會</label>
+                                    <textarea class="form-control" placeholder="請輸入裁示參考內容-大會" name="other_reply6[' . $res['resid'] . ']">' . $res['other_reply6'] . '</textarea>
+                                </div>
+                                <div class="form-group span-full">
+                                    <label>4.出席人員(單位/職稱/姓名)-大會</label>
+                                    <textarea class="form-control" placeholder="請輸入出席人員-大會" name="other_reply7[' . $res['resid'] . ']">' . $res['other_reply7'] . '</textarea>
+                                </div>
+                                <div class="form-group span-full">
+                                    <label>5.辦理進度-大會(辦理中/已完成,完全參採/已完成部分參採/已完成,暫不參採)</label>
+                                    <textarea class="form-control" placeholder="請輸入辦理進度-大會(辦理中/已完成,完全參採/已完成,部分參採/已完成,暫不參採)" name="other_reply8[' . $res['resid'] . ']">' . $res['other_reply8'] . '</textarea>
+                                </div>
+                            <div class="form-group span-full">
+                                <label>最後修改時間：' . $res['updated_at'] . '</label>
+                            </div>
+                                ';
+                            }
+                            $html .= '</div>';
+                        }
+                        echo $liHtml;
+                        ?>
+                    </ul>
+                    <div class="tab-content">
+                        <?php echo $html; ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button
+                type="submit"
+                data-request="onUpdateRespondent"
+                data-hotkey="ctrl+s, cmd+s"
+                data-popup-load-indicator
+                class="btn btn-primary">
+            儲存
+        </button>
+
+        <button
+                type="button"
+                class="btn btn-default"
+                data-dismiss="popup">
+            取消
+        </button>
+    </div>
+
+<?= Form::close() ?>

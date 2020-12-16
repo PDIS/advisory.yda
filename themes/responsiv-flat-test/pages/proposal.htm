@@ -1,0 +1,616 @@
+title = "提案-ALL"
+url = "/proposal/:id"
+layout = "default"
+is_hidden = 0
+robot_index = "index"
+robot_follow = "follow"
+
+==
+<?php
+use Nashyang\proposal\Models\Proposal_list;
+use Nashyang\proposal\Models\Countersign;
+use Nashyang\Proposal\Models\Respondents;
+
+function onStart()
+{
+    $listData = [];
+    $statusHtmlArr = [
+        3 => '<span class="badge">送部會研處</span>',
+4 => '<span class="badge">大會否決</span>',
+5 => '<span class="badge">辦理中</span>',
+6 => '<span class="badge">完全參採</span>',
+7 => '<span class="badge">部分參採</span>',
+8 => '<span class="badge">暫不參採</span>',
+];
+$statusCss = [
+3 => 'status_active',
+4 => 'status_active',
+5 => 'status_processing',
+6 => 'status_done',
+7 => 'status_almost',
+8 => 'status_notok',
+];
+foreach ( Proposal_list::where( 'status', '>=', 3 )->where( 'is_show', 1 )->orderBy('sort','desc')->orderBy('id','desc')->get() AS $proList ) {
+$listData[] = [
+'indexStr' => is_null( $proList->meetingIndex->customer_index ) ?
+$proList->meetingIndex->meeting_index . '-' . $proList->meetingIndex->list_index :
+$proList->meetingIndex->customer_index,
+'statusHtml' => $statusHtmlArr[ $proList->status ],
+'statusCss' => $statusCss[ $proList->status ],
+'listID' => $proList->id,
+'content' => $proList->content,
+];
+}
+$this['listData'] = $listData;
+$this['isProReply'] = is_null( $this->user ) ? FALSE : in_array( '座談會群組', $this->user->groups->lists('name') );
+}
+
+function onShowdetail() {
+return Respondents::getFrontRespondentByListId( post( 'id' ) );
+}
+?>
+==
+<style>
+    .content {
+        text-align: justify;
+        word-break: break-all;
+    }
+    .color_sample_row {
+        display:flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-content: center;
+        align-items: center;
+    }
+    .color_sample_row > p {
+        width: 100%;
+        font-size: 22px;
+        text-align: center;
+        margin-bottom: 30px;
+        margin-top: -30px;
+    }
+    .color_sample > span {
+        width: 90px;
+        height: 30px;
+        border-radius: 30px;
+        display: block;
+        margin: 0px 20px 5px;
+    }
+    .color_sample {
+        display: inline-block;
+        vertical-align: top;
+        text-align: center;
+        font-size: 16px;
+    }
+    .color3 {
+        background-color: #777;
+    }
+    .color5 {
+        background-color: #007bff;
+    }
+    .color6 {
+        background-color: #28a745;
+    }
+    .color7 {
+        background-color: #f5b800;
+    }
+    .color8 {
+        background-color: #dc3545;
+    }
+</style>
+<div style="margin-top: 100px;">
+    <link href="{{ 'assets/css/proposal-page/proposal-page.css'|theme }}" rel="stylesheet">
+    <link href="{{ 'assets/css/proposal-page/proposal-info.css'|theme }}" rel="stylesheet">
+    <!--    <link href="{{ 'assets/css/proposal-page/track-side.css'|theme }}" rel="stylesheet">-->
+    <!-- <script src="http://code.jquery.com/jquery-latest.min.js"></script> -->
+
+    <div class="container text-center" id="proposal-intro">
+        {% if isProReply %}
+        <div class="container">
+            <div class="row">
+                <a title="部會回復問題" href="{{ url( 'proreply' ) }}" class="col-sm-2 col-sm-offset-10 btn btn-info focus-outline">部會回復問題</a>
+            </div>
+        </div>
+        {% endif %}
+        <h1>青諮提案</h1>
+        <h2>詳列青諮在大會中提出之具體提案</h2>
+    </div>
+    <div id="proposal" class="container">
+        <link href="{{ 'assets/css/user/track.css'|theme }}" rel="stylesheet">
+        <section id="track" class="container">
+            <div class="row color_sample_row">
+                <p>進度說明</p>
+                <div class="color_sample">
+                    <span class="color3"></span><p>送部會研處</p>
+                </div>
+                <div class="color_sample">
+                    <span class="color5"></span><p>辦理中</p>
+                </div>
+                <div class="color_sample">
+                    <span class="color6"></span><p>完全參採</p>
+                </div>
+                <div class="color_sample">
+                    <span class="color7"></span><p>部分參採</p>
+                </div>
+                <div class="color_sample">
+                    <span class="color8"></span><p>暫不參採</p>
+                </div>
+                <!-- 搜詢 -->
+                <!--                <div class="container">-->
+                <!--                    <div class="row">-->
+                <!--                        <div class="col-sm-6 col-sm-offset-3">-->
+                <!--                            <form method="GET" action="https://advisory.yda.gov.tw/02/proposal/default">-->
+                <!--                                <div class="input-group stylish-input-group">-->
+                <!--                                    <label for="search"></label>-->
+                <!--                                    <input type="text" class="form-control" name="search" id="search"-->
+                <!--                                           placeholder="輸入關鍵字搜尋" title="輸入關鍵字搜尋">-->
+                <!--                                    <span class="input-group-addon">-->
+                <!--                                        <button type="submit"><span class="glyphicon glyphicon-search" title="搜尋"-->
+                <!--                                                                    alt="搜尋"></span></button>-->
+                <!--                                    </span>-->
+                <!--                                </div>-->
+                <!--                            </form>-->
+                <!--                        </div>-->
+                <!--                    </div>-->
+                <!--                </div>-->
+                <div class="row">
+                    <div class="col-md-12">
+                        <a id="AC" accesskey="C" href="https://advisory.yda.gov.tw/02/proposal/default#AC"
+                           title="中央內容區塊" name="AC">:::</a>
+                        <h2 class="headline" style="font-size:1.6666666666666665em">
+                            <span>委員提案</span>
+                        </h2>
+                        <div class="row">
+                            <style>
+                                .propose .status {
+                                    padding: 9px;
+                                    border-bottom: 1px solid #ccc;
+                                }
+
+                                .propose .status .badge {
+                                    margin-left: 10px;
+                                    margin-top: -3px;
+                                    display: inline-block;
+                                    vertical-align: middle;
+                                }
+
+                                .propose .caption {
+                                    height: 72px;
+                                    overflow: hidden;
+                                }
+
+                                .caption > a:focus {
+                                    outline: red dotted;
+                                    text-decoration: none;
+                                }
+
+                                #resModal-tabs > li:focus {
+                                    outline: red dotted;
+                                    text-decoration: none;
+                                }
+
+                                .focus-outline:focus {
+                                    outline: red dotted;
+                                    text-decoration: none;
+                                }
+
+                                .status_processing .thumbnail {
+                                    border-bottom: 3px solid #007bff;
+                                }
+
+                                .status_processing .badge {
+                                    background: #007bff;
+                                }
+
+                                .propose.status_active .thumbnail {
+                                    border-bottom: 3px solid #777;
+                                }
+
+                                .status_active .badge {
+                                    background: #777;
+                                }
+
+                                .propose.status_done .thumbnail {
+                                    border-bottom: 3px solid #28a745;
+                                }
+
+                                .status_done .badge {
+                                    background: #28a745;
+                                }
+
+                                .propose.status_almost .thumbnail {
+                                    border-bottom: 3px solid #f5b800;
+                                }
+
+                                .status_almost .badge {
+                                    background: #f5b800;
+                                }
+
+                                .propose.status_notok .thumbnail {
+                                    border-bottom: 3px solid #dc3545;
+                                }
+
+                                .status_notok .badge {
+                                    background: #dc3545;
+                                }
+                            </style>
+                            {% for data in listData %}
+                            <div class="propose col-sm-3 {{ data.statusCss }}" style="text-overflow: ellipsis; width: 300px!important;">
+                                <div class="thumbnail" data-toggle="modal" data-target="#myModal">
+                                    <div class="status">{{ data.indexStr }} {{ data.statusHtml|raw }}</div>
+                                    <div class="caption">
+                                        <a href="javascript:;" class="showProDetail" data-listid="{{ data.listID }}"
+                                           class="display-block" title="{{ data.indexStr }}：{{ data.content }}">
+                                            {{ str_limit(data.content, 60, '...') }}
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+
+                        </div>
+                        <!-- modal Start-->
+                        <style>
+                            .modal-body, .modal-title {
+                                text-align: left;
+                            }
+
+                            .modal-title {
+                                font-size: 1.8em;
+                                line-height: 1.5em;
+                            }
+
+                            .modal-body .row {
+                                margin-top: 0px !important;
+                            }
+
+                            .modal-body .meeting-title {
+                                color: #ad4900;
+                                font-size: 1.5em;
+                                line-height: 1.5em;
+                            }
+
+                            .modal-body .meeting-datetime {
+                                color: #3194ff;
+                                font-size: 1.0em;
+                                line-height: 1.0em;
+                            }
+
+                            .modal-body blockquote > p {
+                                font-size: 1.3em;
+                                line-height: 1.8em;
+                            }
+
+                            .modal-body blockquote .info-box {
+                                background: #d8d8d8;
+                                padding: 5px 10px 15px;
+                                font-size: 1.2em;
+                            }
+
+                            .modal-body blockquote .info-box .person {
+                                display: inline-block;
+                                vertical-align: top;
+                                width: 75px;
+                                text-align: center;
+                                font-size: 0.9em;
+                                margin: 4px;
+                            }
+
+                            .modal-body blockquote .info-box p {
+                                width: 100%;
+                                font-size: 1rem;
+                                white-space: nowrap;
+                                text-overflow: ellipsis;
+                                overflow: hidden;
+                            }
+
+                            .modal-body blockquote .info-box::after {
+                                content: '';
+                                display: block;
+                                clear: both;
+                            }
+
+                            .modal-body .section_title {
+                                width: 100%;
+                                font-size: 1.8em;
+                                margin-bottom: 15px;
+                            }
+
+                            .modal-body p {
+                                font-size: 1.2em;
+                                line-height: 1.5em;
+                            }
+
+                            .person > div {
+                                width: 80px;
+                                border-radius: 50%;
+                                height: 80px;
+                                background-size: cover !important;
+                            }
+                        </style>
+                        <div class="modal fade in" id="resModal" tabindex="-1" role="dialog" aria-labelledby="resModalLabel"
+                             aria-hidden="true" style=" padding-left: 17px;">
+                            <div class="modal-dialog modal-lg" style="width: 95%;" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close focus-outline" data-dismiss="modal" aria-hidden="true">×</button>
+                                        <h2 class="modal-title" id="resModal-title"></h2>
+                                    </div>
+                                    <div class="modal-body" id="resModal-body">
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="section_title">提案連署委員：</div>
+                                                        <div class="content">
+                                                            <blockquote xml:lang="zh">
+                                                                <p id="resModal-content"></p>
+                                                                <div class="info-box">
+                                                                    <div class="col-md-4" id="resModal-cou">
+                                                                    </div>
+                                                                    <div class="col-md-8" id="resModal-countersign">
+                                                                    </div>
+                                                                </div>
+                                                            </blockquote>
+                                                        </div>
+                                                        <div class="section_title">青年委員提案內容：</div>
+                                                        <div class="content">
+                                                            <p>(一)提案說明：</p>
+                                                            <p id="resModal-description"></p>
+                                                            <p>(二)具體建議：</p>
+                                                            <p id="resModal-suggest"></p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <style>
+                                                ul.tabs {
+                                                    margin-bottom: 0;
+                                                    padding-left: 0;
+                                                }
+
+                                                ul.tabs li {
+                                                    color: #007bff;
+                                                    list-style: none;
+                                                    border: 1px solid #007bff;
+                                                    border-bottom: none;
+                                                    border-top-left-radius: 5px;
+                                                    border-top-right-radius: 5px;
+                                                    padding: 5px 10px;
+                                                    display: inline-block;
+                                                    vertical-align: top;
+                                                    position: relative;
+                                                    cursor: pointer;
+                                                }
+
+                                                ul.tabs li.active {
+                                                    background: #007bff;
+                                                    color: #fff;
+                                                }
+
+                                                .response_records {
+                                                    border: 1px solid #007bff;
+                                                    border-radius: 3px;
+                                                    border-top-left-radius: 0;
+                                                    padding: 20px 15px;
+                                                }
+
+                                                .response_records .from {
+                                                    font-size: 1.3em;
+                                                    padding-left: 5px;
+                                                    border-left: 2px solid #ad4900;
+                                                    margin-top: 20px;
+                                                }
+
+                                                .modal-body .badge {
+                                                    font-size: 1rem;
+                                                    padding: 6px 12px;
+                                                    display: inline-block;
+                                                    vertical-align: middle;
+                                                    margin-top: -6px;
+                                                }
+
+                                                /* 重複的 */
+                                                .status_processing .badge {
+                                                    background: #007bff;
+                                                }
+
+                                                .status_active .badge {
+                                                    background: #777;
+                                                }
+
+                                                .status_done .badge {
+                                                    background: #28a745;
+                                                }
+
+                                                .status_almost .badge {
+                                                    background: #f5b800;
+                                                }
+
+                                                .status_notok .badge {
+                                                    background: #dc3545;
+                                                }
+                                            </style>
+                                            <div class="col-md-6">
+                                                <div class="col-md-12" id="resModal-responsibilityDiv">
+                                                </div>
+
+                                                <div class="col-md-12" id="resModal-statusdiv">
+                                                    <div class="section_title">辦理情形：<span class="badge" id="resModal-statusspan"></span></div>
+                                                    <div class="content">
+                                                        <ul class="tabs" id="resModal-tabs">
+                                                        </ul>
+                                                        <div class="response_records" id="resModal-records">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-12" id="resModal-resolutiondiv">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+                                        <script>
+                                            $( 'ul.tabs li' ).click( function () {
+                                                $( 'ul.tabs li' ).removeClass( 'active' );
+                                                $( this ).addClass( 'active' );
+                                                var tar = $( this ).data( 'depart' );
+                                                if ( tar == 0 ) {
+                                                    $( '.response_records .depart' ).removeClass( 'hide' );
+                                                } else {
+                                                    $( '.response_records .depart' ).addClass( 'hide' );
+                                                    $( '.response_records .depart' ).each( function () {
+                                                        if ( $( this ).data( 'depart' ) == tar ) {
+                                                            $( this ).removeClass( 'hide' );
+                                                        }
+                                                    } )
+                                                }
+                                            } )
+                                        </script>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+</div>
+<script>
+    $( ".showProDetail" ).on( "click", function () {
+        var id = $( this ).data( "listid" );
+        $.request( "onShowdetail", {
+            "data": { "id": id },
+            "success": function ( res ) {
+                $( "#resModal-title" ).html( res.index + " " + res.content );
+                // $( "#resModal-content" ).html( res.content );
+                $( "#resModal-description" ).html( res.description );
+                $( "#resModal-suggest" ).html( res.suggest );
+                var html = "",
+                    recordshtml = "",
+                    recordsHosthtml = "",
+                    resolutionHtml = "",
+                    vvvrecordshtml = "",
+                    meetingNameHtml = "",
+                    responsibilityHtml = "";
+                    nameList = [];
+                if ( $.isEmptyObject( res.res ) ) {
+                    $( "#resModal-statusdiv" ).hide();
+                } else {
+                    $( "#resModal-statusdiv" ).show();
+                }
+                var _size = 0, _key;
+                for ( _key in res.resMeetingName ) {
+                    if ( res.resMeetingName.hasOwnProperty( _key ) )
+                        _size++;
+                    if ( _size == 1 ) {
+                        if ( !$.isEmptyObject( res.resolution.responsibility[ _key ] ) ) {
+                            responsibilityHtml = '<div class="section_title">' + '主責部會：' + res.resolution.responsibility[ _key ].responsibility + '</div>';
+                        }
+                    }
+                }
+                if ( _size == 0 ) {
+                    for ( _key in res.resolution.responsibility ) {
+                        responsibilityHtml = '<div class="section_title">' + '主責部會：' + res.resolution.responsibility[ _key ].responsibility + '</div>';
+                        break;
+                    }
+                    if ( responsibilityHtml == "" ) {
+                        responsibilityHtml = '<div class="section_title">' + '主責部會：</div>';
+                    }
+                    $( "#resModal-statusdiv" ).show();
+                }
+                var resMeetingObj = [];
+                $.each( res.resMeetingName, function( k, v ) {
+                    resMeetingObj.push( {
+                        "name": v,
+                        "id": k,
+                    } );
+                } );
+                resMeetingObj.reverse();
+                $.each( resMeetingObj, function( k, v ) {
+                    var _i = k;
+                    k = v.id;
+                    v = v.name;
+                    var _active = html === "" ? 'class="active"' : "",
+                        _hide = html !== "" ? "hide" : "";
+                    html += '<li data-depart="' + k + '" ' + _active + ' tabindex="' + k + '">' + res.resMeetingAsName[ k ] + '</li>';
+                    meetingNameHtml = '<div class="meeting depart ' + _hide + '" data-depart="' + k + '">' +
+                        '<p class="meeting-title">' + res.resMeetingName[ k ] + '' +
+                        '<p class="meeting-datetime">日期：' + res.resMeetingTime[ k ] + '</p>' +
+                        '</p>';
+                    recordshtml = '<div class="depart" data-depart="' + k + '">';
+                    if ( _size == ( _i + 1 ) ) {
+                        recordsHosthtml = '<p class="from" style="font-weight: bold;">綜合研處意見</p><p style="margin-left: 30px;">';
+                        $.each( res.res[ k ], function( i, r ) {
+                            if ( r.ishost ) {
+                                recordsHosthtml += r.hostres + '<br>';
+                            }
+                        } );
+                    } else {
+                        recordsHosthtml = '<p class="from" style="font-weight: bold;">辦理情形</p><p style="margin-left: 30px;">';
+                        $.each( res.res[ k ], function( i, r ) {
+                            recordsHosthtml += '<span style="font-weight: bold;">' + r.name + ':</span><br>' + r.res + '<br/><br/>';
+                        } );
+                    }
+                    resolutionHtml = '<p class="from" style="font-weight: bold;">' + ( _size == ( _i + 1 ) ? '決議' : '決定' ) + '</p>';
+                    if ( !$.isEmptyObject( res.resolution.resolution[ k ] ) ) {
+                        resolutionHtml += '<p style="margin-left: 30px;">' + res.resolution.resolution[ k ].resolution + '</p>';
+                    }
+                    vvvrecordshtml += meetingNameHtml + recordshtml + recordsHosthtml + resolutionHtml + '</p></div></div>'
+                } );
+
+                $( "#resModal-tabs" ).html( html );
+                if ( vvvrecordshtml == "" ) {
+                    $( "#resModal-records" ).hide();
+                    vvvrecordshtml = "尚未安排會議研討。";
+                } else {
+                    $( "#resModal-records" ).show();
+                }
+                $( "#resModal-records" ).html( vvvrecordshtml );
+                $( "#resModal-statusdiv" ).removeClass().addClass( res.statuscss ).addClass( "col-md-12" );
+                $( "#resModal-statusspan" ).text( res.statusstr );
+                // $( "#resModal-resolutiondiv" ).html( resolutionHtml );
+                $( "#resModal-responsibilityDiv" ).html( responsibilityHtml );
+
+                html = "<p>連署委員</p>";
+                $.each( res.countersignlist, function( key, value ) {
+                    html += '<div class="person">' +
+                        '<div title="' + value.name + '" style="background: url(' + value.thumb + ') center center no-repeat;"></div>' +
+                        '<p title="' + value.name + '">' + value.name + '</p>' +
+                        '</div>';
+                } );
+                $( "#resModal-countersign" ).html( html );
+
+                html = "<p>提案委員</p>";
+                $.each( res.corganiserlist, function( key, value ) {
+                    html += '<div class="person">' +
+                        '<div title="' + value.name + '" style="background: url(' + value.thumb + ') center center no-repeat;"></div>' +
+                        '<p title="' + value.name + '">' + value.name + '</p>' +
+                        '</div>';
+                } );
+                $( "#resModal-cou" ).html( html );
+
+                $( "#resModal" ).modal();
+                $( 'ul.tabs li' ).click( function () {
+                    $( 'ul.tabs li' ).removeClass( 'active' );
+                    $( this ).addClass( 'active' );
+                    var tar = $( this ).data( 'depart' );
+                    if ( tar == 0 ) {
+                        $( '.response_records .depart' ).removeClass( 'hide' );
+                    } else {
+                        $( '.response_records .depart' ).addClass( 'hide' );
+                        $( '.response_records .depart' ).each( function () {
+                            if ( $( this ).data( 'depart' ) == tar ) {
+                                $( this ).removeClass( 'hide' );
+                            }
+                        } );
+                    }
+                } );
+            }
+        } );
+    } );
+</script>

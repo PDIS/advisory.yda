@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>盤點案</title>
+
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
+	 crossorigin="anonymous">
+	<link rel="stylesheet" href="./styles/countingCase.css">
+</head>
+
+<body>
+	<div id="countingCase">
+		<div class="countingCase_header">
+			<h2>關於青年發展議題圖象盤點案</h2>
+			<p>為釐清青年發展議題圖象，由政府各部會及行政院青年諮詢委員會委員共同協作盤點現階段青年發展所需處理議題，以利作為規劃青年施政方向參考</p>
+		</div>
+
+		<div class="countingCase_body">
+			<div class="s_menu">
+				<div class="s_menu_breadcrumb">目前位置 : <span>類別</span></div>
+				<div class="s_menu_list">
+					<ul>
+						<li class="s_menu_list_li" onClick="categoryClick('教育')">教育</li>
+						<li class="s_menu_list_li" onClick="categoryClick('健康')">健康</li>
+						<li class="s_menu_list_li" onClick="categoryClick('家庭')">家庭</li>
+						<li class="s_menu_list_li" onClick="categoryClick('經濟機會')">經濟機會</li>
+						<li class="s_menu_list_li" onClick="categoryClick('跨界重點議題')">跨界重點議題</li>
+						<li class="s_menu_list_li" onClick="categoryClick('公民與社會參與')">公民與社會參與</li>
+						<li class="s_menu_list_li" onClick="categoryClick('國際視野與經驗')">國際視野與經驗</li>
+					</ul>
+				</div>
+				<div class="countingCase_info"><a href="">關於青年發展議題-我們關心的領域<i class="fas fa-question-circle"></i></a></div>
+				<p>為釐清青年發展議題圖象，由政府各部會及行政院青年諮詢委員會委員共同協作盤點現階段青年發展所需處理議題，以利作為規劃青年施政方向參考</p>
+			</div><!-- s_menu -->
+
+			<div class="countingCase_container">
+				<div class="cc_blocks">
+
+				</div><!-- cc_blocks -->
+			</div><!-- countingCase_container -->
+
+		</div><!-- countingCase_body -->
+
+
+	</div>
+</body>
+
+</html>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+
+<!-- load static json [start] -->
+<script src="./data/countingCaseInfo.js"></script>
+<!-- load static json [end] -->
+
+<script src="./js/countingCase.js"></script>
+
+<script>
+	render_cc_blocksInfo()
+</script>

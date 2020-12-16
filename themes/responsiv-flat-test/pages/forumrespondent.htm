@@ -1,0 +1,125 @@
+title = "座談會提問回復"
+url = "/forum/forumrespondent/:id"
+layout = "default"
+is_hidden = 0
+robot_index = "index"
+robot_follow = "follow"
+
+[builderDetails]
+modelClass = "Nashyang\Forum\Models\Issue"
+identifierValue = "{{ :id }}"
+modelKeyColumn = "id"
+displayColumn = "id"
+notFoundMessage = "Record not found"
+==
+<?php
+use Nashyang\Forum\Models\Issue;
+function onStart(){
+    //$this['respondent'] = Issue::getRespondentListByID( $this->param( 'id' ) );
+    $issueObj = Issue::find( $this->param( 'id' ) );
+    $this['event'] = [
+        'id' => $issueObj->eventList->id,
+        'eventname' => $issueObj->eventList->name,
+        'location' => $issueObj->eventList->location,
+        'eventtime' => $issueObj->eventList->time,
+    ];
+    $this['issue'] = [
+        'id' => $issueObj->id,
+        'name' => $issueObj->questioner_name,
+        'questioner' => $issueObj->questioner,
+    ];
+    $this['respondent'] = $issueObj->respondents;
+    $this['res'] = [];
+}
+?>
+==
+<style>
+    .table-info.table-bordered {
+        border: 1px solid #8edad4 !important;
+    }
+
+    .table-info.table-bordered > tbody > tr > td, .table-info.table-bordered > tbody > tr > th, .table-info.table-bordered > tfoot > tr > td, .table-info.table-bordered > tfoot > tr > th, .table-info.table-bordered > thead > tr > td, .table-info.table-bordered > thead > tr > th {
+        border: 1px solid #8edad4 !important;
+    }
+</style>
+<div class="container">
+    <div class="talk" style="height:auto;text-align:left;color:#000">
+        <h2 class="text-center" style="font-size:2.0833333333333335em">
+            {{ event.eventname|raw }}({{ event.location|raw }})
+        </h2>
+        <h3 class="text-center" style="font-size:1.6666666666666665em">提問回復</h3>
+        <div style="text-align:right">
+            <a href="{{ url( 'forum/forumissuelist', [event.id] ) }}"><i class="fa fa-undo" aria-hidden="true"></i>回提問列表</a>
+        </div>
+        <table class="table table-info table-bordered"
+               style="line-height: 25px;letter-spacing: 2px;font-size: 15px;">
+            <tbody>
+            <tr>
+                <td style="text-align:right; color: #FFF; padding-right: 15px; background-color: #1fc5b7 !important;"
+                    width="15%">座談場次
+                </td>
+                <td>{{ event.eventname|raw }}({{ event.location|raw }})
+                    <span style="color:#999;font-size:12px">
+                        ({{ event.eventtime }})
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align:right; color: #FFF; padding-right: 15px; background-color: #3bd0c4 !important;">
+                    提問者
+                </td>
+                <td>{{ issue.name|raw }}</td>
+            </tr>
+            <tr>
+                <td style="text-align:right; color: #FFF; padding-right: 15px; background-color: #1fc5b7 !important;">
+                    提問內容
+                </td>
+                <td>
+                    {{ issue.questioner|nl2br }}
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div style="line-height: 23px;letter-spacing: 2px">
+
+
+            {% for res in respondent %}
+            <table class="table table-bordered" style="font-size: 15px;">
+                <tbody>
+                <tr>
+                    <td>
+                        <div style="color:#000;font-size:15px;font-weight: bold; margin-left: 10px;">
+                            <i style="display: inline-block; vertical-align: middle; width: 6px; height: 6px; border-radius: 50%; background: #5bc0de; margin-right: 10px;"></i>回復單位:
+
+                            {% if res.users.name %}
+                                {% if res.users.headline %}
+                                    {{ res.users.headline|raw }}/{{ res.users.name|raw }}
+                                {% else %}
+                                    {{ res.users.name|raw }}
+                                {% endif %}
+                            {% elseif res.etc_name %}
+                                {{ res.etc_name|raw }}
+                            {% else %}
+                                未指派回復單位
+                            {% endif %}
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="line-height: 25px;letter-spacing: 2px; background: #f5f5f5">
+                        {% if res.respondents %}
+                            <div style="margin:10px; color: #444;">{{ res.respondents|nl2br }}</div>
+                        {% else %}
+                            <div style="color: #aaaaaa; padding-left: 10px;">回覆單位尚未回復問題。</div>
+                        {% endif %}
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            {% endfor %}
+
+
+        </div>
+    </div>
+
+</div>

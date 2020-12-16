@@ -1,0 +1,52 @@
+<?= Form::open() ?>
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="popup">×</button>
+    <h4 class="modal-title">由 Google Sheets 匯入問題</h4>
+</div>
+
+<div class="modal-body">
+    <div class="callout fade in callout-info no-subheader">
+        <div class="header">
+            <i class="icon-info"></i>
+            <h3>
+                使用之前請先確保 Sheets 已將此服務帳號加入檢視權限：yda-api-service@yda-api-service.iam.gserviceaccount.com
+            </h3>
+        </div>
+    </div>
+
+    <div class="callout fade in callout-info no-subheader">
+        <div class="header">
+            <i class="icon-info"></i>
+            <h3>
+                <a href="https://docs.google.com/spreadsheets/d/1tM-mYzM8RjcE4S-CU2fKTUlMzQ2SoV2ubq-ozDtOdiQ/edit" target="_blank">
+                    Google Sheets 範本
+                </a>
+                ，點擊前往後可建立副本修改調整匯入的內容( 欄位名稱不可變更與工作表名稱皆不可變更 )。
+            </h3>
+        </div>
+    </div>
+    <div class="form-group">
+        <label>Google Sheets 網址</label>
+        <input type="text" name="sheetLink" class="form-control" placeholder="請輸入 Google Sheets 網址"/>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button
+            type="submit"
+            data-request="onSubmitSheetLink"
+            data-hotkey="ctrl+s, cmd+s"
+            data-popup-load-indicator
+            class="btn btn-primary">
+        送出
+    </button>
+
+    <button
+            type="button"
+            class="btn btn-default"
+            data-dismiss="popup">
+        取消
+    </button>
+</div>
+
+<?= Form::close() ?>

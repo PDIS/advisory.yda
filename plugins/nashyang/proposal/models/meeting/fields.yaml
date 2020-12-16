@@ -1,0 +1,57 @@
+fields:
+    name:
+        label: 會議名稱
+        oc.commentPosition: ''
+        span: auto
+        placeholder: 請輸入會議名稱
+        type: text
+    time:
+        label: 會議時間
+        oc.commentPosition: ''
+        mode: datetime
+        span: auto
+        placeholder: 請輸入時間
+        type: datepicker
+    location:
+        label: 地點
+        oc.commentPosition: ''
+        span: auto
+        placeholder: 請輸入會議地點
+        type: text
+    name_as:
+        label: 會議別名
+        oc.commentPosition: ''
+        span: auto
+        placeholder: 如有需要，請輸入會議別名
+        type: text
+    controllertool:
+        label: 匯入操作
+        span: full
+        type: partial
+        path: pagetools
+        context:
+            - update
+    meetingproposallisttube:
+        label: 列管中清單
+        span: full
+        type: partial
+        path: meetingproposallisttube
+        cssClass: "meetingproposallisttube"
+        context:
+            - update
+    meetingproposallist:
+        label: 本次成案清單
+        span: full
+        type: partial
+        path: meetingproposallist
+        cssClass: "meetingproposallist"
+        context:
+            - update
+    meetingproposallistcancel:
+        label: 不再追蹤列表
+        span: full
+        type: partial
+        path: meetingproposallistcancel
+        cssClass: "meetingproposallistcancel"
+        context:
+            - update

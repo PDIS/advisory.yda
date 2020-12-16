@@ -1,0 +1,114 @@
+title = "座談會"
+url = "/forum"
+layout = "default"
+is_hidden = 0
+robot_index = "index"
+robot_follow = "follow"
+
+[builderList forumList]
+modelClass = "Nashyang\Forum\Models\Event_list"
+scope = "-"
+displayColumn = "name"
+noRecordsMessage = "No records found"
+detailsPage = "forumissuelist"
+detailsKeyColumn = "id"
+detailsUrlParameter = "id"
+pageNumber = "{{ :page }}"
+sortColumn = "time"
+sortDirection = "desc"
+==
+<?php
+use Nashyang\Forum\Models\Issue;
+use October\Rain\Support\Facades\Flash;
+
+function onStart(){
+    Issue::getEventIssueCount($this->param('id'));
+    $grouped = Issue::getEventIssueCount();
+    $issueCountArr = [];
+    foreach ( $grouped AS $k => $rows ) {
+        $issueCountArr[$k] = count($rows);
+    }
+    $this['issueCountArr'] = $issueCountArr;
+}
+
+function onSendUserRespondent() {
+    $res = Issue::frontUpdateRespondent();
+    if ( $res['result'] ) {
+        Flash::success( $res['message'] );
+    } else {
+        Flash::error( $res['message'] );
+    }
+}
+?>
+==
+<style>
+    .form-issue {
+        padding: 1.5rem;
+        margin-right: 0;
+        margin-left: 0;
+        margin-top: 10px;
+        position: relative;
+        border: 1px solid #999;
+    }
+    .meetingHidden {
+        visibility: hidden;
+        pointer-events: none;
+    }
+    .btn-focus:focus {
+        outline: 5px dotted red;
+    }
+</style>
+<div class="container">
+
+	<a id="AC" accesskey="C" href="#AC" title="中央內容區塊" name="AC">:::</a>
+    {% if user %}
+        <a href="{{ url( 'forumreply' ) }}" class="btn col-sm-2 col-sm-offset-10 btn-info">回復問題</a>
+    {% endif %}
+	<h1 class="headline"><span>座談會列表</span></h1>
+    <div class="content">
+        <table cellspacing="0" cellpadding="0" class="table" id="tbl2">
+            <thead>
+            <tr style="display: table-row;">
+                <th id="e1" headers="e" width="20%" style="text-align:center">座談會場次</th>
+                <th id="e2" headers="e" width="26%" style="text-align:center">會議地點</th>
+                <th id="e3" headers="e" width="12%" style="text-align:center">日期</th>
+                <th id="e4" headers="e" width="12%" style="text-align:center">時間</th>
+                <th id="e5" headers="e" width="30%" colspan="2" style="text-align:center">會議記錄</th>
+            </tr>
+            </thead>
+            <tbody>
+                {% set isNoData = TRUE %}
+                {% for record in records %}
+                    {% if record.is_show %}
+                        <tr>
+                            <td headers="e e1" style="text-align:center">{{ record.name|raw }}</td>
+                            <td headers="e e2" style="text-align:center">{{ record.location|raw }}</td>
+                            <td headers="e e3" style="text-align:center">{{ record.ForumDate }}</td>
+                            <td headers="e e4" style="text-align:center">{{ record.ForumTime }}</td>
+                            <td headers="e e5" style="text-align:center" align="center" valign="middle">
+                                {% if record.debate_link %}
+                                <a href="{{ record.debate_link }}" class="btn btn-info btn-focus" style="text-decoration:none"
+                                   title="{{ record.name|raw }}會議逐字稿">會議逐字稿</a>
+                                {% else %}
+<!--                                <span class="label label-default meetingHidden">會議逐字稿建置中...</span>-->
+                                <a href="{{ record.debate_link }}" class="btn btn-info btn-focus meetingHidden" style="text-decoration:none"
+                                   title="{{ record.name|raw }}會議逐字稿">會議逐字稿</a>
+                                {% endif %}
+                                {% if issueCountArr[ record.id ] %}
+                                <a href="{{ detailsPage|page({ (detailsUrlParameter): attribute(record, detailsKeyColumn) }) }}"
+                                   class="btn btn-info btn-focus" style="text-decoration:none"
+                                   title="{{ record.name|raw }}提問列表">提問列表</a>
+                                {% endif %}
+                            </td>
+                        </tr>
+
+                        {% set isNoData = FALSE %}
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+     {% if isNoData %}
+         <h2 class="text-center">目前暫無相關資料</h2>
+     {% endif %}
+</div>

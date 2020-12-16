@@ -1,0 +1,24 @@
+plugin:
+    name: 'nashyang.proposal::lang.plugin.name'
+    description: 'nashyang.proposal::lang.plugin.description'
+    author: NashYang
+    icon: icon-calendar-plus-o
+    homepage: ''
+navigation:
+    main-menu-nav_top:
+        label: 提案連署管理
+        url: nashyang/proposal/meeting
+        icon: icon-calendar-plus-o
+        sideMenu:
+            side-menu-premeeting:
+                label: '會前會處理'
+                url: nashyang/proposal/premeeting
+                icon: icon-tasks
+            side-menu-meeting:
+                label: '大會處理'
+                url: nashyang/proposal/meeting
+                icon: icon-newspaper-o
+            side-menu-proposal_list:
+                label: '提案管理'
+                url: nashyang/proposal/proposal_list
+                icon: icon-calendar-plus-o

@@ -1,0 +1,13 @@
+title: 提案連署管理
+modelClass: Nashyang\Proposal\Models\Proposal_list
+list: $/nashyang/proposal/models/proposal_list/columns.yaml
+recordUrl: 'nashyang/proposal/proposal_list/update/:id'
+noRecordsMessage: 'backend::lang.list.no_records'
+recordsPerPage: 20
+showSetup: true
+defaultSort: sort
+showCheckboxes: true
+toolbar:
+    buttons: list_toolbar
+    search:
+        prompt: 'backend::lang.list.search_prompt'

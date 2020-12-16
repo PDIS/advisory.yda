@@ -1,0 +1,16 @@
+name: 巡迴座談活動
+modelClass: Nashyang\Forum\Models\Event_list
+form: $/nashyang/forum/models/event_list/event_form_create.yaml
+defaultRedirect: nashyang/forum/event_list
+create:
+    title: 建立巡迴座談活動
+    redirect: 'nashyang/forum/event_list/update/:id'
+    redirectClose: nashyang/forum/event_list
+    form: $/nashyang/forum/models/event_list/event_form_create.yaml
+update:
+    title: 修改巡迴座談活動
+    redirect: nashyang/forum/event_list
+    redirectClose: nashyang/forum/event_list
+    form: $/nashyang/forum/models/event_list/event_form_update.yaml
+preview:
+    title: 預覽巡迴座談活動

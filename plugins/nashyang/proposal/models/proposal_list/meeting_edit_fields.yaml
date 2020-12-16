@@ -1,0 +1,57 @@
+fields:
+    meetingIndex[customer_index]:
+        label: 自訂序號
+        span: auto
+    sort:
+        label: 排序用序號
+        span: auto
+    content:
+        label: 案由
+        oc.commentPosition: ''
+        span: full
+        type: textarea
+    description:
+        label: 說明
+        oc.commentPosition: ''
+        span: full
+        type: textarea
+    suggest:
+        label: 具體建議
+        oc.commentPosition: ''
+        span: full
+        type: textarea
+    defaultres:
+        label: 委員期望的主辦機關
+        span: auto
+        type: partial
+        path: defaultres
+    status:
+        label: 最後提案狀態
+        span: auto
+        required: true
+        type: dropdown
+        options:
+            2: 暫不提大會
+            3: 送部會研處
+            4: 大會否決
+            5: 辦理中
+            6: 完全參採
+            7: 部分參採
+            8: 暫不參採
+    defaultcores:
+        label: 委員期望的協辦機關
+        span: auto
+        type: partial
+        path: defaultcores
+    Countersign:
+        label: 主責機關，打完請按”空白鍵”
+        span: auto
+        type: select2tag
+        cssClass: tagBugFix
+        sendHtmlName: organizer[]
+    is_show:
+        label: 是否顯示於前台提案頁面中
+        span: auto
+        type: switch
+        on: 顯示
+        off: 關閉

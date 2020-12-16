@@ -1,0 +1,38 @@
+<div class="relation-widget" >
+    <!-- Checkbox List -->
+    <script>
+        function issueListHide() {
+            $( "#issueList" ).toggle( 500 );
+        }
+    </script>
+    <div class="field-checkboxlist ">
+        <div class="toolbar-widget list-header">
+            <div class="control-toolbar">
+                <div class="toolbar-item toolbar-primary">
+                    <a href="javascript:;" class="btn btn-primary oc-icon-plus" data-control="popup"
+                       data-handler="onLoadCreateIssueOtherForm" data-size="giant" data-keyboard="false">
+                        新增巡迴座談問題
+                    </a>
+                    <a href="javascript:;" onclick="issueListHide();" class="btn btn-primary oc-icon-eye">
+                        切換 顯示/隱藏 列表
+                    </a>
+                    <a href="javascript:;" class="btn btn-primary oc-icon-refresh" data-request="onRefreshEventSend"
+                       data-request-confirm="確定要重置部會回覆的所有通知？">
+                        重置部會回覆通知
+                    </a>
+                    <a href="javascript:;" class="btn btn-primary oc-icon-cloud-upload" data-control="popup"
+                       data-handler="onLoadSheetImport" data-size="giant" data-keyboard="false">
+                        由 Google Sheets 匯入問題
+                    </a>
+                    <a href="javascript:;" class="btn btn-danger oc-icon-trash-o" data-request="onDeleteAllIssue"
+                       data-request-confirm="確定要刪除所有問題？">
+                        刪除所有其他問題
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div id="issueList">
+            <?= $this->makePartial('issue_list', ['issueList' => $model->issues]) ?>
+        </div>
+    </div>
+</div>

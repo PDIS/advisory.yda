@@ -1,0 +1,32 @@
+<?= Form::open() ?>
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="popup">×</button>
+    <h4 class="modal-title">設定主責與決議</h4>
+    <input type="hidden" name="meeting_id" value="<?= $this->vars['meeting_id'] ?>">
+    <input type="hidden" name="list_id" value="<?= $this->vars['list_id'] ?>">
+    <input type="hidden" name="res_id" value="<?= $this->vars['res_id'] ?>">
+</div>
+
+<div class="modal-body">
+    <div class="layout-row">
+        <?= $formWidget->render(); ?>
+    </div>
+</div>
+<div class="modal-footer">
+    <button
+            type="submit"
+            data-request="onUpdateResponsibility"
+            data-hotkey="ctrl+s, cmd+s"
+            data-popup-load-indicator
+            class="btn btn-primary">
+        儲存
+    </button>
+
+    <button
+            type="button"
+            class="btn btn-default"
+            data-dismiss="popup">
+        取消
+    </button>
+</div>
+<?= Form::close() ?>

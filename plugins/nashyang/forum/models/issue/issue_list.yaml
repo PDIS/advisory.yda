@@ -1,0 +1,25 @@
+columns:
+    questioner_company:
+        label: 提問者單位
+        type: text
+    questioner_jobtitle:
+        label: 提問者職稱
+        type: text
+    questioner_name:
+        label: 提問者稱呼
+        type: text
+    questioner:
+        label: 問題 / 需求
+        type: text
+    questioner_email:
+        label: 提問者信箱
+        type: text
+    is_reply:
+        label: 是否在座談會中回覆
+        type: switch
+    created_at:
+        label: 建立時間
+        type: text
+    updated_at:
+        label: 最後更新
+        type: datetime

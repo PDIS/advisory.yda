@@ -1,0 +1,634 @@
+title = "座談會問題列表"
+url = "/forum/forumissuelist/:id"
+layout = "default"
+is_hidden = 0
+robot_index = "index"
+robot_follow = "follow"
+
+[builderDetails ForumIssueList]
+modelClass = "Nashyang\Forum\Models\Event_list"
+identifierValue = "{{ :id }}"
+modelKeyColumn = "id"
+displayColumn = "name"
+notFoundMessage = "此座談會還沒有任何提問問題。"
+==
+<?php
+use Nashyang\Forum\Models\Issue;
+function onStart() {
+    $dbList = Issue::getIssueListByEventID( $this->param( 'id' ) );
+    $tubeList = [];
+    $issueList = [];
+    $this['eventName'] = '';
+    $this['time'] = '';
+    foreach( $dbList AS &$issue ) {
+        $this['eventName'] = $dbList[0]->eventList->name;
+        $this['time'] = $dbList[0]->eventList->time;
+        $status = $issue->status;
+        $issue->status = Issue::getStatusClass( $issue->status );
+        if ( $status != 5 ) {
+            $tubeList[] = $issue;
+        } else {
+            $issueList[] = $issue;
+        }
+    }
+    $this['issueList'] = $issueList;
+    $this['tubeList'] = $tubeList;
+    $this['dateStr'] = '';
+    if ( $this['time'] !== '' ) {
+        $dateStr = date('Y', strtotime($this['time'])) - 1911 . '.' . date('m.d', strtotime($this['time']));
+        $dateStr .= '(' . ['日', '一', '二', '三', '四', '五', '六'][ date('w', strtotime($this['time'])) ] . ')';
+        $this['dateStr'] = $dateStr;
+    }
+}
+?>
+==
+<style>
+    .content .row .thumb{
+        margin-right: 10px;
+        margin-top: 50px;
+        margin-bottom: 20px;
+    }
+    .content .row .thumb > div{
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 10px;
+    }
+    .content .row .thumb > div i{
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        margin-right: 5px;
+        display: inline-block;
+        vertical-align: middle;
+    }
+    .content .row .thumb > div i.icon-info{
+        background: #91d8ec;
+    }
+    .content .row .thumb > div i.icon-success{
+        background: #1fc5b7;
+    }
+    .content .row .thumb > div i.icon-secondary{
+        background: #a8dba8;
+    }
+    .content .row .thumb > div i.icon-third{
+        background: #b69fd6;
+    }
+    .content .row .thumb > div i.icon-warning{
+        background: #f9a65f;
+    }
+    .content .row .thumb > div i.icon-danger{
+        background: #feb6b4;
+    }
+    .timeline-centered {
+        position: relative;
+        margin-bottom: 30px;
+    }
+
+    .timeline-centered:before, .timeline-centered:after {
+        content: " ";
+        display: table;
+    }
+
+    .timeline-centered:after {
+        clear: both;
+    }
+
+    .timeline-centered:before, .timeline-centered:after {
+        content: " ";
+        display: table;
+    }
+
+    .timeline-centered:after {
+        clear: both;
+    }
+
+    .timeline-centered:before {
+        content: '';
+        position: absolute;
+        display: block;
+        width: 4px;
+        background: #f5f5f6;
+        /*left: 50%;*/
+        top: 20px;
+        bottom: 20px;
+        margin-left: 30px;
+    }
+
+    .timeline-centered .timeline-entry {
+        position: relative;
+        /*width: 50%;
+        float: right;*/
+        margin-top: 5px;
+        margin-left: 30px;
+        margin-bottom: 60px;
+        clear: both;
+    }
+
+    .timeline-centered .timeline-entry:before, .timeline-centered .timeline-entry:after {
+        content: " ";
+        display: table;
+    }
+
+    .timeline-centered .timeline-entry:after {
+        clear: both;
+    }
+
+    .timeline-centered .timeline-entry:before, .timeline-centered .timeline-entry:after {
+        content: " ";
+        display: table;
+    }
+
+    .timeline-centered .timeline-entry:after {
+        clear: both;
+    }
+
+    .timeline-centered .timeline-entry.begin {
+        margin-bottom: 0;
+    }
+
+    .timeline-centered .timeline-entry.left-aligned {
+        float: left;
+    }
+
+    .timeline-centered .timeline-entry.left-aligned .timeline-entry-inner {
+        margin-left: 0;
+        margin-right: -18px;
+    }
+
+    .timeline-centered .timeline-entry.left-aligned .timeline-entry-inner .timeline-time {
+        left: auto;
+        right: -100px;
+        text-align: left;
+    }
+
+    .timeline-centered .timeline-entry.left-aligned .timeline-entry-inner .timeline-icon {
+        float: right;
+    }
+
+    .timeline-centered .timeline-entry.left-aligned .timeline-entry-inner .timeline-label {
+        margin-left: 0;
+        margin-right: 70px;
+    }
+
+    .timeline-centered .timeline-entry.left-aligned .timeline-entry-inner .timeline-label:after {
+        left: auto;
+        right: 0;
+        margin-left: 0;
+        margin-right: -9px;
+        -moz-transform: rotate(180deg);
+        -o-transform: rotate(180deg);
+        -webkit-transform: rotate(180deg);
+        -ms-transform: rotate(180deg);
+        transform: rotate(180deg);
+    }
+
+    .timeline-centered .timeline-entry .timeline-entry-inner {
+        position: relative;
+        margin-left: -20px;
+    }
+
+    .timeline-centered .timeline-entry .timeline-entry-inner:before, .timeline-centered .timeline-entry .timeline-entry-inner:after {
+        content: " ";
+        display: table;
+    }
+
+    .timeline-centered .timeline-entry .timeline-entry-inner:after {
+        clear: both;
+    }
+
+    .timeline-centered .timeline-entry .timeline-entry-inner:before, .timeline-centered .timeline-entry .timeline-entry-inner:after {
+        content: " ";
+        display: table;
+    }
+
+    .timeline-centered .timeline-entry .timeline-entry-inner:after {
+        clear: both;
+    }
+
+    .timeline-centered .timeline-entry .timeline-entry-inner .timeline-time {
+        position: absolute;
+        left: -100px;
+        text-align: right;
+        padding: 10px;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+
+    .timeline-centered .timeline-entry .timeline-entry-inner .timeline-time > span {
+        display: block;
+    }
+
+    .timeline-centered .timeline-entry .timeline-entry-inner .timeline-time > span:first-child {
+        font-size: 15px;
+        font-weight: bold;
+    }
+
+    .timeline-centered .timeline-entry .timeline-entry-inner .timeline-time > span:last-child {
+        font-size: 12x;
+    }
+
+    .timeline-centered .timeline-entry .timeline-entry-inner .timeline-icon {
+        background: #fff;
+        color: #737881;
+        display: block;
+        width: 40px;
+        height: 40px;
+        -webkit-background-clip: padding-box;
+        -moz-background-clip: padding;
+        background-clip: padding-box;
+        -webkit-border-radius: 20px;
+        -moz-border-radius: 20px;
+        border-radius: 20px;
+        text-align: center;
+        -moz-box-shadow: 0 0 0 5px #f5f5f6;
+        -webkit-box-shadow: 0 0 0 5px #f5f5f6;
+        box-shadow: 0 0 0 5px #f5f5f6;
+        line-height: 40px;
+        font-size: 15px;
+        float: left;
+        position: relative;
+    }
+    .timeline-centered .timeline-entry.allTrack .timeline-entry-inner .timeline-icon:before {
+        content: '';
+        width: 15px;
+        height: 15px;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        background: #FFF;
+        border-radius: 50%;
+    }
+
+    .timeline-centered .timeline-entry .timeline-entry-inner .timeline-icon.bg-primary {
+        background-color: #303641;
+        color: #fff;
+    }
+
+    .timeline-centered .timeline-entry .timeline-entry-inner .timeline-icon.bg-secondary {
+        background-color: #a8dba8;
+        color: #fff;
+    }
+
+    .timeline-centered .timeline-entry .timeline-entry-inner .timeline-icon.bg-success {
+        background-color: #1fc5b7;
+        color: #fff;
+    }
+
+    .timeline-centered .timeline-entry .timeline-entry-inner .timeline-icon.bg-info {
+        background-color: #91d8ec;
+        color: #fff;
+    }
+
+    .timeline-centered .timeline-entry .timeline-entry-inner .timeline-icon.bg-warning {
+        background-color: #f9a65f;
+        color: #fff;
+    }
+
+    .timeline-centered .timeline-entry .timeline-entry-inner .timeline-icon.bg-danger {
+        background-color: #feb6b4;
+        color: #fff;
+    }
+    .timeline-centered .timeline-entry .timeline-entry-inner .timeline-icon.bg-third {
+        background-color: #b69fd6;
+        color: #fff;
+    }
+
+
+    .timeline-centered .timeline-entry .timeline-entry-inner .timeline-label {
+        position: relative;
+        margin-left: 60px;
+        -webkit-background-clip: padding-box;
+        -moz-background-clip: padding;
+        background-clip: padding-box;
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+        border-radius: 3px;
+    }
+    .timeline-centered .timeline-entry .timeline-entry-inner .timeline-label .author{
+        background: #f5f5f6;
+        height: 45px;
+        line-height: 45px;
+        margin-bottom: 2px;
+        padding: 0 20px;
+    }
+    .timeline-centered .timeline-entry .timeline-entry-inner .timeline-label .question{
+        background: #f5f5f6;
+        padding: 15px 20px;
+    }
+    .timeline-centered .timeline-entry .timeline-entry-inner .timeline-label .detail{
+        background: #f5f5f6;
+        padding: 0 20px;
+        margin-top: 2px;
+        height: 55px;
+        line-height: 55px;
+    }
+
+
+    .timeline-centered .timeline-entry .timeline-entry-inner .timeline-label:after {
+        content: '';
+        display: block;
+        position: absolute;
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 9px 9px 9px 0;
+        border-color: transparent #f5f5f6 transparent transparent;
+        left: 0;
+        top: 10px;
+        margin-left: -9px;
+    }
+
+    .timeline-centered .timeline-entry .timeline-entry-inner .timeline-label h2, .timeline-centered .timeline-entry .timeline-entry-inner .timeline-label p {
+        color: #737881;
+        font-family: "Noto Sans", sans-serif;
+        font-size: 15px;
+        margin: 0;
+        line-height: 1.428571429;
+    }
+
+    .timeline-centered .timeline-entry .timeline-entry-inner .timeline-label p + p {
+        margin-top: 15px;
+    }
+
+    .timeline-centered .timeline-entry .timeline-entry-inner .timeline-label h2 {
+        font-size: 16px;
+        margin-bottom: 10px;
+    }
+
+    .timeline-centered .timeline-entry .timeline-entry-inner .timeline-label h2 a {
+        color: #303641;
+    }
+
+    .timeline-centered .timeline-entry .timeline-entry-inner .timeline-label h2 span {
+        -webkit-opacity: .6;
+        -moz-opacity: .6;
+        opacity: .6;
+        -ms-filter: alpha(opacity=60);
+        filter: alpha(opacity=60);
+    }
+</style>
+<!-- print -->
+<style>
+    #print{
+        display: none;
+        margin-top: -100px;
+    }
+    #print .info{
+        width: 100%;
+        margin: 35px auto;
+        border-bottom: 1px solid #000;
+    }
+    #print .info .name{
+        font-size: 28px;
+        font-weight: bold;
+        text-align: center;
+        height: 80px;
+        line-height: 80px;
+    }
+    #print .info .time{
+        font-size: 16px;
+        text-align: right;
+        font-weight: bold;
+        margin-top: -20px;
+    }
+    #print .question_group{
+        page-break-inside: avoid;
+        margin-bottom: 10px;
+    }
+    #print .question{
+        border: 1px solid #4472c4;
+    }
+    #print .from{
+        height: 40px;
+        padding: 0 10px;
+        display:flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+        align-content: center;
+        align-items: center;
+    }
+    #print .question .from{
+        background:#4472c4;
+        color: #FFF;
+        font-size: 16px;
+    }
+    #print .question .from p{
+        margin-top: 8px;
+    }
+    #print .question .from .unit{
+        flex-grow: 1;
+        margin-left: 45px;
+    }
+    #print .question .from .name{
+        font-size: 24px;
+        margin-top: 8px;
+        flex-shrink: 0;
+    }
+    #print .question .content{
+        color: #747982;
+        padding: 10px 15px;
+        font-size: 16px;
+        font-weight: bold;
+    }
+    #print .answer{
+        /* margin-bottom: 10px; */
+    }
+    #print .answer .from{
+        border: 1px solid #999;
+        font-size: 18px;
+        color: #000;
+    }
+    #print .answer .content{
+        border: 1px solid #999;
+        font-size: 16px;
+        padding: 10px 15px;
+        background: #ededed;
+        color: #727272;
+        line-height: 1.5em;
+        font-weight: bold;
+    }
+    @media print{
+        body{
+            -webkit-print-color-adjust: exact;
+        }
+        #print{
+            display: block;
+        }
+        header, #web, footer, .containerPrintHide, #goTop{
+            display: none;
+        }
+    }
+
+</style>
+<div id="print">
+    <div class="container">
+        <div class="info">
+            <p class="name">{{ eventName }}</p>
+            <p class="time">{{ dateStr }}</p>
+        </div>
+        <div class="question_list">
+            {% for issue in issueList %}
+            <article class="question_group">
+                <div class="question">
+                    <div class="from">
+                        <p class="name">{{ issue.questioner_name|raw }}</p>
+                        <p class="unit">單位：{{ issue.questioner_company|raw }}</p>
+                        <p class="sn">{{ loop.index }}/{{ loop.length }}</p>
+                    </div>
+                    <div class="content">
+                        {{ issue.questioner|raw }}
+                    </div>
+                </div>
+                {% for respondent in issue.respondents %}
+                <div class="answer">
+                    <div class="from">
+                        {% if respondent.users.name %}
+                            回復單位：{{ respondent.users.name }}
+                        {% else %}
+                            回復單位：{{ respondent.etc_name }}
+                        {% endif %}
+                    </div>
+                    <div class="content">
+                        {% if respondent.respondents %}
+                            {{ respondent.respondents|nl2br }}
+                        {% else %}
+                            回復單位尚未回復問題。
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </article>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+<div class="container containerPrintHide">
+    <a id="AC" accesskey="C" href="#AC" title="中央內容區塊" name="AC">:::</a>
+    <h1 class="headline"><span>提問列表</span></h1>
+    <div class="content">
+        <div class="row">
+            <div style="text-align:right">
+                <a href="javascript:;" onclick="window.print();" style="margin-right: 20px;"><i class="fa fa-print" aria-hidden="true"></i>友善列印</a>
+                <a href="{{ url( 'forum' ) }}"><i class="fa fa-undo" aria-hidden="true"></i>回座談會列表</a>
+                <div class="thumb">
+<!--                    <div><i class="icon-info"></i>提案</div>-->
+<!--                    <div><i class="icon-warning"></i>進行中</div>-->
+<!--                    <div><i class="icon-secondary"></i>部分參採</div>-->
+<!--                    <div><i class="icon-success"></i>完全參採</div>-->
+<!--                    <div><i class="icon-danger"></i>暫不參採</div>-->
+<!--                    <div><i class="icon-third"></i>其他</div>-->
+                    <div><i class="icon-third"></i>座談會回復問題</div>
+                    <div><i class="icon-info"></i>已回復</div>
+                    <div><i class="icon-warning"></i>處理中</div>
+                </div>
+            </div>
+
+            <ul id="myTab" class="nav nav-tabs" style="margin-bottom: 20px;">
+                <li class="active">
+                    <a href="#issuelist" data-toggle="tab">
+                        座談會問題
+                    </a>
+                </li>
+                <li>
+                    <a href="#tubelist" data-toggle="tab">
+                        列管問題
+                    </a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane fade in active" id="issuelist">
+                    <div class="timeline-centered">
+                        {% for issue in issueList %}
+                        <article class="timeline-entry allTrack HaveDone">
+                            <div class="timeline-entry-inner">
+                                <!-- 燈號變更 -->
+                                <div class="timeline-icon bg-{{ issue.status }}">
+                                    <i class="entypo-suitcase"></i>
+                                </div>
+
+                                <div class="timeline-label">
+                                    <div class="author" style="font-size:15px;color:#3798b9;font-weight:bold;">
+                                        {{ issue.questioner_name|raw }}
+                                    </div>
+                                    <p class="question">
+                                        {{ issue.questioner|nl2br }}
+                                    </p>
+
+                                    <div class="detail" style="text-align:right;">
+                                        <a href="{{ url( 'forum/forumrespondent', [issue.id] ) }}">
+                                            <label style="font-size:12px;padding:5px" class="label label-info">
+                                                查看回復內容
+                                            </label>
+                                        </a>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </article>
+                        {% else %}
+                        <h2 class="text-center">暫時還沒有任何問題。</h2>
+                        {% endfor %}
+                        <article class="timeline-entry begin">
+                            <div class="timeline-entry-inner">
+                                <div class="timeline-icon" style="-webkit-transform: rotate(0deg); -moz-transform: rotate(0deg);">
+                                    <i class="entypo-flight"></i>
+                                    <a href="#top" title="回頂端">
+                                        <i class="fa fa-angle-double-up" aria-hidden="true"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="tubelist">
+                    <div class="timeline-centered">
+                        {% for issue in tubeList %}
+                        <article class="timeline-entry allTrack HaveDone">
+                            <div class="timeline-entry-inner">
+                                <!-- 燈號變更 -->
+                                <div class="timeline-icon bg-{{ issue.status }}">
+                                    <i class="entypo-suitcase"></i>
+                                </div>
+
+                                <div class="timeline-label">
+                                    <div class="author" style="font-size:15px;color:#3798b9;font-weight:bold;">
+                                        {{ issue.questioner_name|raw }}
+                                    </div>
+                                    <p class="question">
+                                        {{ issue.questioner|nl2br }}
+                                    </p>
+
+                                    <div class="detail" style="text-align:right;">
+                                        <a href="{{ url( 'forum/forumrespondent', [issue.id] ) }}">
+                                            <label style="font-size:12px;padding:5px" class="label label-info">
+                                                查看回復內容
+                                            </label>
+                                        </a>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </article>
+                        {% else %}
+                        <h2 class="text-center">暫時還沒有任何問題。</h2>
+                        {% endfor %}
+                        <article class="timeline-entry begin">
+                            <div class="timeline-entry-inner">
+                                <div class="timeline-icon" style="-webkit-transform: rotate(0deg); -moz-transform: rotate(0deg);">
+                                    <i class="entypo-flight"></i>
+                                    <a href="#top" title="回頂端">
+                                        <i class="fa fa-angle-double-up" aria-hidden="true"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

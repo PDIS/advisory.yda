@@ -1,0 +1,8 @@
+issue:
+    label: 座談會問題
+    view:
+        list: $/nashyang/forum/models/issue/issue_list.yaml
+        toolbarButtons: create|delete
+    manage:
+        form: $/nashyang/forum/models/issue/issue_form.yaml
+        list: $/nashyang/forum/models/issue/issue_list.yaml
